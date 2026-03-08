@@ -1,7 +1,7 @@
 export const FUNNEL_CONFIG = {
   "debt-qualification": {
     title: "Debt Qualification",
-    language: "Español",
+    language: "Espanol",
     steps: [
       { event: "landing_view", label: "Landing View" },
       { event: "welcome_started", label: "Started Chat" },
@@ -13,7 +13,7 @@ export const FUNNEL_CONFIG = {
   },
   "debt-relief-usa": {
     title: "Debt Relief USA",
-    language: "Español",
+    language: "Espanol",
     steps: [
       { event: "landing_view", label: "Landing View" },
       { event: "options_shown", label: "Saw Debt Options" },
@@ -35,8 +35,34 @@ export const FUNNEL_CONFIG = {
       { event: "call_click", label: "Clicked Final Call" },
     ],
   },
+  "fe3-mc-en": {
+    title: "FE3 MC EN",
+    language: "English",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "insurance_selected", label: "Selected Insurance" },
+      { event: "quiz_submitted", label: "Submitted Quiz" },
+      { event: "qualification_checked", label: "Passed Qualification Check" },
+      { event: "advisor_ready", label: "Reached Advisor Ready" },
+      { event: "call_click", label: "Clicked Final Call" },
+    ],
+  },
   "fe4-an-en": {
     title: "FE4 AN EN",
+    language: "English",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "insurance_selected", label: "Selected Insurance" },
+      { event: "quiz_submitted", label: "Submitted Quiz" },
+      { event: "qualification_checked", label: "Passed Qualification Check" },
+      { event: "advisor_ready", label: "Reached Advisor Ready" },
+      { event: "call_click", label: "Clicked Final Call" },
+    ],
+  },
+  "fe4-mc-en": {
+    title: "FE4 MC EN",
     language: "English",
     steps: [
       { event: "landing_view", label: "Landing View" },

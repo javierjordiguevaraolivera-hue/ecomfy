@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import Fe3AnEnClient from "../fe3/pageClient";
+import Fe3McEnClient from "../fe3/pageClient";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -34,5 +34,5 @@ export default async function FinalExpenseAdvisorMatchPage() {
   const region = requestHeaders.get("x-vercel-ip-country-region");
   const locationLabel = formatLocation(city, region);
 
-  return <Fe3AnEnClient locationLabel={locationLabel} landingKey="fe3-an-en" />;
+  return <Fe3McEnClient locationLabel={locationLabel} landingKey="fe3-mc-en" />;
 }

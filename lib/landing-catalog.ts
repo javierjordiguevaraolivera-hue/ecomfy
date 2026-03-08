@@ -10,7 +10,7 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
   {
     href: "/debt-qualification",
     title: "Debt Qualification",
-    description: "Chat de precalificación de deuda en español.",
+    description: "Chat de precalificacion de deuda en espanol.",
     language: "es",
     metricsKey: "debt-qualification",
   },
@@ -24,9 +24,16 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
   {
     href: "/fe3-an-en",
     title: "FE3 AN EN",
-    description: "Advisor search flow con validación en vivo.",
+    description: "Advisor search flow con validacion en vivo.",
     language: "en",
     metricsKey: "fe3-an-en",
+  },
+  {
+    href: "/fe3-mc-en",
+    title: "FE3 MC EN",
+    description: "Advisor search flow con validacion en vivo.",
+    language: "en",
+    metricsKey: "fe3-mc-en",
   },
   {
     href: "/fe4-an-en",
@@ -34,5 +41,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     description: "Long-form con social proof, FAQ y advisor flow.",
     language: "en",
     metricsKey: "fe4-an-en",
+  },
+  {
+    href: "/fe4-mc-en",
+    title: "FE4 MC EN",
+    description: "Long-form con social proof, FAQ y advisor flow.",
+    language: "en",
+    metricsKey: "fe4-mc-en",
   },
 ];

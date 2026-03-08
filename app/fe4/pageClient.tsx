@@ -333,8 +333,10 @@ function ExtraSections() {
 
 export default function Fe4Client({
   locationLabel,
+  landingKey = "fe4-an-en",
 }: {
   locationLabel: string;
+  landingKey?: string;
 }) {
   const [step, setStep] = useState<Step>("quiz");
   const [age, setAge] = useState("");
@@ -349,8 +351,8 @@ export default function Fe4Client({
   const selectedAdvisor = useMemo(() => ADVISORS[2], []);
 
   useEffect(() => {
-    trackLandingView("fe4-an-en");
-  }, []);
+    trackLandingView(landingKey);
+  }, [landingKey]);
 
   useEffect(() => {
     if (step !== "checking") return;
@@ -417,28 +419,28 @@ export default function Fe4Client({
   useEffect(() => {
     if (step === "checkingComplete") {
       trackMetric({
-        landing: "fe4-an-en",
+        landing: landingKey,
         event: "qualification_checked",
       });
     }
 
     if (step === "searchingAdvisors") {
       trackMetric({
-        landing: "fe4-an-en",
+        landing: landingKey,
         event: "advisor_search_started",
       });
     }
 
     if (step === "notQualified") {
       trackMetric({
-        landing: "fe4-an-en",
+        landing: landingKey,
         event: "not_qualified",
       });
     }
 
     if (step === "success") {
       trackMetric({
-        landing: "fe4-an-en",
+        landing: landingKey,
         event: "advisor_ready",
       });
     }
@@ -469,7 +471,7 @@ export default function Fe4Client({
             className={styles.secureBadge}
             onClick={() => {
               trackMetric({
-                landing: "fe4-an-en",
+                landing: landingKey,
                 event: "header_call_click",
               });
             }}
@@ -521,7 +523,7 @@ export default function Fe4Client({
                       onClick={() => {
                         setAge(option);
                         trackMetric({
-                          landing: "fe4-an-en",
+                          landing: landingKey,
                           event: "age_selected",
                           label: option,
                         });
@@ -548,7 +550,7 @@ export default function Fe4Client({
                       onClick={() => {
                         setInsurance(option);
                         trackMetric({
-                          landing: "fe4-an-en",
+                          landing: landingKey,
                           event: "insurance_selected",
                           label: option,
                         });
@@ -568,7 +570,7 @@ export default function Fe4Client({
                 disabled={!canContinue}
                 onClick={() => {
                   trackMetric({
-                    landing: "fe4-an-en",
+                    landing: landingKey,
                     event: "quiz_submitted",
                   });
                   if (shouldDisqualify) {
@@ -725,7 +727,7 @@ export default function Fe4Client({
                   className={styles.callButton}
                   onClick={() => {
                     trackMetric({
-                      landing: "fe4-an-en",
+                      landing: landingKey,
                       event: "call_click",
                       label: selectedAdvisor.name,
                     });

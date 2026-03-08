@@ -34,6 +34,5 @@ export default async function FinalExpenseLongFormPage() {
   const region = requestHeaders.get("x-vercel-ip-country-region");
   const locationLabel = formatLocation(city, region);
 
-  return <Fe4Client locationLabel={locationLabel} />;
+  return <Fe4Client locationLabel={locationLabel} landingKey="fe4-an-en" />;
 }
-
