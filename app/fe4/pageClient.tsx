@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "../fe3/page.module.css";
 import {
   trackCallCtaClick,
+  trackEngagedInteraction,
   trackLandingView,
   trackMetric,
 } from "@/lib/metrics-client";
@@ -525,6 +526,9 @@ export default function Fe4Client({
                         age === option ? styles.optionSelected : ""
                       }`}
                       onClick={() => {
+                        if (landingKey.includes("-an-")) {
+                          trackEngagedInteraction(landingKey, "quiz_age");
+                        }
                         setAge(option);
                         trackMetric({
                           landing: landingKey,
@@ -552,6 +556,9 @@ export default function Fe4Client({
                         insurance === option ? styles.optionSelected : ""
                       }`}
                       onClick={() => {
+                        if (landingKey.includes("-an-")) {
+                          trackEngagedInteraction(landingKey, "quiz_insurance");
+                        }
                         setInsurance(option);
                         trackMetric({
                           landing: landingKey,

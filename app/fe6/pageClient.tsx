@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../debt-relief-usa/page.module.css";
 import {
   trackCallCtaClick,
+  trackEngagedInteraction,
   trackLandingView,
   trackMetric,
 } from "@/lib/metrics-client";
@@ -197,6 +198,7 @@ export default function Fe6Client() {
     }
 
     setOptionSelected(true);
+    trackEngagedInteraction(LANDING_KEY, "quiz_age");
     trackMetric({
       landing: LANDING_KEY,
       event: "age_selected",

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../page.module.css";
 import {
   trackCallCtaClick,
+  trackEngagedInteraction,
   trackLandingView,
   trackMetric,
 } from "@/lib/metrics-client";
@@ -234,6 +235,7 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
 
     busyRef.current = true;
     setControl("none");
+    trackEngagedInteraction(LANDING_KEY, "chat_start");
     trackMetric({
       landing: LANDING_KEY,
       event: "welcome_started",
@@ -260,6 +262,7 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
     busyRef.current = true;
     setControl("none");
     setAgeRange(choice.value);
+    trackEngagedInteraction(LANDING_KEY, "chat_age");
     trackMetric({
       landing: LANDING_KEY,
       event: "age_selected",
@@ -285,6 +288,7 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
 
     busyRef.current = true;
     setControl("none");
+    trackEngagedInteraction(LANDING_KEY, "chat_insurance");
     trackMetric({
       landing: LANDING_KEY,
       event: "insurance_selected",

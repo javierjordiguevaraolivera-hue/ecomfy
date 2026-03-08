@@ -20,6 +20,7 @@ declare global {
 
 const VISITOR_KEY = "ecomfy_metrics_visitor";
 const VIEW_KEY_PREFIX = "ecomfy_metrics_view";
+const ENGAGED_KEY_PREFIX = "ecomfy_engaged";
 
 function getVisitorId() {
   if (typeof window === "undefined") {
@@ -106,6 +107,26 @@ export function trackCallCtaClick({
     phone,
     placement,
     label,
+    path: window.location.pathname,
+  });
+}
+
+export function trackEngagedInteraction(landing: string, placement: string) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const storageKey = `${ENGAGED_KEY_PREFIX}:${landing}:${window.location.pathname}`;
+  if (window.sessionStorage.getItem(storageKey) === "1") {
+    return;
+  }
+
+  window.sessionStorage.setItem(storageKey, "1");
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "engaged",
+    landing,
+    placement,
     path: window.location.pathname,
   });
 }
