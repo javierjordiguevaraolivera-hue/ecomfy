@@ -22,20 +22,6 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "debt-relief-usa",
   },
   {
-    href: "/fe1",
-    title: "FE1",
-    description: "Final expense quiz corto con advisor ready.",
-    language: "en",
-    metricsKey: "fe1",
-  },
-  {
-    href: "/fe2",
-    title: "FE2",
-    description: "SecureLife style quiz con loading y call CTA.",
-    language: "en",
-    metricsKey: "fe2",
-  },
-  {
     href: "/fe3-an-en",
     title: "FE3 AN EN",
     description: "Advisor search flow con validación en vivo.",
