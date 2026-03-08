@@ -1,9 +1,21 @@
 import { headers } from "next/headers";
 import Fe4Client from "./pageClient";
 
+function decodeGeoValue(value?: string | null) {
+  if (!value) {
+    return "";
+  }
+
+  try {
+    return decodeURIComponent(value).trim();
+  } catch {
+    return value.trim();
+  }
+}
+
 function formatLocation(city?: string | null, region?: string | null) {
-  const cleanCity = city?.trim();
-  const cleanRegion = region?.trim();
+  const cleanCity = decodeGeoValue(city);
+  const cleanRegion = decodeGeoValue(region);
 
   if (cleanCity && cleanRegion) {
     return `${cleanCity}, ${cleanRegion}`;
