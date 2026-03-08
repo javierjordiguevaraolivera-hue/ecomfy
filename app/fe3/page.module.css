@@ -49,7 +49,7 @@
 .hero {
   position: relative;
   margin: 0 6px;
-  padding: 24px 22px 108px;
+  padding: 24px 22px 84px;
   overflow: hidden;
   background:
     linear-gradient(0deg, rgb(18 45 90 / 0.88), rgb(18 45 90 / 0.88)),
@@ -110,7 +110,7 @@
 .card {
   position: relative;
   z-index: 2;
-  margin: -38px 20px 0;
+  margin: -30px 20px 0;
   padding: 20px;
   border: 1px solid #d8d1c6;
   border-radius: 15px;
@@ -300,6 +300,7 @@
   margin-top: 10px;
   color: #5d6d87;
   font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .successPill {

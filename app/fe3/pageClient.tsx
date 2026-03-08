@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
 
-type Step = "quiz" | "loadingOne" | "loadingTwo" | "success";
+type Step = "quiz" | "checking" | "searchingAdvisors" | "success";
 
 const AGE_OPTIONS = ["45–54", "55–64", "65–74", "75+"] as const;
 const INSURANCE_OPTIONS = ["No", "Yes"] as const;
@@ -14,21 +14,29 @@ const ADVISORS = [
     name: "Sarah M.",
     experience: "11 years experience",
     families: "1,480 families helped",
+    image: "/asesora3.jpg",
+    status: "Currently on a call with another family.",
   },
   {
     name: "Daniel R.",
     experience: "9 years experience",
     families: "1,120 families helped",
-  },
-  {
-    name: "Megan T.",
-    experience: "13 years experience",
-    families: "1,860 families helped",
+    image: "/asesor4.jpg",
+    status: "Out on a scheduled in-home policy visit.",
   },
   {
     name: "Chris A.",
     experience: "8 years experience",
     families: "940 families helped",
+    image: "/asesor%205.jpg",
+    status: "Finalizing a policy signature with a client.",
+  },
+  {
+    name: "Megan T.",
+    experience: "13 years experience",
+    families: "1,860 families helped",
+    image: "/avatarx.jpg",
+    status: "Available now and ready to take your call.",
   },
 ] as const;
 
@@ -139,28 +147,27 @@ export default function Fe3Client({
   locationLabel: string;
 }) {
   const [step, setStep] = useState<Step>("quiz");
-  const [age, setAge] = useState<string>("");
-  const [insurance, setInsurance] = useState<string>("");
+  const [age, setAge] = useState("");
+  const [insurance, setInsurance] = useState("");
   const [progress, setProgress] = useState(0);
   const [countdown, setCountdown] = useState(109);
   const [advisorIndex, setAdvisorIndex] = useState(0);
-  const [advisorStatus, setAdvisorStatus] = useState("Searching advisor availability...");
+  const [advisorStatus, setAdvisorStatus] = useState("Checking live availability...");
 
-  const selectedAdvisor = useMemo(() => ADVISORS[2], []);
+  const selectedAdvisor = useMemo(() => ADVISORS[3], []);
 
   useEffect(() => {
-    if (step !== "loadingOne") {
+    if (step !== "checking") {
       return;
     }
 
-    setProgress(16);
-    const t1 = window.setTimeout(() => setProgress(38), 700);
-    const t2 = window.setTimeout(() => {
-      setAdvisorIndex(0);
-      setAdvisorStatus(`${ADVISORS[0].name} is assisting another family...`);
-      setProgress(58);
-    }, 1200);
-    const t3 = window.setTimeout(() => setStep("loadingTwo"), 2200);
+    setProgress(18);
+    const t1 = window.setTimeout(() => setProgress(44), 850);
+    const t2 = window.setTimeout(() => setProgress(74), 1600);
+    const t3 = window.setTimeout(() => {
+      setProgress(100);
+      setStep("searchingAdvisors");
+    }, 2400);
 
     return () => {
       window.clearTimeout(t1);
@@ -170,31 +177,45 @@ export default function Fe3Client({
   }, [step]);
 
   useEffect(() => {
-    if (step !== "loadingTwo") {
+    if (step !== "searchingAdvisors") {
       return;
     }
 
-    setProgress(70);
-    setAdvisorIndex(1);
-    setAdvisorStatus(`${ADVISORS[1].name} just became unavailable. Trying another advisor...`);
+    setAdvisorIndex(0);
+    setProgress(18);
+    setAdvisorStatus(ADVISORS[0].status);
 
     const t1 = window.setTimeout(() => {
-      setAdvisorIndex(2);
-      setAdvisorStatus(`Validating availability for ${ADVISORS[2].name}...`);
-      setProgress(84);
-    }, 900);
+      setAdvisorIndex(1);
+      setProgress(38);
+      setAdvisorStatus(ADVISORS[1].status);
+    }, 1200);
 
     const t2 = window.setTimeout(() => {
-      setAdvisorStatus(`${ADVISORS[2].name} is ready to take your call now.`);
-      setProgress(100);
-    }, 1800);
+      setAdvisorIndex(2);
+      setProgress(58);
+      setAdvisorStatus(ADVISORS[2].status);
+    }, 2500);
 
-    const t3 = window.setTimeout(() => setStep("success"), 2500);
+    const t3 = window.setTimeout(() => {
+      setAdvisorIndex(3);
+      setProgress(82);
+      setAdvisorStatus("Validating current call availability...");
+    }, 3900);
+
+    const t4 = window.setTimeout(() => {
+      setProgress(100);
+      setAdvisorStatus(`${ADVISORS[3].name} is available now and ready to help.`);
+    }, 5000);
+
+    const t5 = window.setTimeout(() => setStep("success"), 5800);
 
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
       window.clearTimeout(t3);
+      window.clearTimeout(t4);
+      window.clearTimeout(t5);
     };
   }, [step]);
 
@@ -309,7 +330,7 @@ export default function Fe3Client({
                   canContinue ? styles.primaryEnabled : ""
                 }`}
                 disabled={!canContinue}
-                onClick={() => setStep("loadingOne")}
+                onClick={() => setStep("checking")}
               >
                 Check My Options →
               </button>
@@ -320,15 +341,35 @@ export default function Fe3Client({
             </>
           ) : null}
 
-          {step === "loadingOne" || step === "loadingTwo" ? (
+          {step === "checking" ? (
             <div className={styles.loadingState}>
               <div className={styles.spinnerWrap}>
                 <div className={styles.spinner} />
                 <div className={styles.loadingTitleStrong}>
-                  Finding the Best Advisor...
+                  Checking If You Qualify...
                 </div>
                 <div className={styles.loadingTextStrong}>
-                  Searching licensed advisors for {locationLabel}
+                  Reviewing basic eligibility for final expense options
+                </div>
+                <div className={styles.progressTrackWide}>
+                  <div
+                    className={styles.progressBar}
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
+
+          {step === "searchingAdvisors" ? (
+            <div className={styles.loadingState}>
+              <div className={styles.spinnerWrap}>
+                <div className={styles.spinner} />
+                <div className={styles.loadingTitleStrong}>
+                  Looking for an Available Advisor...
+                </div>
+                <div className={styles.loadingTextStrong}>
+                  Matching licensed agents for {locationLabel}
                 </div>
                 <div className={styles.progressTrackWide}>
                   <div
@@ -339,7 +380,7 @@ export default function Fe3Client({
 
                 <div className={styles.advisorSearchCard}>
                   <Image
-                    src="/avatarx.jpg"
+                    src={ADVISORS[advisorIndex].image}
                     alt={ADVISORS[advisorIndex].name}
                     width={52}
                     height={52}
@@ -378,7 +419,7 @@ export default function Fe3Client({
 
               <div className={styles.advisorReadyCard}>
                 <Image
-                  src="/avatarx.jpg"
+                  src={selectedAdvisor.image}
                   alt={selectedAdvisor.name}
                   width={66}
                   height={66}
