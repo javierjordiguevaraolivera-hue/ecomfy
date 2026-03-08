@@ -29,10 +29,10 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "fe3-an-en",
   },
   {
-    href: "/fe4",
-    title: "FE4",
+    href: "/fe4-an-en",
+    title: "FE4 AN EN",
     description: "Long-form con social proof, FAQ y advisor flow.",
     language: "en",
-    metricsKey: "fe4",
+    metricsKey: "fe4-an-en",
   },
 ];

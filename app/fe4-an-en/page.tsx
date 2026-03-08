@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import Fe4Client from "./pageClient";
+import Fe4Client from "../fe4/pageClient";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -36,3 +36,4 @@ export default async function FinalExpenseLongFormPage() {
 
   return <Fe4Client locationLabel={locationLabel} />;
 }
+

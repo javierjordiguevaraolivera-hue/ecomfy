@@ -35,8 +35,8 @@ export const FUNNEL_CONFIG = {
       { event: "call_click", label: "Clicked Final Call" },
     ],
   },
-  fe4: {
-    title: "FE4",
+  "fe4-an-en": {
+    title: "FE4 AN EN",
     language: "English",
     steps: [
       { event: "landing_view", label: "Landing View" },
