@@ -3,6 +3,11 @@ import "server-only";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomUUID } from "node:crypto";
+import {
+  fetchSupabaseMetricEvents,
+  hasSupabaseMetricsConfig,
+  insertSupabaseMetricEvent,
+} from "@/lib/supabase-metrics";
 
 export type MetricEvent = {
   id: string;
@@ -63,6 +68,11 @@ async function writeStore(store: MetricStore) {
 export async function appendMetricEvent(
   input: Omit<MetricEvent, "id" | "timestamp">,
 ) {
+  if (hasSupabaseMetricsConfig()) {
+    await insertSupabaseMetricEvent(input);
+    return;
+  }
+
   writeQueue = writeQueue.then(async () => {
     const store = await readStore();
 
@@ -83,7 +93,10 @@ export async function appendMetricEvent(
 }
 
 export async function getMetricEvents() {
+  if (hasSupabaseMetricsConfig()) {
+    return fetchSupabaseMetricEvents();
+  }
+
   const store = await readStore();
   return store.events;
 }
-

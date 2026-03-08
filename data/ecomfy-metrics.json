@@ -17,6 +17,23 @@
       "step": "landing_view",
       "path": "/fe2",
       "visitorId": "e50dea66-6248-4ab8-b0b4-104a1aa47b5b"
+    },
+    {
+      "id": "14c65f3b-5d61-4d2f-9cba-a59c9132ace6",
+      "timestamp": "2026-03-08T18:24:38.507Z",
+      "landing": "debt-qualification",
+      "event": "landing_view",
+      "step": "landing_view",
+      "path": "/debt-qualification",
+      "visitorId": "e50dea66-6248-4ab8-b0b4-104a1aa47b5b"
+    },
+    {
+      "id": "19ae652f-d87d-4c9e-b47b-6f3e40109694",
+      "timestamp": "2026-03-08T18:24:45.878Z",
+      "landing": "debt-qualification",
+      "event": "welcome_shown",
+      "path": "/debt-qualification",
+      "visitorId": "e50dea66-6248-4ab8-b0b4-104a1aa47b5b"
     }
   ]
 }
