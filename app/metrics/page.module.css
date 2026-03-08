@@ -333,6 +333,32 @@
   margin-top: 16px;
 }
 
+.abGrid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.abCard {
+  padding: 16px;
+  border: 1px solid #e3edf7;
+  border-radius: 18px;
+  background: #f8fbff;
+}
+
+.abTitle {
+  margin-bottom: 12px;
+  color: #10233f;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.abStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .funnelItem {
   padding: 14px 14px 12px;
   border: 1px solid #e3edf7;
@@ -438,5 +464,9 @@
   .actionGrid,
   .cardMetrics {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .abStats {
+    grid-template-columns: 1fr;
   }
 }

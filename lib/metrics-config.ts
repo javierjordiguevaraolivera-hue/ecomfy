@@ -97,4 +97,13 @@ export const FUNNEL_CONFIG = {
       { event: "call_click", label: "Clicked Final Call" },
     ],
   },
+  "fe7-an-en": {
+    title: "FE7 AN EN",
+    language: "English",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "call_click", label: "Clicked Call CTA" },
+    ],
+  },
 } as const;

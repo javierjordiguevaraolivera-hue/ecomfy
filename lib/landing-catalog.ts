@@ -4,6 +4,12 @@ export type LandingCatalogItem = {
   description: string;
   language: "es" | "en";
   metricsKey?: string;
+  abTest?: {
+    aKey: string;
+    aLabel: string;
+    bKey: string;
+    bLabel: string;
+  };
 };
 
 export const LANDING_CATALOG: LandingCatalogItem[] = [
@@ -54,6 +60,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     title: "FE AN EN Split",
     description: "A/B entrypoint that shows FE3 AN EN or FE4 AN EN.",
     language: "en",
+    abTest: {
+      aKey: "fe3-an-en",
+      aLabel: "FE3 AN EN",
+      bKey: "fe4-an-en",
+      bLabel: "FE4 AN EN",
+    },
   },
   {
     href: "/fe5-an-en",
@@ -68,5 +80,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     description: "Short final expense chat with direct call CTA.",
     language: "en",
     metricsKey: "fe6-an-en",
+  },
+  {
+    href: "/fe7-an-en",
+    title: "FE7 AN EN",
+    description: "Senior benefits advertorial-style final expense landing.",
+    language: "en",
+    metricsKey: "fe7-an-en",
   },
 ];

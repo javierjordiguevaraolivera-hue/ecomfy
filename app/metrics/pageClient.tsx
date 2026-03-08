@@ -18,6 +18,10 @@ function formatPercent(value: number) {
   return `${Math.round(value * 100)}%`;
 }
 
+function formatRate(value: number) {
+  return `${value.toFixed(1)}%`;
+}
+
 function formatTime(timestamp?: string) {
   if (!timestamp) {
     return "No data";
@@ -36,7 +40,36 @@ function formatBiggestDrop(summary?: LandingSummary) {
     return "No funnel data yet";
   }
 
-  return `${summary.biggestDropOff.from} → ${summary.biggestDropOff.to}`;
+  return `${summary.biggestDropOff.from} -> ${summary.biggestDropOff.to}`;
+}
+
+function getCallClicks(summary?: LandingSummary) {
+  return summary?.steps.find((step) => step.event === "call_click")?.count ?? 0;
+}
+
+function getCallRate(summary?: LandingSummary) {
+  if (!summary || summary.totalVisitors === 0) {
+    return 0;
+  }
+
+  return (getCallClicks(summary) / summary.totalVisitors) * 100;
+}
+
+function getAbWinner(
+  aLabel: string,
+  aRate: number,
+  bLabel: string,
+  bRate: number,
+) {
+  if (aRate === 0 && bRate === 0) {
+    return "No winner yet";
+  }
+
+  if (aRate === bRate) {
+    return "Tie";
+  }
+
+  return aRate > bRate ? aLabel : bLabel;
 }
 
 function FunnelModal({
@@ -69,7 +102,7 @@ function FunnelModal({
             onClick={onClose}
             aria-label="Close funnel"
           >
-            ×
+            x
           </button>
         </div>
 
@@ -93,7 +126,7 @@ function FunnelModal({
             <div className={styles.insightBox}>
               <span className={styles.insightLabel}>Biggest bottleneck</span>
               <strong>
-                {summary.biggestDropOff.from} → {summary.biggestDropOff.to}
+                {summary.biggestDropOff.from} {"->"} {summary.biggestDropOff.to}
               </strong>
               <span>
                 {formatPercent(summary.biggestDropOff.retention)} retention
@@ -131,13 +164,124 @@ function FunnelModal({
   );
 }
 
+function AbTestModal({
+  title,
+  aLabel,
+  aSummary,
+  bLabel,
+  bSummary,
+  onClose,
+}: {
+  title: string;
+  aLabel: string;
+  aSummary?: LandingSummary;
+  bLabel: string;
+  bSummary?: LandingSummary;
+  onClose: () => void;
+}) {
+  const aRate = getCallRate(aSummary);
+  const bRate = getCallRate(bSummary);
+
+  return (
+    <div className={styles.modalBackdrop} onClick={onClose}>
+      <div
+        className={styles.modal}
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className={styles.modalHeader}>
+          <div>
+            <div className={styles.modalKicker}>A/B Split</div>
+            <h2 className={styles.modalTitle}>{title}</h2>
+          </div>
+          <button
+            type="button"
+            className={styles.modalClose}
+            onClick={onClose}
+            aria-label="Close split comparison"
+          >
+            x
+          </button>
+        </div>
+
+        <div className={styles.modalBody}>
+          <div className={styles.insightBox}>
+            <span className={styles.insightLabel}>Current winner</span>
+            <strong>{getAbWinner(aLabel, aRate, bLabel, bRate)}</strong>
+            <span>Measured by call click rate</span>
+          </div>
+
+          <div className={styles.abGrid}>
+            {[
+              { label: aLabel, summary: aSummary, rate: aRate },
+              { label: bLabel, summary: bSummary, rate: bRate },
+            ].map((variant) => (
+              <div key={variant.label} className={styles.abCard}>
+                <div className={styles.abTitle}>{variant.label}</div>
+
+                <div className={styles.abStats}>
+                  <div className={styles.metricStat}>
+                    <span>Shown</span>
+                    <strong>{variant.summary?.totalVisitors ?? 0}</strong>
+                  </div>
+                  <div className={styles.metricStat}>
+                    <span>Call clicks</span>
+                    <strong>{getCallClicks(variant.summary)}</strong>
+                  </div>
+                  <div className={styles.metricStat}>
+                    <span>Call rate</span>
+                    <strong>{formatRate(variant.rate)}</strong>
+                  </div>
+                </div>
+
+                <div className={styles.funnelList}>
+                  {(variant.summary?.steps ?? []).map((step, index) => (
+                    <div key={step.event} className={styles.funnelItem}>
+                      <div className={styles.funnelTop}>
+                        <span className={styles.funnelStepLabel}>{step.label}</span>
+                        <span className={styles.funnelCount}>{step.count}</span>
+                      </div>
+                      <div className={styles.funnelTrack}>
+                        <div
+                          className={styles.funnelFill}
+                          style={{ width: `${Math.max(step.fromStart * 100, 6)}%` }}
+                        />
+                      </div>
+                      <div className={styles.funnelMeta}>
+                        <span>
+                          {index === 0
+                            ? "Base step"
+                            : `${formatPercent(step.fromPrevious)} from previous`}
+                        </span>
+                        <span>{formatPercent(step.fromStart)} from start</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LandingCard({
   item,
   summary,
+  abSummaries,
   onOpenFunnel,
 }: {
   item: LandingCatalogItem;
   summary?: LandingSummary;
+  abSummaries?: {
+    aLabel: string;
+    aSummary?: LandingSummary;
+    bLabel: string;
+    bSummary?: LandingSummary;
+  };
   onOpenFunnel: () => void;
 }) {
   const [copied, setCopied] = useState<"" | "full" | "path">("");
@@ -153,7 +297,7 @@ function LandingCard({
       <div className={styles.cardHeader}>
         <div>
           <div className={styles.cardLang}>
-            {item.language === "es" ? "Español" : "English"}
+            {item.language === "es" ? "Espanol" : "English"}
           </div>
           <div className={styles.cardTitle}>{item.title}</div>
         </div>
@@ -162,22 +306,52 @@ function LandingCard({
 
       <p className={styles.cardDescription}>{item.description}</p>
 
-      <div className={styles.cardMetrics}>
-        <div className={styles.metricStat}>
-          <span>Visitors</span>
-          <strong>{summary?.totalVisitors ?? 0}</strong>
+      {abSummaries ? (
+        <div className={styles.cardMetrics}>
+          <div className={styles.metricStatWide}>
+            <span>{abSummaries.aLabel}</span>
+            <strong>
+              {abSummaries.aSummary?.totalVisitors ?? 0} shown /{" "}
+              {getCallClicks(abSummaries.aSummary)} calls /{" "}
+              {formatRate(getCallRate(abSummaries.aSummary))}
+            </strong>
+          </div>
+          <div className={styles.metricStatWide}>
+            <span>{abSummaries.bLabel}</span>
+            <strong>
+              {abSummaries.bSummary?.totalVisitors ?? 0} shown /{" "}
+              {getCallClicks(abSummaries.bSummary)} calls /{" "}
+              {formatRate(getCallRate(abSummaries.bSummary))}
+            </strong>
+          </div>
+          <div className={styles.metricStatWide}>
+            <span>Winner</span>
+            <strong>
+              {getAbWinner(
+                abSummaries.aLabel,
+                getCallRate(abSummaries.aSummary),
+                abSummaries.bLabel,
+                getCallRate(abSummaries.bSummary),
+              )}
+            </strong>
+          </div>
         </div>
-        <div className={styles.metricStat}>
-          <span>Call clicks</span>
-          <strong>
-            {summary?.steps.find((step) => step.event === "call_click")?.count ?? 0}
-          </strong>
+      ) : (
+        <div className={styles.cardMetrics}>
+          <div className={styles.metricStat}>
+            <span>Visitors</span>
+            <strong>{summary?.totalVisitors ?? 0}</strong>
+          </div>
+          <div className={styles.metricStat}>
+            <span>Call clicks</span>
+            <strong>{getCallClicks(summary)}</strong>
+          </div>
+          <div className={styles.metricStatWide}>
+            <span>Bottleneck</span>
+            <strong>{formatBiggestDrop(summary)}</strong>
+          </div>
         </div>
-        <div className={styles.metricStatWide}>
-          <span>Bottleneck</span>
-          <strong>{formatBiggestDrop(summary)}</strong>
-        </div>
-      </div>
+      )}
 
       <div className={styles.actionGrid}>
         <Link
@@ -186,7 +360,7 @@ function LandingCard({
           target="_blank"
           rel="noreferrer"
         >
-          Open ↗
+          Open {"->"}
         </Link>
 
         <button
@@ -194,7 +368,7 @@ function LandingCard({
           className={styles.secondaryAction}
           onClick={onOpenFunnel}
         >
-          View Funnel
+          {abSummaries ? "View Split" : "View Funnel"}
         </button>
 
         <button
@@ -230,6 +404,13 @@ export default function MetricsClientPage({
 }) {
   const [filter, setFilter] = useState<"all" | "es" | "en">("all");
   const [activeSummary, setActiveSummary] = useState<LandingSummary | null>(null);
+  const [activeAbTest, setActiveAbTest] = useState<{
+    title: string;
+    aLabel: string;
+    aSummary?: LandingSummary;
+    bLabel: string;
+    bSummary?: LandingSummary;
+  } | null>(null);
 
   const visibleLandings = useMemo(() => {
     if (filter === "all") {
@@ -249,13 +430,7 @@ export default function MetricsClientPage({
   }, [summaries]);
 
   const totalCallClicks = useMemo(
-    () =>
-      summaries.reduce(
-        (sum, summary) =>
-          sum +
-          (summary.steps.find((step) => step.event === "call_click")?.count ?? 0),
-        0,
-      ),
+    () => summaries.reduce((sum, summary) => sum + getCallClicks(summary), 0),
     [summaries],
   );
 
@@ -267,7 +442,8 @@ export default function MetricsClientPage({
             <span className={styles.kicker}>Private Dashboard</span>
             <h1 className={styles.title}>Metrics</h1>
             <p className={styles.subtitle}>
-              One internal hub for landing access, links, paths and funnel drop-off.
+              One internal hub for landing access, links, paths and funnel
+              drop-off.
             </p>
           </div>
 
@@ -314,7 +490,7 @@ export default function MetricsClientPage({
             }`}
             onClick={() => setFilter("es")}
           >
-            Español
+            Espanol
           </button>
           <button
             type="button"
@@ -333,7 +509,28 @@ export default function MetricsClientPage({
               key={item.href}
               item={item}
               summary={item.metricsKey ? summaryMap.get(item.metricsKey) : undefined}
+              abSummaries={
+                item.abTest
+                  ? {
+                      aLabel: item.abTest.aLabel,
+                      aSummary: summaryMap.get(item.abTest.aKey),
+                      bLabel: item.abTest.bLabel,
+                      bSummary: summaryMap.get(item.abTest.bKey),
+                    }
+                  : undefined
+              }
               onOpenFunnel={() => {
+                if (item.abTest) {
+                  setActiveAbTest({
+                    title: item.title,
+                    aLabel: item.abTest.aLabel,
+                    aSummary: summaryMap.get(item.abTest.aKey),
+                    bLabel: item.abTest.bLabel,
+                    bSummary: summaryMap.get(item.abTest.bKey),
+                  });
+                  return;
+                }
+
                 if (item.metricsKey) {
                   setActiveSummary(summaryMap.get(item.metricsKey) ?? null);
                 }
@@ -344,6 +541,16 @@ export default function MetricsClientPage({
       </div>
 
       <FunnelModal summary={activeSummary} onClose={() => setActiveSummary(null)} />
+      {activeAbTest ? (
+        <AbTestModal
+          title={activeAbTest.title}
+          aLabel={activeAbTest.aLabel}
+          aSummary={activeAbTest.aSummary}
+          bLabel={activeAbTest.bLabel}
+          bSummary={activeAbTest.bSummary}
+          onClose={() => setActiveAbTest(null)}
+        />
+      ) : null}
     </main>
   );
 }
