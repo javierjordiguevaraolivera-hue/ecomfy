@@ -41,6 +41,19 @@
   font-size: 1rem;
 }
 
+.metricsLink {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #10233f;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 .section {
   margin-top: 28px;
 }

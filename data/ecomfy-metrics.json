@@ -1,0 +1,22 @@
+{
+  "events": [
+    {
+      "id": "580a9af2-d9fc-4e27-aa57-eb8fa1ede2de",
+      "timestamp": "2026-03-08T18:20:36.726Z",
+      "landing": "debt-qualification",
+      "event": "landing_view",
+      "step": "landing_view",
+      "path": "/debt-qualification",
+      "visitorId": "e50dea66-6248-4ab8-b0b4-104a1aa47b5b"
+    },
+    {
+      "id": "a47de194-129d-4e16-a79f-b146b7b96a82",
+      "timestamp": "2026-03-08T18:21:55.350Z",
+      "landing": "fe2",
+      "event": "landing_view",
+      "step": "landing_view",
+      "path": "/fe2",
+      "visitorId": "e50dea66-6248-4ab8-b0b4-104a1aa47b5b"
+    }
+  ]
+}

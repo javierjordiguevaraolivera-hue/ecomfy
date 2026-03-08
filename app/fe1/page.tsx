@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./page.module.css";
+import { trackLandingView, trackMetric } from "@/lib/metrics-client";
 
 type Sender = "agent" | "user";
 type Phase = "questionOne" | "questionTwo" | "loading" | "done";
@@ -80,6 +81,10 @@ export default function FinalExpensePage() {
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const detectedArea = useMemo(getDetectedArea, []);
+
+  useEffect(() => {
+    trackLandingView("fe1");
+  }, []);
 
   useEffect(() => {
     if (started) {
@@ -164,6 +169,31 @@ export default function FinalExpensePage() {
     };
   }, [phase]);
 
+  useEffect(() => {
+    if (loadingStep === 1) {
+      trackMetric({
+        landing: "fe1",
+        event: "loading_started",
+      });
+    }
+
+    if (loadingStep === 2) {
+      trackMetric({
+        landing: "fe1",
+        event: "advisor_connecting",
+      });
+    }
+  }, [loadingStep]);
+
+  useEffect(() => {
+    if (phase === "done") {
+      trackMetric({
+        landing: "fe1",
+        event: "advisor_ready",
+      });
+    }
+  }, [phase]);
+
   async function handleAnswer(answer: Answer) {
     if (phase === "loading" || phase === "done") {
       return;
@@ -178,6 +208,11 @@ export default function FinalExpensePage() {
     setIsTyping(true);
 
     if (phase === "questionOne") {
+      trackMetric({
+        landing: "fe1",
+        event: "question_one_answered",
+        label: answer.value,
+      });
       await wait(600);
       setMessages((current) => [
         ...current,
@@ -193,6 +228,11 @@ export default function FinalExpensePage() {
       return;
     }
 
+    trackMetric({
+      landing: "fe1",
+      event: "question_two_answered",
+      label: answer.value,
+    });
     setPhase("loading");
     await wait(700);
     setMessages((current) => [
@@ -228,7 +268,16 @@ export default function FinalExpensePage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
-        <a href={PHONE_HREF} className={styles.topBar}>
+        <a
+          href={PHONE_HREF}
+          className={styles.topBar}
+          onClick={() => {
+            trackMetric({
+              landing: "fe1",
+              event: "header_call_click",
+            });
+          }}
+        >
           <span className={styles.topBarIcon} aria-hidden="true">
             <PhoneGlyph />
           </span>
@@ -428,7 +477,16 @@ export default function FinalExpensePage() {
                     </div>
                   </div>
 
-                  <a href={PHONE_HREF} className={styles.callButton}>
+                  <a
+                    href={PHONE_HREF}
+                    className={styles.callButton}
+                    onClick={() => {
+                      trackMetric({
+                        landing: "fe1",
+                        event: "call_click",
+                      });
+                    }}
+                  >
                     <PhoneGlyph />
                     Call {PHONE_NUMBER}
                   </a>

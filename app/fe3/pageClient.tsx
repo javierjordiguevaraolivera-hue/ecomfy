@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
+import { trackLandingView, trackMetric } from "@/lib/metrics-client";
 
 type Step =
   | "quiz"
@@ -161,6 +162,10 @@ export default function Fe3Client({
   const selectedAdvisor = useMemo(() => ADVISORS[3], []);
 
   useEffect(() => {
+    trackLandingView("fe3");
+  }, []);
+
+  useEffect(() => {
     if (step !== "checking") {
       return;
     }
@@ -257,6 +262,29 @@ export default function Fe3Client({
     };
   }, [step]);
 
+  useEffect(() => {
+    if (step === "checkingComplete") {
+      trackMetric({
+        landing: "fe3",
+        event: "qualification_checked",
+      });
+    }
+
+    if (step === "searchingAdvisors") {
+      trackMetric({
+        landing: "fe3",
+        event: "advisor_search_started",
+      });
+    }
+
+    if (step === "success") {
+      trackMetric({
+        landing: "fe3",
+        event: "advisor_ready",
+      });
+    }
+  }, [step]);
+
   const canContinue = Boolean(age && insurance);
   const countdownLabel = `${Math.floor(countdown / 60)}:${(countdown % 60)
     .toString()
@@ -277,7 +305,16 @@ export default function Fe3Client({
             />
           </div>
 
-          <a href={PHONE_HREF} className={styles.secureBadge}>
+          <a
+            href={PHONE_HREF}
+            className={styles.secureBadge}
+            onClick={() => {
+              trackMetric({
+                landing: "fe3",
+                event: "header_call_click",
+              });
+            }}
+          >
             <SecureIcon />
             <span>{PHONE_NUMBER}</span>
           </a>
@@ -320,7 +357,14 @@ export default function Fe3Client({
                       className={`${styles.optionButton} ${
                         age === option ? styles.optionSelected : ""
                       }`}
-                      onClick={() => setAge(option)}
+                      onClick={() => {
+                        setAge(option);
+                        trackMetric({
+                          landing: "fe3",
+                          event: "age_selected",
+                          label: option,
+                        });
+                      }}
                     >
                       {option}
                     </button>
@@ -340,7 +384,14 @@ export default function Fe3Client({
                       className={`${styles.optionButton} ${
                         insurance === option ? styles.optionSelected : ""
                       }`}
-                      onClick={() => setInsurance(option)}
+                      onClick={() => {
+                        setInsurance(option);
+                        trackMetric({
+                          landing: "fe3",
+                          event: "insurance_selected",
+                          label: option,
+                        });
+                      }}
                     >
                       {option}
                     </button>
@@ -354,7 +405,13 @@ export default function Fe3Client({
                   canContinue ? styles.primaryEnabled : ""
                 }`}
                 disabled={!canContinue}
-                onClick={() => setStep("checking")}
+                onClick={() => {
+                  trackMetric({
+                    landing: "fe3",
+                    event: "quiz_submitted",
+                  });
+                  setStep("checking");
+                }}
               >
                 Check My Options →
               </button>
@@ -482,7 +539,17 @@ export default function Fe3Client({
                 </div>
               </div>
 
-              <a href="tel:+18556685535" className={styles.callButton}>
+              <a
+                href="tel:+18556685535"
+                className={styles.callButton}
+                onClick={() => {
+                  trackMetric({
+                    landing: "fe3",
+                    event: "call_click",
+                    label: selectedAdvisor.name,
+                  });
+                }}
+              >
                 <span className={styles.callIconWrap}>
                   <span className={styles.callIconPulse} />
                   <PhoneIcon />

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.css";
+import { trackLandingView, trackMetric } from "@/lib/metrics-client";
 
 type OptionValue = "a" | "b" | "c" | "d";
 
@@ -104,6 +105,10 @@ export default function DebtReliefUsaPage() {
   const startedRef = useRef(false);
 
   useEffect(() => {
+    trackLandingView("debt-relief-usa");
+  }, []);
+
+  useEffect(() => {
     const body = bodyRef.current;
     if (!body) {
       return;
@@ -163,6 +168,10 @@ export default function DebtReliefUsaPage() {
       }
 
       if (!cancelled) {
+        trackMetric({
+          landing: "debt-relief-usa",
+          event: "options_shown",
+        });
         setItems((current) => [...current, { id: "options", type: "options" }]);
       }
     }
@@ -180,6 +189,11 @@ export default function DebtReliefUsaPage() {
     }
 
     setOptionSelected(true);
+    trackMetric({
+      landing: "debt-relief-usa",
+      event: "debt_selected",
+      label: value,
+    });
     const selected = OPTIONS.find((option) => option.value === value);
 
     setItems((current) => [
@@ -202,6 +216,11 @@ export default function DebtReliefUsaPage() {
         const next = current.filter((item) => item.id !== "eligibility-loader");
 
         if (value === "a") {
+          trackMetric({
+            landing: "debt-relief-usa",
+            event: "not_qualified",
+            label: value,
+          });
           return [
             ...next,
             {
@@ -213,6 +232,12 @@ export default function DebtReliefUsaPage() {
             },
           ];
         }
+
+        trackMetric({
+          landing: "debt-relief-usa",
+          event: "qualified",
+          label: value,
+        });
 
         return [
           ...next,
@@ -325,7 +350,17 @@ export default function DebtReliefUsaPage() {
                       className={`${styles.message} ${styles.bot}`}
                       dangerouslySetInnerHTML={{ __html: item.message }}
                     />
-                    <a href={item.phoneHref} className={styles.callButton}>
+                    <a
+                      href={item.phoneHref}
+                      className={styles.callButton}
+                      onClick={() => {
+                        trackMetric({
+                          landing: "debt-relief-usa",
+                          event: "call_click",
+                          label: item.phoneLabel,
+                        });
+                      }}
+                    >
                       <PhoneIcon />
                       {item.phoneLabel}
                     </a>

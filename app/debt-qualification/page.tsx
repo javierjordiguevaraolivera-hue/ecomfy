@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "../page.module.css";
+import { trackLandingView, trackMetric } from "@/lib/metrics-client";
 
 type Sender = "agent" | "user";
 type ControlState = "none" | "welcome" | "debt" | "payment" | "final";
@@ -118,6 +119,10 @@ export default function DebtQualificationPage() {
   const busyRef = useRef(false);
 
   useEffect(() => {
+    trackLandingView("debt-qualification");
+  }, []);
+
+  useEffect(() => {
     isMountedRef.current = true;
 
     const months = [
@@ -198,6 +203,22 @@ export default function DebtQualificationPage() {
     };
   }, [control]);
 
+  useEffect(() => {
+    if (control === "welcome") {
+      trackMetric({
+        landing: "debt-qualification",
+        event: "welcome_shown",
+      });
+    }
+
+    if (control === "final") {
+      trackMetric({
+        landing: "debt-qualification",
+        event: "prequalified",
+      });
+    }
+  }, [control]);
+
   async function appendAgentBatch(items: string[]) {
     for (const [index, item] of items.entries()) {
       if (!isMountedRef.current) {
@@ -248,6 +269,11 @@ export default function DebtQualificationPage() {
 
     busyRef.current = true;
     setControl("none");
+    trackMetric({
+      landing: "debt-qualification",
+      event: "welcome_started",
+      label: "yes",
+    });
     await appendUserMessage("Sí");
     await appendAgentBatch([LANDING_CONTENT.debtQuestion]);
 
@@ -266,6 +292,11 @@ export default function DebtQualificationPage() {
     busyRef.current = true;
     setControl("none");
     setDebtRange(choice.value);
+    trackMetric({
+      landing: "debt-qualification",
+      event: "debt_selected",
+      label: choice.value,
+    });
     await appendUserMessage(choice.label);
     await appendAgentBatch(LANDING_CONTENT.paymentMessages);
 
@@ -283,6 +314,11 @@ export default function DebtQualificationPage() {
 
     busyRef.current = true;
     setControl("none");
+    trackMetric({
+      landing: "debt-qualification",
+      event: "employment_selected",
+      label: choice.value,
+    });
     await appendUserMessage(choice.label);
     await appendAgentBatch(LANDING_CONTENT.finalMessages);
 
@@ -471,7 +507,17 @@ export default function DebtQualificationPage() {
 
             {control === "final" ? (
               <div className={styles.ctaContainer}>
-                <a href={callOption.href} className={styles.ctaButton}>
+                <a
+                  href={callOption.href}
+                  className={styles.ctaButton}
+                  onClick={() => {
+                    trackMetric({
+                      landing: "debt-qualification",
+                      event: "call_click",
+                      label: debtRange,
+                    });
+                  }}
+                >
                   <span className={styles.phoneDot} />
                   <span className={styles.ctaButtonText}>
                     <span className={styles.ctaMainText}>{callOption.display}</span>

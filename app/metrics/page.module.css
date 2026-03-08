@@ -1,0 +1,286 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f4f7fb 0%, #eef3f9 100%);
+  color: #102540;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+}
+
+.shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 48px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.loginKicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #55739a;
+}
+
+.title,
+.loginTitle {
+  margin: 8px 0 0;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.subtitle,
+.loginText {
+  margin: 12px 0 0;
+  max-width: 680px;
+  color: #526782;
+  line-height: 1.6;
+}
+
+.logoutButton,
+.loginButton {
+  border: none;
+  border-radius: 14px;
+  background: #163b66;
+  color: #fff;
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.summaryRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.summaryCard,
+.card,
+.eventsCard,
+.loginCard {
+  border: 1px solid #d7e2ef;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 44px rgb(16 37 64 / 0.08);
+}
+
+.summaryCard {
+  padding: 18px 20px;
+}
+
+.summaryLabel {
+  display: block;
+  color: #617897;
+  font-size: 0.84rem;
+}
+
+.summaryValue,
+.summaryValueSmall {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.summaryValueSmall {
+  font-size: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  padding: 22px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardLanguage {
+  color: #5a7aa3;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cardTitle,
+.eventsTitle {
+  margin: 8px 0 0;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.visitorCount {
+  white-space: nowrap;
+  border-radius: 999px;
+  background: #edf4ff;
+  color: #214f85;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 10px;
+  color: #6b809d;
+  font-size: 0.84rem;
+}
+
+.funnelList {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.funnelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border: 1px solid #e4ecf6;
+  border-radius: 16px;
+  background: #f9fbfe;
+}
+
+.funnelText,
+.funnelStats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.funnelStep {
+  font-weight: 700;
+}
+
+.funnelEvent,
+.funnelStats span {
+  color: #6a7f9a;
+  font-size: 0.8rem;
+}
+
+.funnelStats {
+  text-align: right;
+}
+
+.eventsCard {
+  margin-top: 20px;
+  padding: 22px;
+}
+
+.table {
+  display: grid;
+  margin-top: 16px;
+}
+
+.tableHeader,
+.tableRow {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.3fr 1.2fr;
+  gap: 12px;
+  align-items: start;
+  padding: 12px 0;
+}
+
+.tableHeader {
+  border-bottom: 1px solid #dfe8f3;
+  color: #647b98;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tableRow {
+  border-bottom: 1px solid #eef3f8;
+  font-size: 0.9rem;
+}
+
+.visitorCell {
+  word-break: break-all;
+  color: #60728b;
+}
+
+.notice {
+  margin-top: 20px;
+  border-radius: 18px;
+  background: #fff7df;
+  color: #6a5615;
+  padding: 16px 18px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.loginCard {
+  width: min(440px, calc(100% - 32px));
+  margin: 12vh auto 0;
+  padding: 28px;
+}
+
+.loginForm {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.passwordInput {
+  width: 100%;
+  border: 1px solid #c9d8e8;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 1rem;
+}
+
+.loginError {
+  margin-top: 14px;
+  color: #b42318;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .header,
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .summaryRow,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr;
+  }
+
+  .tableHeader {
+    display: none;
+  }
+
+  .tableRow {
+    gap: 6px;
+    padding: 12px 0;
+  }
+}

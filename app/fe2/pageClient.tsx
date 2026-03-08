@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { trackLandingView, trackMetric } from "@/lib/metrics-client";
 
 type Step = "quiz" | "loadingOne" | "loadingTwo" | "success";
 
@@ -120,6 +121,10 @@ export default function Fe2Client({
   const [countdown, setCountdown] = useState(109);
 
   useEffect(() => {
+    trackLandingView("fe2");
+  }, []);
+
+  useEffect(() => {
     if (step !== "loadingOne") {
       return;
     }
@@ -163,6 +168,22 @@ export default function Fe2Client({
     };
   }, [step]);
 
+  useEffect(() => {
+    if (step === "loadingTwo") {
+      trackMetric({
+        landing: "fe2",
+        event: "offer_found",
+      });
+    }
+
+    if (step === "success") {
+      trackMetric({
+        landing: "fe2",
+        event: "advisor_ready",
+      });
+    }
+  }, [step]);
+
   const canContinue = Boolean(age && insurance);
   const countdownLabel = `${Math.floor(countdown / 60)}:${(countdown % 60)
     .toString()
@@ -183,7 +204,16 @@ export default function Fe2Client({
             />
           </div>
 
-          <a href={PHONE_HREF} className={styles.secureBadge}>
+          <a
+            href={PHONE_HREF}
+            className={styles.secureBadge}
+            onClick={() => {
+              trackMetric({
+                landing: "fe2",
+                event: "header_call_click",
+              });
+            }}
+          >
             <SecureIcon />
             <span>{PHONE_NUMBER}</span>
           </a>
@@ -226,7 +256,14 @@ export default function Fe2Client({
                       className={`${styles.optionButton} ${
                         age === option ? styles.optionSelected : ""
                       }`}
-                      onClick={() => setAge(option)}
+                      onClick={() => {
+                        setAge(option);
+                        trackMetric({
+                          landing: "fe2",
+                          event: "age_selected",
+                          label: option,
+                        });
+                      }}
                     >
                       {option}
                     </button>
@@ -246,7 +283,14 @@ export default function Fe2Client({
                       className={`${styles.optionButton} ${
                         insurance === option ? styles.optionSelected : ""
                       }`}
-                      onClick={() => setInsurance(option)}
+                      onClick={() => {
+                        setInsurance(option);
+                        trackMetric({
+                          landing: "fe2",
+                          event: "insurance_selected",
+                          label: option,
+                        });
+                      }}
                     >
                       {option}
                     </button>
@@ -260,7 +304,13 @@ export default function Fe2Client({
                   canContinue ? styles.primaryEnabled : ""
                 }`}
                 disabled={!canContinue}
-                onClick={() => setStep("loadingOne")}
+                onClick={() => {
+                  trackMetric({
+                    landing: "fe2",
+                    event: "quiz_submitted",
+                  });
+                  setStep("loadingOne");
+                }}
               >
                 Check My Options →
               </button>
@@ -323,7 +373,16 @@ export default function Fe2Client({
                 obligation.
               </div>
 
-              <a href="tel:+18556685535" className={styles.callButton}>
+              <a
+                href="tel:+18556685535"
+                className={styles.callButton}
+                onClick={() => {
+                  trackMetric({
+                    landing: "fe2",
+                    event: "call_click",
+                  });
+                }}
+              >
                 <span className={styles.callIconWrap}>
                   <span className={styles.callIconPulse} />
                   <PhoneIcon />

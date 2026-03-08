@@ -147,6 +147,14 @@ export default function LandingIndexPage() {
           <p className={styles.subtitle}>
             Acceso rápido a todas las landings actuales, separadas por idioma.
           </p>
+          <Link
+            href="/metrics"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.metricsLink}
+          >
+            Abrir Metrics â†—
+          </Link>
         </header>
 
         <LandingSection title="Español" items={spanishLandings} />

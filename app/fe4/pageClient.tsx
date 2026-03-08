@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import styles from "../fe3/page.module.css";
+import { trackLandingView, trackMetric } from "@/lib/metrics-client";
 
 type Step =
   | "quiz"
@@ -348,6 +349,10 @@ export default function Fe4Client({
   const selectedAdvisor = useMemo(() => ADVISORS[2], []);
 
   useEffect(() => {
+    trackLandingView("fe4");
+  }, []);
+
+  useEffect(() => {
     if (step !== "checking") return;
     setProgress(18);
     const t1 = window.setTimeout(() => setProgress(52), 550);
@@ -409,6 +414,36 @@ export default function Fe4Client({
     return () => window.clearInterval(timer);
   }, [step]);
 
+  useEffect(() => {
+    if (step === "checkingComplete") {
+      trackMetric({
+        landing: "fe4",
+        event: "qualification_checked",
+      });
+    }
+
+    if (step === "searchingAdvisors") {
+      trackMetric({
+        landing: "fe4",
+        event: "advisor_search_started",
+      });
+    }
+
+    if (step === "notQualified") {
+      trackMetric({
+        landing: "fe4",
+        event: "not_qualified",
+      });
+    }
+
+    if (step === "success") {
+      trackMetric({
+        landing: "fe4",
+        event: "advisor_ready",
+      });
+    }
+  }, [step]);
+
   const canContinue = Boolean(age && insurance);
   const countdownLabel = `${Math.floor(countdown / 60)}:${(countdown % 60)
     .toString()
@@ -429,7 +464,16 @@ export default function Fe4Client({
               priority
             />
           </div>
-          <a href={PHONE_HREF} className={styles.secureBadge}>
+          <a
+            href={PHONE_HREF}
+            className={styles.secureBadge}
+            onClick={() => {
+              trackMetric({
+                landing: "fe4",
+                event: "header_call_click",
+              });
+            }}
+          >
             <SecureIcon />
             <span>{PHONE_NUMBER}</span>
           </a>
@@ -474,7 +518,14 @@ export default function Fe4Client({
                       className={`${styles.optionButton} ${
                         age === option ? styles.optionSelected : ""
                       }`}
-                      onClick={() => setAge(option)}
+                      onClick={() => {
+                        setAge(option);
+                        trackMetric({
+                          landing: "fe4",
+                          event: "age_selected",
+                          label: option,
+                        });
+                      }}
                     >
                       {option}
                     </button>
@@ -494,7 +545,14 @@ export default function Fe4Client({
                       className={`${styles.optionButton} ${
                         insurance === option ? styles.optionSelected : ""
                       }`}
-                      onClick={() => setInsurance(option)}
+                      onClick={() => {
+                        setInsurance(option);
+                        trackMetric({
+                          landing: "fe4",
+                          event: "insurance_selected",
+                          label: option,
+                        });
+                      }}
                     >
                       {option}
                     </button>
@@ -509,6 +567,10 @@ export default function Fe4Client({
                 }`}
                 disabled={!canContinue}
                 onClick={() => {
+                  trackMetric({
+                    landing: "fe4",
+                    event: "quiz_submitted",
+                  });
                   if (shouldDisqualify) {
                     setStep("notQualified");
                     return;
@@ -658,7 +720,17 @@ export default function Fe4Client({
                   </div>
                 </div>
 
-                <a href="tel:+18556685535" className={styles.callButton}>
+                <a
+                  href="tel:+18556685535"
+                  className={styles.callButton}
+                  onClick={() => {
+                    trackMetric({
+                      landing: "fe4",
+                      event: "call_click",
+                      label: selectedAdvisor.name,
+                    });
+                  }}
+                >
                   <span className={styles.callIconWrap}>
                     <span className={styles.callIconPulse} />
                     <PhoneIcon />
