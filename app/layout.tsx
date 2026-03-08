@@ -16,6 +16,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Ecomfy Landing",
   description: "Base mobile-first para la landing conversacional de Ecomfy.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
