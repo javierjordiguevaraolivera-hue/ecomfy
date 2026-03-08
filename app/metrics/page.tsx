@@ -3,8 +3,21 @@ import { FUNNEL_CONFIG } from "@/lib/metrics-config";
 import { isMetricsAuthenticated } from "@/lib/metrics-auth";
 import { getMetricEvents } from "@/lib/metrics-store";
 import styles from "./page.module.css";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -215,4 +228,3 @@ export default async function MetricsPage({
     </main>
   );
 }
-
