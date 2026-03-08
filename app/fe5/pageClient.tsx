@@ -288,10 +288,11 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
     });
     await appendUserMessage(choice.label);
     await appendAgentBatch([
-      "Great news.",
-      `Based on your answers, you look <span class='msg-highlight'>pre-qualified</span> for final expense coverage in <span class='msg-bold'>${locationLabel}</span>.`,
-      "I reserved a licensed advisor to help you review today's options and pricing.",
-      "<span class='msg-bold'>Tap the call button now</span> to receive your free consultation before this spot expires.",
+      "🎉 <span class='msg-highlight'>Great news! You are pre-qualified</span> for Final Expense Coverage.",
+      `Based on your answers, you look <span class='msg-bold'>pre-qualified</span> for final expense coverage in <span class='msg-bold'>${locationLabel}</span>.`,
+      "I <span class='msg-bold'>reserved a licensed advisor</span> to help you review <span class='msg-bold'>today's options and pricing</span> 😊",
+      "<span class='msg-bold'>Tap the call button now</span> 📞 to receive your free consultation before this spot expires.",
+      "Your advisor is reserved for: <b><u style='color:red;'>2 minutes</u></b> ⏱️ <b>Call now.</b>",
     ]);
 
     if (isMountedRef.current) {
@@ -354,7 +355,7 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
           </div>
 
           <div className={styles.headerDeadline}>
-            <span className={styles.headerDeadlineLabel}>Window closes</span>
+            <span className={styles.headerDeadlineLabel}>Program ends</span>
             <span className={styles.headerDeadlineDate}>{deadlineDate}</span>
           </div>
         </header>
