@@ -16,8 +16,8 @@ type Step =
 
 const AGE_OPTIONS = ["45-54", "55-64", "65-74", "75+"] as const;
 const INSURANCE_OPTIONS = ["No", "Yes"] as const;
-const PHONE_NUMBER = "(855) 668-5535";
-const PHONE_HREF = "tel:+18556685535";
+const DEFAULT_PHONE_NUMBER = "(855) 668-5535";
+const DEFAULT_PHONE_HREF = "tel:+18556685535";
 
 const ADVISORS = [
   {
@@ -334,9 +334,13 @@ function ExtraSections() {
 export default function Fe4Client({
   locationLabel,
   landingKey = "fe4-an-en",
+  phoneNumber = DEFAULT_PHONE_NUMBER,
+  phoneHref = DEFAULT_PHONE_HREF,
 }: {
   locationLabel: string;
   landingKey?: string;
+  phoneNumber?: string;
+  phoneHref?: string;
 }) {
   const [step, setStep] = useState<Step>("quiz");
   const [age, setAge] = useState("");
@@ -467,7 +471,7 @@ export default function Fe4Client({
             />
           </div>
           <a
-            href={PHONE_HREF}
+            href={phoneHref}
             className={styles.secureBadge}
             onClick={() => {
               trackMetric({
@@ -477,7 +481,7 @@ export default function Fe4Client({
             }}
           >
             <SecureIcon />
-            <span>{PHONE_NUMBER}</span>
+            <span>{phoneNumber}</span>
           </a>
         </div>
 
@@ -723,7 +727,7 @@ export default function Fe4Client({
                 </div>
 
                 <a
-                  href="tel:+18556685535"
+                  href={phoneHref}
                   className={styles.callButton}
                   onClick={() => {
                     trackMetric({
@@ -737,7 +741,7 @@ export default function Fe4Client({
                     <span className={styles.callIconPulse} />
                     <PhoneIcon />
                   </span>
-                  <span>Call {selectedAdvisor.name} at (855) 668-5535</span>
+                  <span>Call {selectedAdvisor.name} at {phoneNumber}</span>
                 </a>
 
                 <div className={styles.timerBox}>

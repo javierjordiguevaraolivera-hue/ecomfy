@@ -34,5 +34,15 @@ export default async function FinalExpenseLongFormPage() {
   const region = requestHeaders.get("x-vercel-ip-country-region");
   const locationLabel = formatLocation(city, region);
 
-  return <Fe4McEnClient locationLabel={locationLabel} landingKey="fe4-mc-en" />;
+  return (
+    <>
+      <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
+      <Fe4McEnClient
+        locationLabel={locationLabel}
+        landingKey="fe4-mc-en"
+        phoneNumber="(877) 649-0603"
+        phoneHref="tel:+18776490603"
+      />
+    </>
+  );
 }
