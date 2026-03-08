@@ -39,12 +39,20 @@
   color: #21426b;
   font-size: 0.82rem;
   font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .secureIcon {
   width: 16px;
   height: 16px;
   color: #1ab567;
+}
+
+.secureBadge:hover {
+  color: #17375c;
+  transform: translateY(-1px);
 }
 
 .hero {

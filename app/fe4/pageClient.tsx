@@ -15,6 +15,8 @@ type Step =
 
 const AGE_OPTIONS = ["45-54", "55-64", "65-74", "75+"] as const;
 const INSURANCE_OPTIONS = ["No", "Yes"] as const;
+const PHONE_NUMBER = "(855) 668-5535";
+const PHONE_HREF = "tel:+18556685535";
 
 const ADVISORS = [
   {
@@ -29,13 +31,6 @@ const ADVISORS = [
     experience: "9 years experience",
     families: "1,120 families helped",
     image: "/asesor-ventas-4.png",
-    status: "Out on a scheduled in-home policy visit.",
-  },
-  {
-    name: "Chris A.",
-    experience: "8 years experience",
-    families: "940 families helped",
-    image: "/asesor-ventas-7.png",
     status: "Finalizing a policy signature with a client.",
   },
   {
@@ -87,15 +82,11 @@ function SecureIcon() {
   return (
     <svg
       className={styles.secureIcon}
-      viewBox="0 0 15 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 1200"
+      fill="currentColor"
       aria-hidden="true"
     >
-      <path
-        d="M7.74807 0.0658784C7.59435 -0.0219595 7.40565 -0.0219595 7.25193 0.0658784L0.251931 4.06588C0.096143 4.1549 0 4.32057 0 4.5V5.21989C0 9.75232 3.0046 13.7356 7.36264 14.9808C7.45242 15.0064 7.54758 15.0064 7.63736 14.9808C11.9954 13.7356 15 9.75232 15 5.21989V4.5C15 4.32057 14.9039 4.1549 14.7481 4.06588L7.74807 0.0658784Z"
-        fill="currentColor"
-      />
+      <path d="M1183.326 997.842l-169.187 167.83c-24.974 25.612-58.077 34.289-90.316 34.328-142.571-4.271-277.333-74.304-387.981-146.215C354.22 921.655 187.574 757.82 82.984 559.832 42.87 476.809-4.198 370.878.299 278.209c.401-34.86 9.795-69.073 34.346-91.543L203.831 17.565c35.132-29.883 69.107-19.551 91.589 15.257l136.111 258.102c14.326 30.577 6.108 63.339-15.266 85.188l-62.332 62.3c-3.848 5.271-6.298 11.271-6.36 17.801 23.902 92.522 96.313 177.799 160.281 236.486 63.967 58.688 132.725 138.198 221.977 157.021 11.032 3.077 24.545 4.158 32.438-3.179l72.51-73.743c24.996-18.945 61.086-28.205 87.771-12.714h1.272l245.51 144.943c35.041 22.592 38.799 66.252 12.994 92.815Z" />
     </svg>
   );
 }
@@ -354,17 +345,16 @@ export default function Fe4Client({
     "Checking live availability...",
   );
 
-  const selectedAdvisor = useMemo(() => ADVISORS[3], []);
+  const selectedAdvisor = useMemo(() => ADVISORS[2], []);
 
   useEffect(() => {
     if (step !== "checking") return;
     setProgress(18);
-    const t1 = window.setTimeout(() => setProgress(44), 850);
-    const t2 = window.setTimeout(() => setProgress(74), 1600);
+    const t1 = window.setTimeout(() => setProgress(52), 550);
+    const t2 = window.setTimeout(() => setProgress(100), 1100);
     const t3 = window.setTimeout(() => {
-      setProgress(100);
       setStep("checkingComplete");
-    }, 2400);
+    }, 1450);
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
@@ -374,46 +364,40 @@ export default function Fe4Client({
 
   useEffect(() => {
     if (step !== "checkingComplete") return;
-    const t = window.setTimeout(() => setStep("searchingAdvisors"), 650);
+    const t = window.setTimeout(() => setStep("searchingAdvisors"), 420);
     return () => window.clearTimeout(t);
   }, [step]);
 
   useEffect(() => {
     if (step !== "searchingAdvisors") return;
     setAdvisorIndex(0);
-    setProgress(18);
+    setProgress(24);
     setAdvisorStatus(ADVISORS[0].status);
     const t1 = window.setTimeout(() => {
       setAdvisorIndex(1);
-      setProgress(38);
+      setProgress(56);
       setAdvisorStatus(ADVISORS[1].status);
-    }, 1200);
+    }, 950);
     const t2 = window.setTimeout(() => {
       setAdvisorIndex(2);
-      setProgress(58);
-      setAdvisorStatus(ADVISORS[2].status);
-    }, 2500);
-    const t3 = window.setTimeout(() => {
-      setAdvisorIndex(3);
       setProgress(82);
       setAdvisorStatus("Validating current call availability...");
-    }, 3900);
-    const t4 = window.setTimeout(() => {
+    }, 1850);
+    const t3 = window.setTimeout(() => {
       setProgress(100);
-      setAdvisorStatus(`${ADVISORS[3].name} is available now and ready to help.`);
+      setAdvisorStatus(`${ADVISORS[2].name} is available now and ready to help.`);
       setStep("advisorFound");
-    }, 5000);
+    }, 2650);
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
       window.clearTimeout(t3);
-      window.clearTimeout(t4);
     };
   }, [step]);
 
   useEffect(() => {
     if (step !== "advisorFound") return;
-    const t = window.setTimeout(() => setStep("success"), 700);
+    const t = window.setTimeout(() => setStep("success"), 500);
     return () => window.clearTimeout(t);
   }, [step]);
 
@@ -437,7 +421,7 @@ export default function Fe4Client({
         <div className={styles.topBar}>
           <div className={styles.brand}>
             <Image
-              src="/quiet-legacy-logo.svg"
+              src="/Quiet-legacy-logo-final.png"
               alt="Quiet Legacy"
               width={182}
               height={42}
@@ -445,10 +429,10 @@ export default function Fe4Client({
               priority
             />
           </div>
-          <div className={styles.secureBadge}>
+          <a href={PHONE_HREF} className={styles.secureBadge}>
             <SecureIcon />
-            <span>Free &amp; Confidential</span>
-          </div>
+            <span>{PHONE_NUMBER}</span>
+          </a>
         </div>
 
         <section className={styles.hero}>
@@ -464,6 +448,10 @@ export default function Fe4Client({
             <div className={styles.locationRow}>
               <PinIcon />
               <span>Offers in {locationLabel}</span>
+            </div>
+            <div className={styles.heroBenefit}>
+              Receive up to <strong>$20,000</strong> today to help cover funeral
+              expenses.
             </div>
           </div>
         </section>

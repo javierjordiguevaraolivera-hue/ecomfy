@@ -34,19 +34,31 @@
   box-shadow: 0 12px 30px rgb(17 24 39 / 0.08);
   backdrop-filter: blur(10px);
   font-size: 0.94rem;
-}
-
-.topBar strong {
+  font-weight: 700;
   color: var(--brand-dark);
+  text-decoration: none;
 }
 
-.badgeDot {
-  width: 10px;
-  height: 10px;
+.topBarIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
-  background: var(--success);
-  box-shadow: 0 0 0 0 rgb(22 163 74 / 0.55);
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 0 0 0 rgb(15 118 110 / 0.25);
   animation: pulseDot 1.8s infinite;
+}
+
+.topBarIcon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.topBar:hover {
+  color: var(--brand);
 }
 
 .hero {

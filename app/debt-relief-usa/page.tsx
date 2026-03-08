@@ -241,7 +241,7 @@ export default function DebtReliefUsaPage() {
 
       <section className={styles.header}>
         <Image
-          src="/transparentbanner2.png"
+          src="/Quiet-legacy-logo-final.png"
           alt="Insurance Icon"
           width={380}
           height={80}

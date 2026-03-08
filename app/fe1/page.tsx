@@ -18,8 +18,8 @@ type Answer = {
   value: string;
 };
 
-const PHONE_NUMBER = "(833) 555-0192";
-const PHONE_HREF = "tel:+18335550192";
+const PHONE_NUMBER = "(855) 668-5535";
+const PHONE_HREF = "tel:+18556685535";
 
 const QUESTION_ONE: Answer[] = [
   { label: "Age 50 to 64", value: "50-64" },
@@ -228,13 +228,12 @@ export default function FinalExpensePage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
-        <div className={styles.topBar}>
-          <span className={styles.badgeDot} />
-          <span>
-            Free call with a <strong>licensed final expense advisor</strong>.
-            Limited live availability.
+        <a href={PHONE_HREF} className={styles.topBar}>
+          <span className={styles.topBarIcon} aria-hidden="true">
+            <PhoneGlyph />
           </span>
-        </div>
+          <span>{PHONE_NUMBER}</span>
+        </a>
 
         <section className={styles.hero}>
           <div className={styles.heroCard}>
@@ -242,7 +241,7 @@ export default function FinalExpensePage() {
               <div className={styles.heroCopy}>
                 <div className={styles.logoWrap}>
                   <Image
-                    src="/transparentbanner2.png"
+                    src="/Quiet-legacy-logo-final.png"
                     alt="Brand logo"
                     width={350}
                     height={100}

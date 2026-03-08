@@ -14,6 +14,8 @@ type Step =
 
 const AGE_OPTIONS = ["45–54", "55–64", "65–74", "75+"] as const;
 const INSURANCE_OPTIONS = ["No", "Yes"] as const;
+const PHONE_NUMBER = "(855) 668-5535";
+const PHONE_HREF = "tel:+18556685535";
 
 const ADVISORS = [
   {
@@ -50,15 +52,11 @@ function SecureIcon() {
   return (
     <svg
       className={styles.secureIcon}
-      viewBox="0 0 15 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 1200"
+      fill="currentColor"
       aria-hidden="true"
     >
-      <path
-        d="M7.74807 0.0658784C7.59435 -0.0219595 7.40565 -0.0219595 7.25193 0.0658784L0.251931 4.06588C0.096143 4.1549 0 4.32057 0 4.5V5.21989C0 9.75232 3.0046 13.7356 7.36264 14.9808C7.45242 15.0064 7.54758 15.0064 7.63736 14.9808C11.9954 13.7356 15 9.75232 15 5.21989V4.5C15 4.32057 14.9039 4.1549 14.7481 4.06588L7.74807 0.0658784Z"
-        fill="currentColor"
-      />
+      <path d="M1183.326 997.842l-169.187 167.83c-24.974 25.612-58.077 34.289-90.316 34.328-142.571-4.271-277.333-74.304-387.981-146.215C354.22 921.655 187.574 757.82 82.984 559.832 42.87 476.809-4.198 370.878.299 278.209c.401-34.86 9.795-69.073 34.346-91.543L203.831 17.565c35.132-29.883 69.107-19.551 91.589 15.257l136.111 258.102c14.326 30.577 6.108 63.339-15.266 85.188l-62.332 62.3c-3.848 5.271-6.298 11.271-6.36 17.801 23.902 92.522 96.313 177.799 160.281 236.486 63.967 58.688 132.725 138.198 221.977 157.021 11.032 3.077 24.545 4.158 32.438-3.179l72.51-73.743c24.996-18.945 61.086-28.205 87.771-12.714h1.272l245.51 144.943c35.041 22.592 38.799 66.252 12.994 92.815Z" />
     </svg>
   );
 }
@@ -270,7 +268,7 @@ export default function Fe3Client({
         <div className={styles.topBar}>
           <div className={styles.brand}>
             <Image
-              src="/quiet-legacy-logo.svg"
+              src="/Quiet-legacy-logo-final.png"
               alt="Quiet Legacy"
               width={182}
               height={42}
@@ -279,10 +277,10 @@ export default function Fe3Client({
             />
           </div>
 
-          <div className={styles.secureBadge}>
+          <a href={PHONE_HREF} className={styles.secureBadge}>
             <SecureIcon />
-            <span>Free &amp; Confidential</span>
-          </div>
+            <span>{PHONE_NUMBER}</span>
+          </a>
         </div>
 
         <section className={styles.hero}>
