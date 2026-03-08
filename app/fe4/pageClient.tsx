@@ -11,7 +11,6 @@ type Step =
   | "checkingComplete"
   | "searchingAdvisors"
   | "advisorFound"
-  | "notQualified"
   | "success";
 
 const AGE_OPTIONS = ["45-54", "55-64", "65-74", "75+"] as const;
@@ -435,13 +434,6 @@ export default function Fe4Client({
       });
     }
 
-    if (step === "notQualified") {
-      trackMetric({
-        landing: landingKey,
-        event: "not_qualified",
-      });
-    }
-
     if (step === "success") {
       trackMetric({
         landing: landingKey,
@@ -454,7 +446,6 @@ export default function Fe4Client({
   const countdownLabel = `${Math.floor(countdown / 60)}:${(countdown % 60)
     .toString()
     .padStart(2, "0")}`;
-  const shouldDisqualify = age === "75+" && insurance === "Yes";
 
   return (
     <main className={styles.page}>
@@ -577,10 +568,6 @@ export default function Fe4Client({
                     landing: landingKey,
                     event: "quiz_submitted",
                   });
-                  if (shouldDisqualify) {
-                    setStep("notQualified");
-                    return;
-                  }
                   setStep("checking");
                 }}
               >
@@ -589,23 +576,6 @@ export default function Fe4Client({
 
               <div className={styles.privacyNote}>
                 🔒 Your information is secure and will never be shared.
-              </div>
-              <ExtraSections />
-            </>
-          ) : null}
-
-          {step === "notQualified" ? (
-            <>
-              <div className={styles.loadingState}>
-                <div className={styles.notQualifiedBox}>
-                  <div className={styles.notQualifiedTitle}>
-                    We’re Sorry, You Don’t Qualify Right Now
-                  </div>
-                  <div className={styles.notQualifiedText}>
-                    Based on the information provided, we’re unable to match you
-                    with an available final expense option at this time.
-                  </div>
-                </div>
               </div>
               <ExtraSections />
             </>
