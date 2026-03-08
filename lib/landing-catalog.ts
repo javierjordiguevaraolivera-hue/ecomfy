@@ -50,6 +50,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "fe4-mc-en",
   },
   {
+    href: "/fe-an-en",
+    title: "FE AN EN Split",
+    description: "A/B entrypoint that shows FE3 AN EN or FE4 AN EN.",
+    language: "en",
+  },
+  {
     href: "/fe5-an-en",
     title: "FE5 AN EN",
     description: "Chatbot final expense flow con CTA de llamada.",
