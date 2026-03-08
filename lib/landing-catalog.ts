@@ -36,11 +36,11 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "fe2",
   },
   {
-    href: "/fe3",
-    title: "FE3",
+    href: "/fe3-an-en",
+    title: "FE3 AN EN",
     description: "Advisor search flow con validación en vivo.",
     language: "en",
-    metricsKey: "fe3",
+    metricsKey: "fe3-an-en",
   },
   {
     href: "/fe4",

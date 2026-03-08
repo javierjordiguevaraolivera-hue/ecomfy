@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import Fe3Client from "./pageClient";
+import Fe3AnEnClient from "../fe3/pageClient";
 
 function formatLocation(city?: string | null, region?: string | null) {
   const cleanCity = city?.trim();
@@ -22,5 +22,6 @@ export default async function FinalExpenseAdvisorMatchPage() {
   const region = requestHeaders.get("x-vercel-ip-country-region");
   const locationLabel = formatLocation(city, region);
 
-  return <Fe3Client locationLabel={locationLabel} />;
+  return <Fe3AnEnClient locationLabel={locationLabel} />;
 }
+

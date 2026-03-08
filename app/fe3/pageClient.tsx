@@ -162,7 +162,7 @@ export default function Fe3Client({
   const selectedAdvisor = useMemo(() => ADVISORS[3], []);
 
   useEffect(() => {
-    trackLandingView("fe3");
+    trackLandingView("fe3-an-en");
   }, []);
 
   useEffect(() => {
@@ -265,21 +265,21 @@ export default function Fe3Client({
   useEffect(() => {
     if (step === "checkingComplete") {
       trackMetric({
-        landing: "fe3",
+        landing: "fe3-an-en",
         event: "qualification_checked",
       });
     }
 
     if (step === "searchingAdvisors") {
       trackMetric({
-        landing: "fe3",
+        landing: "fe3-an-en",
         event: "advisor_search_started",
       });
     }
 
     if (step === "success") {
       trackMetric({
-        landing: "fe3",
+        landing: "fe3-an-en",
         event: "advisor_ready",
       });
     }
@@ -310,7 +310,7 @@ export default function Fe3Client({
             className={styles.secureBadge}
             onClick={() => {
               trackMetric({
-                landing: "fe3",
+                landing: "fe3-an-en",
                 event: "header_call_click",
               });
             }}
@@ -360,7 +360,7 @@ export default function Fe3Client({
                       onClick={() => {
                         setAge(option);
                         trackMetric({
-                          landing: "fe3",
+                          landing: "fe3-an-en",
                           event: "age_selected",
                           label: option,
                         });
@@ -387,7 +387,7 @@ export default function Fe3Client({
                       onClick={() => {
                         setInsurance(option);
                         trackMetric({
-                          landing: "fe3",
+                          landing: "fe3-an-en",
                           event: "insurance_selected",
                           label: option,
                         });
@@ -407,7 +407,7 @@ export default function Fe3Client({
                 disabled={!canContinue}
                 onClick={() => {
                   trackMetric({
-                    landing: "fe3",
+                    landing: "fe3-an-en",
                     event: "quiz_submitted",
                   });
                   setStep("checking");
@@ -544,7 +544,7 @@ export default function Fe3Client({
                 className={styles.callButton}
                 onClick={() => {
                   trackMetric({
-                    landing: "fe3",
+                    landing: "fe3-an-en",
                     event: "call_click",
                     label: selectedAdvisor.name,
                   });
