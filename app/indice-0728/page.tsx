@@ -67,7 +67,12 @@ function LandingCard({
 
   return (
     <div className={styles.card}>
-      <Link href={href} className={styles.cardLink}>
+      <Link
+        href={href}
+        className={styles.cardLink}
+        target="_blank"
+        rel="noreferrer"
+      >
         <div className={styles.cardTop}>
           <span className={styles.cardTitle}>{title}</span>
           <span className={styles.cardArrow}>↗</span>
