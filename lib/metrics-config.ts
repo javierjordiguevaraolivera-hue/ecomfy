@@ -86,4 +86,15 @@ export const FUNNEL_CONFIG = {
       { event: "call_click", label: "Clicked Final Call" },
     ],
   },
+  "fe6-an-en": {
+    title: "FE6 AN EN",
+    language: "English",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "options_shown", label: "Saw Age Options" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "qualified", label: "Reached Qualified Result" },
+      { event: "call_click", label: "Clicked Final Call" },
+    ],
+  },
 } as const;

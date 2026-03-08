@@ -56,4 +56,11 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     language: "en",
     metricsKey: "fe5-an-en",
   },
+  {
+    href: "/fe6-an-en",
+    title: "FE6 AN EN",
+    description: "Short final expense chat with direct call CTA.",
+    language: "en",
+    metricsKey: "fe6-an-en",
+  },
 ];
