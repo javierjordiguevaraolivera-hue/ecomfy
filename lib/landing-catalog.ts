@@ -49,4 +49,11 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     language: "en",
     metricsKey: "fe4-mc-en",
   },
+  {
+    href: "/fe5-an-en",
+    title: "FE5 AN EN",
+    description: "Chatbot final expense flow con CTA de llamada.",
+    language: "en",
+    metricsKey: "fe5-an-en",
+  },
 ];

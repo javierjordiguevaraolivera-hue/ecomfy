@@ -14,8 +14,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Ecomfy Landing",
-  description: "Base mobile-first para la landing conversacional de Ecomfy.",
+  title: "Quiet Legacy",
+  description: "Quiet Legacy",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",

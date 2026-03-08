@@ -34,5 +34,10 @@ export default async function FinalExpenseAdvisorMatchPage() {
   const region = requestHeaders.get("x-vercel-ip-country-region");
   const locationLabel = formatLocation(city, region);
 
-  return <Fe3AnEnClient locationLabel={locationLabel} landingKey="fe3-an-en" />;
+  return (
+    <>
+      <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
+      <Fe3AnEnClient locationLabel={locationLabel} landingKey="fe3-an-en" />
+    </>
+  );
 }
