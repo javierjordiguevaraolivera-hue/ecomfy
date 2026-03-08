@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "../debt-relief-usa/page.module.css";
-import { trackLandingView, trackMetric } from "@/lib/metrics-client";
+import {
+  trackCallCtaClick,
+  trackLandingView,
+  trackMetric,
+} from "@/lib/metrics-client";
 
 type OptionValue = "45-54" | "55-64" | "65-74" | "75+";
 
@@ -338,6 +342,12 @@ export default function Fe6Client() {
                       href={item.phoneHref}
                       className={styles.callButton}
                       onClick={() => {
+                        trackCallCtaClick({
+                          landing: LANDING_KEY,
+                          phone: item.phoneHref,
+                          placement: "result_cta",
+                          label: item.phoneLabel,
+                        });
                         trackMetric({
                           landing: LANDING_KEY,
                           event: "call_click",

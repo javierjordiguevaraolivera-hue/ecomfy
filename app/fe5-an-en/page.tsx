@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Fe5Client from "../fe5/pageClient";
+import AntonyGtm from "../components/antony-gtm";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -36,6 +37,7 @@ export default async function FinalExpenseChatPage() {
 
   return (
     <>
+      <AntonyGtm />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <Fe5Client locationLabel={locationLabel} />
     </>

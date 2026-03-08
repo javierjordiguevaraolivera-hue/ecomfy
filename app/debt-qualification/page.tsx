@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "../page.module.css";
-import { trackLandingView, trackMetric } from "@/lib/metrics-client";
+import {
+  trackCallCtaClick,
+  trackLandingView,
+  trackMetric,
+} from "@/lib/metrics-client";
 
 type Sender = "agent" | "user";
 type ControlState = "none" | "welcome" | "debt" | "payment" | "final";
@@ -511,6 +515,12 @@ export default function DebtQualificationPage() {
                   href={callOption.href}
                   className={styles.ctaButton}
                   onClick={() => {
+                    trackCallCtaClick({
+                      landing: "debt-qualification",
+                      phone: callOption.href,
+                      placement: "final_cta",
+                      label: debtRange,
+                    });
                     trackMetric({
                       landing: "debt-qualification",
                       event: "call_click",

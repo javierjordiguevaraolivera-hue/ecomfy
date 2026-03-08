@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.css";
-import { trackLandingView, trackMetric } from "@/lib/metrics-client";
+import {
+  trackCallCtaClick,
+  trackLandingView,
+  trackMetric,
+} from "@/lib/metrics-client";
 
 type OptionValue = "a" | "b" | "c" | "d";
 
@@ -354,6 +358,12 @@ export default function DebtReliefUsaPage() {
                       href={item.phoneHref}
                       className={styles.callButton}
                       onClick={() => {
+                        trackCallCtaClick({
+                          landing: "debt-relief-usa",
+                          phone: item.phoneHref,
+                          placement: "result_cta",
+                          label: item.phoneLabel,
+                        });
                         trackMetric({
                           landing: "debt-relief-usa",
                           event: "call_click",

@@ -5,6 +5,19 @@ type TrackMetricInput = {
   label?: string;
 };
 
+type CallCtaInput = {
+  landing: string;
+  phone: string;
+  placement: string;
+  label?: string;
+};
+
+declare global {
+  interface Window {
+    dataLayer?: Array<Record<string, unknown>>;
+  }
+}
+
 const VISITOR_KEY = "ecomfy_metrics_visitor";
 const VIEW_KEY_PREFIX = "ecomfy_metrics_view";
 
@@ -76,3 +89,23 @@ export function trackLandingView(landing: string) {
   });
 }
 
+export function trackCallCtaClick({
+  landing,
+  phone,
+  placement,
+  label,
+}: CallCtaInput) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "call_cta_click",
+    landing,
+    phone,
+    placement,
+    label,
+    path: window.location.pathname,
+  });
+}

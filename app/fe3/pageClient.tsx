@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
-import { trackLandingView, trackMetric } from "@/lib/metrics-client";
+import {
+  trackCallCtaClick,
+  trackLandingView,
+  trackMetric,
+} from "@/lib/metrics-client";
 
 type Step =
   | "quiz"
@@ -315,6 +319,11 @@ export default function Fe3Client({
             href={phoneHref}
             className={styles.secureBadge}
             onClick={() => {
+              trackCallCtaClick({
+                landing: landingKey,
+                phone: phoneHref,
+                placement: "header_number",
+              });
               trackMetric({
                 landing: landingKey,
                 event: "header_call_click",
@@ -548,11 +557,17 @@ export default function Fe3Client({
               <a
                 href={phoneHref}
                 className={styles.callButton}
-                onClick={() => {
-                  trackMetric({
-                    landing: landingKey,
-                    event: "call_click",
-                    label: selectedAdvisor.name,
+                  onClick={() => {
+                    trackCallCtaClick({
+                      landing: landingKey,
+                      phone: phoneHref,
+                      placement: "final_cta",
+                      label: selectedAdvisor.name,
+                    });
+                    trackMetric({
+                      landing: landingKey,
+                      event: "call_click",
+                      label: selectedAdvisor.name,
                   });
                 }}
               >

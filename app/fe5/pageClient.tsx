@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "../page.module.css";
-import { trackLandingView, trackMetric } from "@/lib/metrics-client";
+import {
+  trackCallCtaClick,
+  trackLandingView,
+  trackMetric,
+} from "@/lib/metrics-client";
 
 type Sender = "agent" | "user";
 type ControlState = "none" | "welcome" | "age" | "insurance" | "final";
@@ -481,6 +485,12 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
                   href={PHONE_HREF}
                   className={styles.ctaButton}
                   onClick={() => {
+                    trackCallCtaClick({
+                      landing: LANDING_KEY,
+                      phone: PHONE_HREF,
+                      placement: "final_cta",
+                      label: ageRange,
+                    });
                     trackMetric({
                       landing: LANDING_KEY,
                       event: "call_click",
