@@ -1,0 +1,9 @@
+<svg width="320" height="72" viewBox="0 0 320 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="72" rx="12" fill="white" fill-opacity="0"/>
+  <g transform="translate(6 8)">
+    <path d="M23.4929 0.351351C23.0056 0.0729381 22.4075 0.0729381 21.9202 0.351351L0.920195 12.3514C0.426425 12.6335 0.121887 13.1581 0.121887 13.7266V15.8863C0.121887 29.4836 9.13569 41.4336 22.2098 45.1692C22.4792 45.246 22.7647 45.246 23.0341 45.1692C36.1082 41.4336 45.1219 29.4836 45.1219 15.8863V13.7266C45.1219 13.1581 44.8174 12.6335 44.3236 12.3514L23.4929 0.351351Z" fill="#0F2C54"/>
+    <path d="M22.6219 9.8L26.1755 16.8543L34.1219 17.9989L28.3719 23.5321L29.7291 31.4L22.6219 27.7321L15.5147 31.4L16.8719 23.5321L11.1219 17.9989L19.0683 16.8543L22.6219 9.8Z" fill="#E3AE18"/>
+  </g>
+  <text x="64" y="31" fill="#0F2C54" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" letter-spacing="-0.5">Quiet Legacy</text>
+  <text x="66" y="51" fill="#6A7B93" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="600" letter-spacing="1.4">QUIETLEGACY.US</text>
+</svg>
