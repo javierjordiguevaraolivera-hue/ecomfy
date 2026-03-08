@@ -317,7 +317,7 @@ export default function FinalExpensePage() {
           <div className={styles.chatCard}>
             <div className={styles.chatHeader}>
               <Image
-                src="/avatarx.jpg"
+                src="/asesora-ventas-8.png"
                 alt="Advisor"
                 width={50}
                 height={50}

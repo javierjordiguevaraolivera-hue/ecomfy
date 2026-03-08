@@ -264,7 +264,7 @@ export default function DebtReliefUsaPage() {
         <div className={styles.chatContainer}>
           <div className={styles.chatHeader}>
             <img
-              src="https://i.pravatar.cc/40?img=47"
+              src="/asesora-ventas-6.png"
               alt="Maria"
               className={styles.chatHeaderAvatar}
             />

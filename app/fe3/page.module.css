@@ -221,14 +221,33 @@
   text-align: center;
 }
 
-.spinner {
+.loadingBadge {
   width: 38px;
   height: 38px;
   margin: 0 auto;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingBadgeSpin {
   border: 4px solid #efe8dd;
   border-top-color: #deaa17;
-  border-radius: 999px;
   animation: spin 0.9s linear infinite;
+}
+
+.loadingBadgeSuccess {
+  background: #2ea867;
+  border: 4px solid #2ea867;
+  box-shadow: 0 10px 22px rgb(46 168 103 / 0.22);
+}
+
+.loadingBadgeCheck {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .loadingTitleStrong {
@@ -478,6 +497,262 @@
   text-align: center;
   color: #6d7685;
   font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.extraStack {
+  margin-top: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.extraSection {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.extraSection + .extraSection {
+  padding-top: 18px;
+  border-top: 1px solid #e4ddd3;
+}
+
+.extraTitle {
+  margin: 0 0 10px;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0f2647;
+}
+
+.benefitList {
+  margin: 0;
+  padding-left: 18px;
+  color: #4c5e7a;
+  font-size: 0.87rem;
+  line-height: 1.8;
+}
+
+.ratingLine {
+  color: #0f2647;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.trustSlider {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.trustPilotImage {
+  display: block;
+  width: 122px;
+  height: auto;
+}
+
+.quoteSliderCard {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ebe3d7;
+  min-height: 96px;
+}
+
+.quoteSliderCard p {
+  margin: 0;
+  color: #344762;
+  font-size: 0.87rem;
+}
+
+.quoteSliderCard span {
+  display: block;
+  margin-top: 8px;
+  color: #66758b;
+  font-size: 0.8rem;
+}
+
+.sliderDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.sliderDot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #d7d2c9;
+  cursor: pointer;
+}
+
+.sliderDotActive {
+  width: 20px;
+  background: #e0a90e;
+}
+
+.quoteCard {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ebe3d7;
+}
+
+.quoteCard p {
+  margin: 0;
+  color: #344762;
+  font-size: 0.87rem;
+}
+
+.quoteCard span {
+  display: block;
+  margin-top: 6px;
+  color: #66758b;
+  font-size: 0.8rem;
+}
+
+.extraBody {
+  margin: 0;
+  color: #4c5e7a;
+  font-size: 0.87rem;
+  line-height: 1.65;
+}
+
+.badgeGrid {
+  display: grid;
+  gap: 8px;
+}
+
+.trustBadge {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fffdf8;
+  border: 1px solid #e8e0d3;
+  color: #344762;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.storyBox {
+  color: #344762;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.alertTitle {
+  margin: 0 0 8px;
+  color: #b45309;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.alertBody {
+  margin: 0;
+  color: #4c5e7a;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.faqItem {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.faqItem:first-of-type {
+  margin-top: 0;
+}
+
+.faqItem strong {
+  color: #0f2647;
+  font-size: 0.87rem;
+}
+
+.faqItem span {
+  color: #5b6c84;
+  font-size: 0.84rem;
+}
+
+.extraDisclaimer {
+  color: #66758b;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.faqStack {
+  display: grid;
+  gap: 10px;
+}
+
+.faqAccordionItem {
+  border: 1px solid #ebe3d7;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.faqTrigger {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  color: #0f2647;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  font: inherit;
+  font-size: 0.87rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.faqChevron {
+  color: #e0a90e;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.faqChevronOpen {
+  transform: rotate(45deg);
+}
+
+.faqAnswer {
+  padding: 0 14px 14px;
+  color: #5b6c84;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.notQualifiedBox {
+  padding: 18px 14px;
+  border: 1px solid #ead9d2;
+  border-radius: 14px;
+  background: #fff8f6;
+  text-align: center;
+}
+
+.notQualifiedTitle {
+  color: #8b3a2b;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.notQualifiedText {
+  margin-top: 8px;
+  color: #6c5d5a;
+  font-size: 0.88rem;
   line-height: 1.6;
 }
 

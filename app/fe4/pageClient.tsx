@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import styles from "./page.module.css";
+import styles from "../fe3/page.module.css";
 
 type Step =
   | "quiz"
@@ -10,9 +10,10 @@ type Step =
   | "checkingComplete"
   | "searchingAdvisors"
   | "advisorFound"
+  | "notQualified"
   | "success";
 
-const AGE_OPTIONS = ["45–54", "55–64", "65–74", "75+"] as const;
+const AGE_OPTIONS = ["45-54", "55-64", "65-74", "75+"] as const;
 const INSURANCE_OPTIONS = ["No", "Yes"] as const;
 
 const ADVISORS = [
@@ -43,6 +44,42 @@ const ADVISORS = [
     families: "1,860 families helped",
     image: "/asesora-ventas-5.png",
     status: "Available now and ready to take your call.",
+  },
+] as const;
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "The process was quick and easy. My family now has peace of mind.",
+    author: "Maria L., Texas",
+  },
+  {
+    quote: "I got approved the same day without medical exams.",
+    author: "Robert D., Florida",
+  },
+  {
+    quote: "I liked how simple it was. I spoke with an advisor in minutes.",
+    author: "Helen P., Arizona",
+  },
+  {
+    quote:
+      "The advisor explained everything clearly and helped me compare options.",
+    author: "James T., Ohio",
+  },
+] as const;
+
+const FAQS = [
+  {
+    question: "Do I need a medical exam?",
+    answer: "No. Most applicants qualify without exams.",
+  },
+  {
+    question: "How long does approval take?",
+    answer: "Most people receive options within minutes.",
+  },
+  {
+    question: "How much coverage can I get?",
+    answer: "Typically between $5,000 and $50,000 depending on age.",
   },
 ] as const;
 
@@ -147,7 +184,162 @@ function BenefitCheck() {
   );
 }
 
-export default function Fe3Client({
+function TestimonialsSlider() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % TESTIMONIALS.length);
+    }, 2800);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  const active = TESTIMONIALS[index];
+
+  return (
+    <section className={styles.extraSection}>
+      <h3 className={styles.extraTitle}>Trusted by Families Across the U.S.</h3>
+      <div className={styles.trustSlider}>
+        <Image
+          src="/trust-pilot-five-stars.png"
+          alt="TrustPilot five stars"
+          width={180}
+          height={28}
+          className={styles.trustPilotImage}
+        />
+        <div className={styles.ratingLine}>4.8/5 average rating</div>
+        <div className={styles.quoteSliderCard}>
+          <p>{`"${active.quote}"`}</p>
+          <span>{`- ${active.author}`}</span>
+        </div>
+        <div className={styles.sliderDots}>
+          {TESTIMONIALS.map((item, dotIndex) => (
+            <button
+              key={item.author}
+              type="button"
+              className={`${styles.sliderDot} ${
+                dotIndex === index ? styles.sliderDotActive : ""
+              }`}
+              onClick={() => setIndex(dotIndex)}
+              aria-label={`Show testimonial ${dotIndex + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQAccordion() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className={styles.extraSection}>
+      <h3 className={styles.extraTitle}>Frequently Asked Questions</h3>
+      <div className={styles.faqStack}>
+        {FAQS.map((faq, index) => {
+          const isOpen = openIndex === index;
+
+          return (
+            <div key={faq.question} className={styles.faqAccordionItem}>
+              <button
+                type="button"
+                className={styles.faqTrigger}
+                onClick={() => setOpenIndex(isOpen ? null : index)}
+                aria-expanded={isOpen}
+              >
+                <span>{faq.question}</span>
+                <span
+                  className={`${styles.faqChevron} ${
+                    isOpen ? styles.faqChevronOpen : ""
+                  }`}
+                >
+                  +
+                </span>
+              </button>
+              {isOpen ? <div className={styles.faqAnswer}>{faq.answer}</div> : null}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function ExtraSections() {
+  return (
+    <div className={styles.extraStack}>
+      <section className={styles.extraSection}>
+        <h3 className={styles.alertTitle}>
+          Funeral costs in the U.S. can easily exceed $9,000
+        </h3>
+        <p className={styles.alertBody}>
+          Many families are forced to use credit cards or take loans during an
+          already painful moment. Final Expense coverage helps protect your
+          loved ones from that burden.
+        </p>
+      </section>
+
+      <section className={styles.extraSection}>
+        <h3 className={styles.extraTitle}>
+          Why Thousands of Families Choose Final Expense Coverage
+        </h3>
+        <ul className={styles.benefitList}>
+          <li>Coverage starting from $1/day</li>
+          <li>No medical exam required</li>
+          <li>Approval in minutes</li>
+          <li>Fixed premiums - never increase</li>
+          <li>Helps cover funeral and final expenses</li>
+        </ul>
+      </section>
+
+      <TestimonialsSlider />
+
+      <section className={styles.extraSection}>
+        <h3 className={styles.extraTitle}>What Is Final Expense Insurance?</h3>
+        <p className={styles.extraBody}>
+          Final Expense Insurance is a small life insurance policy designed to
+          help families cover funeral costs, medical bills, and other end-of-life
+          expenses. It ensures your loved ones are financially protected without
+          burdening them with unexpected costs.
+        </p>
+      </section>
+
+      <section className={styles.extraSection}>
+        <div className={styles.badgeGrid}>
+          <div className={styles.trustBadge}>Secure &amp; encrypted</div>
+          <div className={styles.trustBadge}>Top-rated providers</div>
+          <div className={styles.trustBadge}>Licensed insurance partners</div>
+          <div className={styles.trustBadge}>Takes less than 30 seconds</div>
+        </div>
+      </section>
+
+      <FAQAccordion />
+
+      <section className={styles.extraSection}>
+        <button
+          type="button"
+          className={`${styles.primaryButton} ${styles.primaryEnabled}`}
+        >
+          See If You Qualify in 30 Seconds →
+        </button>
+      </section>
+
+      <section className={styles.extraDisclaimer}>
+        Not affiliated with any government agency.
+        <br />
+        Coverage availability varies by state and insurer.
+        <br />
+        This site is a marketing lead generation service.
+      </section>
+    </div>
+  );
+}
+
+export default function Fe4Client({
   locationLabel,
 }: {
   locationLabel: string;
@@ -158,15 +350,14 @@ export default function Fe3Client({
   const [progress, setProgress] = useState(0);
   const [countdown, setCountdown] = useState(109);
   const [advisorIndex, setAdvisorIndex] = useState(0);
-  const [advisorStatus, setAdvisorStatus] = useState("Checking live availability...");
+  const [advisorStatus, setAdvisorStatus] = useState(
+    "Checking live availability...",
+  );
 
   const selectedAdvisor = useMemo(() => ADVISORS[3], []);
 
   useEffect(() => {
-    if (step !== "checking") {
-      return;
-    }
-
+    if (step !== "checking") return;
     setProgress(18);
     const t1 = window.setTimeout(() => setProgress(44), 850);
     const t2 = window.setTimeout(() => setProgress(74), 1600);
@@ -174,7 +365,6 @@ export default function Fe3Client({
       setProgress(100);
       setStep("checkingComplete");
     }, 2400);
-
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
@@ -183,49 +373,36 @@ export default function Fe3Client({
   }, [step]);
 
   useEffect(() => {
-    if (step !== "checkingComplete") {
-      return;
-    }
-
+    if (step !== "checkingComplete") return;
     const t = window.setTimeout(() => setStep("searchingAdvisors"), 650);
-    return () => {
-      window.clearTimeout(t);
-    };
+    return () => window.clearTimeout(t);
   }, [step]);
 
   useEffect(() => {
-    if (step !== "searchingAdvisors") {
-      return;
-    }
-
+    if (step !== "searchingAdvisors") return;
     setAdvisorIndex(0);
     setProgress(18);
     setAdvisorStatus(ADVISORS[0].status);
-
     const t1 = window.setTimeout(() => {
       setAdvisorIndex(1);
       setProgress(38);
       setAdvisorStatus(ADVISORS[1].status);
     }, 1200);
-
     const t2 = window.setTimeout(() => {
       setAdvisorIndex(2);
       setProgress(58);
       setAdvisorStatus(ADVISORS[2].status);
     }, 2500);
-
     const t3 = window.setTimeout(() => {
       setAdvisorIndex(3);
       setProgress(82);
       setAdvisorStatus("Validating current call availability...");
     }, 3900);
-
     const t4 = window.setTimeout(() => {
       setProgress(100);
       setAdvisorStatus(`${ADVISORS[3].name} is available now and ready to help.`);
       setStep("advisorFound");
     }, 5000);
-
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
@@ -235,34 +412,24 @@ export default function Fe3Client({
   }, [step]);
 
   useEffect(() => {
-    if (step !== "advisorFound") {
-      return;
-    }
-
+    if (step !== "advisorFound") return;
     const t = window.setTimeout(() => setStep("success"), 700);
-    return () => {
-      window.clearTimeout(t);
-    };
+    return () => window.clearTimeout(t);
   }, [step]);
 
   useEffect(() => {
-    if (step !== "success") {
-      return;
-    }
-
+    if (step !== "success") return;
     const timer = window.setInterval(() => {
       setCountdown((current) => (current <= 1 ? 109 : current - 1));
     }, 1000);
-
-    return () => {
-      window.clearInterval(timer);
-    };
+    return () => window.clearInterval(timer);
   }, [step]);
 
   const canContinue = Boolean(age && insurance);
   const countdownLabel = `${Math.floor(countdown / 60)}:${(countdown % 60)
     .toString()
     .padStart(2, "0")}`;
+  const shouldDisqualify = age === "75+" && insurance === "Yes";
 
   return (
     <main className={styles.page}>
@@ -278,7 +445,6 @@ export default function Fe3Client({
               priority
             />
           </div>
-
           <div className={styles.secureBadge}>
             <SecureIcon />
             <span>Free &amp; Confidential</span>
@@ -291,12 +457,10 @@ export default function Fe3Client({
               Protect Your Family with{" "}
               <span className={styles.heroAccent}>Final Expense Coverage</span>
             </h1>
-
             <p className={styles.heroText}>
               2 quick questions to see if you qualify — coverage from{" "}
               <strong>$1/day</strong>. No medical exam.
             </p>
-
             <div className={styles.locationRow}>
               <PinIcon />
               <span>Offers in {locationLabel}</span>
@@ -356,7 +520,13 @@ export default function Fe3Client({
                   canContinue ? styles.primaryEnabled : ""
                 }`}
                 disabled={!canContinue}
-                onClick={() => setStep("checking")}
+                onClick={() => {
+                  if (shouldDisqualify) {
+                    setStep("notQualified");
+                    return;
+                  }
+                  setStep("checking");
+                }}
               >
                 Check My Options →
               </button>
@@ -364,6 +534,24 @@ export default function Fe3Client({
               <div className={styles.privacyNote}>
                 🔒 Your information is secure and will never be shared.
               </div>
+              <ExtraSections />
+            </>
+          ) : null}
+
+          {step === "notQualified" ? (
+            <>
+              <div className={styles.loadingState}>
+                <div className={styles.notQualifiedBox}>
+                  <div className={styles.notQualifiedTitle}>
+                    We’re Sorry, You Don’t Qualify Right Now
+                  </div>
+                  <div className={styles.notQualifiedText}>
+                    Based on the information provided, we’re unable to match you
+                    with an available final expense option at this time.
+                  </div>
+                </div>
+              </div>
+              <ExtraSections />
             </>
           ) : null}
 
@@ -423,7 +611,6 @@ export default function Fe3Client({
                     style={{ width: `${progress}%` }}
                   />
                 </div>
-
                 <div className={styles.advisorSearchCard}>
                   <Image
                     src={ADVISORS[advisorIndex].image}
@@ -444,89 +631,92 @@ export default function Fe3Client({
                     </div>
                   </div>
                 </div>
-
                 <div className={styles.advisorStatusLine}>{advisorStatus}</div>
               </div>
             </div>
           ) : null}
 
           {step === "success" ? (
-            <div className={styles.successState}>
-              <div className={styles.successPill}>
-                <CheckIcon />
-                <span>You Pre-Qualify! Great News.</span>
-              </div>
-
-              <div className={styles.successTitle}>Your Advisor Is Ready</div>
-              <div className={styles.successText}>
-                Call now for your <strong>FREE</strong> consultation — no
-                obligation.
-              </div>
-
-              <div className={styles.advisorReadyCard}>
-                <Image
-                  src={selectedAdvisor.image}
-                  alt={selectedAdvisor.name}
-                  width={66}
-                  height={66}
-                  className={styles.advisorReadyPhoto}
-                />
-                <div className={styles.advisorReadyMeta}>
-                  <div className={styles.advisorReadyName}>
-                    {selectedAdvisor.name}
-                  </div>
-                  <div className={styles.advisorReadyLine}>
-                    {selectedAdvisor.experience}
-                  </div>
-                  <div className={styles.advisorReadyLine}>
-                    {selectedAdvisor.families}
-                  </div>
+            <>
+              <div className={styles.successState}>
+                <div className={styles.successPill}>
+                  <CheckIcon />
+                  <span>You Pre-Qualify! Great News.</span>
                 </div>
-              </div>
-
-              <a href="tel:+18005551234" className={styles.callButton}>
-                <span className={styles.callIconWrap}>
-                  <span className={styles.callIconPulse} />
-                  <PhoneIcon />
-                </span>
-                <span>Call {selectedAdvisor.name} at (800) 555-1234</span>
-              </a>
-
-              <div className={styles.timerBox}>
-                <div className={styles.timerTitle}>
-                  Advisor available for: <strong>{countdownLabel}</strong>
+                <div className={styles.successTitle}>Your Advisor Is Ready</div>
+                <div className={styles.successText}>
+                  Call now for your <strong>FREE</strong> consultation — no
+                  obligation.
                 </div>
-                <div className={styles.timerBar}>
-                  <div
-                    className={styles.timerFill}
-                    style={{ width: `${(countdown / 109) * 100}%` }}
+
+                <div className={styles.advisorReadyCard}>
+                  <Image
+                    src={selectedAdvisor.image}
+                    alt={selectedAdvisor.name}
+                    width={66}
+                    height={66}
+                    className={styles.advisorReadyPhoto}
                   />
+                  <div className={styles.advisorReadyMeta}>
+                    <div className={styles.advisorReadyName}>
+                      {selectedAdvisor.name}
+                    </div>
+                    <div className={styles.advisorReadyLine}>
+                      {selectedAdvisor.experience}
+                    </div>
+                    <div className={styles.advisorReadyLine}>
+                      {selectedAdvisor.families}
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.timerHint}>
-                  Your spot may be given to the next caller.
-                </div>
-              </div>
 
-              <div className={styles.benefits}>
-                <div className={styles.benefit}>
-                  <BenefitShield />
-                  <div>Licensed Agents</div>
+                <a href="tel:+18005551234" className={styles.callButton}>
+                  <span className={styles.callIconWrap}>
+                    <span className={styles.callIconPulse} />
+                    <PhoneIcon />
+                  </span>
+                  <span>Call {selectedAdvisor.name} at (800) 555-1234</span>
+                </a>
+
+                <div className={styles.timerBox}>
+                  <div className={styles.timerTitle}>
+                    Advisor available for: <strong>{countdownLabel}</strong>
+                  </div>
+                  <div className={styles.timerBar}>
+                    <div
+                      className={styles.timerFill}
+                      style={{ width: `${(countdown / 109) * 100}%` }}
+                    />
+                  </div>
+                  <div className={styles.timerHint}>
+                    Your spot may be given to the next caller.
+                  </div>
                 </div>
-                <div className={styles.benefit}>
-                  <BenefitCheck />
-                  <div>No Obligation</div>
-                </div>
-                <div className={styles.benefit}>
-                  <PhoneIcon />
-                  <div>100% Free Call</div>
+
+                <div className={styles.benefits}>
+                  <div className={styles.benefit}>
+                    <BenefitShield />
+                    <div>Licensed Agents</div>
+                  </div>
+                  <div className={styles.benefit}>
+                    <BenefitCheck />
+                    <div>No Obligation</div>
+                  </div>
+                  <div className={styles.benefit}>
+                    <PhoneIcon />
+                    <div>100% Free Call</div>
+                  </div>
                 </div>
               </div>
-            </div>
+              <ExtraSections />
+            </>
           ) : null}
         </section>
 
         <footer className={styles.footer}>
-          <div>Not a guarantee of coverage. Eligibility subject to carrier approval.</div>
+          <div>
+            Not a guarantee of coverage. Eligibility subject to carrier approval.
+          </div>
           <div>© 2026 Quiet Legacy. All rights reserved.</div>
         </footer>
       </div>

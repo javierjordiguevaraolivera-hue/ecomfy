@@ -23,7 +23,7 @@ type Choice<T extends string = string> = {
 
 const LANDING_CONTENT = {
   heroImage: "/gy.webp",
-  avatar: "/avatarx.jpg",
+  avatar: "/asesora-ventas-8.png",
   agentName: "María",
   statusOnline: "En línea",
   typingLabel: "escribiendo",
