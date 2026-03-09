@@ -76,6 +76,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         landingKey="fe5-jf-en"
         phoneNumber="(844) 536-0401"
         phoneHref="tel:+18445360401"
+        showMobileHeaderImage={false}
       />
     </>
   );

@@ -69,11 +69,13 @@ export default function Fe5Client({
   landingKey = DEFAULT_LANDING_KEY,
   phoneNumber = DEFAULT_PHONE_NUMBER,
   phoneHref = DEFAULT_PHONE_HREF,
+  showMobileHeaderImage = true,
 }: {
   locationLabel: string;
   landingKey?: string;
   phoneNumber?: string;
   phoneHref?: string;
+  showMobileHeaderImage?: boolean;
 }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [control, setControl] = useState<ControlState>("none");
@@ -329,15 +331,17 @@ export default function Fe5Client({
   return (
     <main className={styles.page}>
       <section className={styles.chatFullscreen}>
-        <div className={styles.mobileHeaderImage}>
-          <Image
-            src="/hero-family.jpg"
-            alt="Final expense coverage"
-            width={1400}
-            height={900}
-            priority
-          />
-        </div>
+        {showMobileHeaderImage ? (
+          <div className={styles.mobileHeaderImage}>
+            <Image
+              src="/hero-family.jpg"
+              alt="Final expense coverage"
+              width={1400}
+              height={900}
+              priority
+            />
+          </div>
+        ) : null}
 
         <header className={styles.chatHeader}>
           <div className={styles.headerAvatarWrapper}>
