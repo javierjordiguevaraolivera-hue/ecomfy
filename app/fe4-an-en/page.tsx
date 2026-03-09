@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import Fe4Client from "../fe4/pageClient";
-import AntonyGtm from "../components/antony-gtm";
+import LandingGtm from "../components/antony-gtm";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -37,7 +37,7 @@ export default async function FinalExpenseLongFormPage() {
 
   return (
     <>
-      <AntonyGtm />
+      <LandingGtm />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <Fe4Client locationLabel={locationLabel} landingKey="fe4-an-en" />
     </>

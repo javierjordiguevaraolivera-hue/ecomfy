@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import AntonyGtm from "../components/antony-gtm";
+import LandingGtm from "../components/antony-gtm";
 import styles from "./page.module.css";
 import {
   trackCallCtaClick,
@@ -131,7 +131,7 @@ export default function Fe7Client({
 
   return (
     <main className={styles.page}>
-      <AntonyGtm />
+      <LandingGtm />
 
       <header className={styles.header}>
         <div className={styles.headerInner}>
