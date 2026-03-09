@@ -245,7 +245,7 @@
   margin: 0;
   color: #213184;
   font-family: var(--font-poppins), Arial, sans-serif;
-  font-size: 32px;
+  font-size: 29px;
   line-height: 1.08;
   text-align: center;
 }
@@ -639,7 +639,7 @@
   }
 
   .heroTitle {
-    font-size: 28px;
+    font-size: 26px;
   }
 
   .questionTitle {
