@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import LandingGtm from "../components/antony-gtm";
+import LandingGtmNoscript from "../components/antony-gtm";
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.css";
 import {
@@ -260,7 +260,7 @@ export default function DebtReliefUsaPage() {
 
   return (
     <main className={styles.page}>
-      <LandingGtm />
+      <LandingGtmNoscript />
       <div className={styles.topBar}>
         <ShieldIcon />
         <span>
