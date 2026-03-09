@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import Fe3AnEnClient from "../fe3/pageClient";
-import LandingGtmNoscript from "../components/antony-gtm";
+import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -37,6 +37,7 @@ export default async function FinalExpenseAdvisorMatchPage() {
 
   return (
     <>
+      <LandingGtmScripts />
       <LandingGtmNoscript />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <Fe3AnEnClient locationLabel={locationLabel} landingKey="fe3-an-en" />

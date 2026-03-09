@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Fe7Client from "../fe7/pageClient";
+import { LandingGtmScripts } from "../components/antony-gtm";
 
 const HERO_IMAGES = [
   "/hero-seniors-jhoner-ataud.png",
@@ -28,6 +29,7 @@ export default async function FinalExpenseOfferPage() {
 
   return (
     <>
+      <LandingGtmScripts />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <Fe7Client heroImage={heroImage} deadlineLabel={formatDeadline()} />
     </>

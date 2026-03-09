@@ -1,7 +1,7 @@
 import { cookies, headers } from "next/headers";
 import Fe3Client from "../fe3/pageClient";
 import Fe4Client from "../fe4/pageClient";
-import LandingGtmNoscript from "../components/antony-gtm";
+import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -47,6 +47,7 @@ export default async function FinalExpenseAbPage() {
 
   return (
     <>
+      <LandingGtmScripts />
       <LandingGtmNoscript />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       {variant === "a" ? (
