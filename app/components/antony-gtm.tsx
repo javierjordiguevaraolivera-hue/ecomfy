@@ -8,11 +8,11 @@ export default function AntonyGtm() {
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TZB6ZCK7');`}
+})(window,document,'script','dataLayer','GTM-KF64LC38');`}
       </Script>
       <noscript>
         <iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-TZB6ZCK7"
+          src="https://www.googletagmanager.com/ns.html?id=GTM-KF64LC38"
           height="0"
           width="0"
           style={{ display: "none", visibility: "hidden" }}
