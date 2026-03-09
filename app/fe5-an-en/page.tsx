@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import Fe5Client from "../fe5/pageClient";
-import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -37,8 +36,22 @@ export default async function FinalExpenseChatPage() {
 
   return (
     <>
-      <LandingGtmScripts />
-      <LandingGtmNoscript />
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-KF64LC38"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        />
+      </noscript>
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-NWSJNQMN"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        />
+      </noscript>
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <Fe5Client locationLabel={locationLabel} />
     </>

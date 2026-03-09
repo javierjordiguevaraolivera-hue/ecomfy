@@ -56,6 +56,13 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "fe4-mc-en",
   },
   {
+    href: "/fe4-fj-en",
+    title: "FE4 FJ EN",
+    description: "Long-form con social proof, FAQ y advisor flow.",
+    language: "en",
+    metricsKey: "fe4-fj-en",
+  },
+  {
     href: "/fe-an-en",
     title: "FE AN EN Split",
     description: "A/B entrypoint that shows FE3 AN EN or FE4 AN EN.",
@@ -73,6 +80,13 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     description: "Chatbot final expense flow con CTA de llamada.",
     language: "en",
     metricsKey: "fe5-an-en",
+  },
+  {
+    href: "/fe5-jf-en",
+    title: "FE5 JF EN",
+    description: "Chatbot final expense flow con CTA de llamada.",
+    language: "en",
+    metricsKey: "fe5-jf-en",
   },
   {
     href: "/fe6-an-en",

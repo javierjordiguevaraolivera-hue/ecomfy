@@ -28,9 +28,9 @@ type Choice<T extends string = string> = {
   value: T;
 };
 
-const LANDING_KEY = "fe5-an-en";
-const PHONE_NUMBER = "(855) 668-5535";
-const PHONE_HREF = "tel:+18556685535";
+const DEFAULT_LANDING_KEY = "fe5-an-en";
+const DEFAULT_PHONE_NUMBER = "(855) 668-5535";
+const DEFAULT_PHONE_HREF = "tel:+18556685535";
 
 const AGE_CHOICES = [
   { label: "45-54", value: "45-54" },
@@ -64,7 +64,17 @@ function sleep(ms: number) {
   });
 }
 
-export default function Fe5Client({ locationLabel }: { locationLabel: string }) {
+export default function Fe5Client({
+  locationLabel,
+  landingKey = DEFAULT_LANDING_KEY,
+  phoneNumber = DEFAULT_PHONE_NUMBER,
+  phoneHref = DEFAULT_PHONE_HREF,
+}: {
+  locationLabel: string;
+  landingKey?: string;
+  phoneNumber?: string;
+  phoneHref?: string;
+}) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [control, setControl] = useState<ControlState>("none");
   const [typing, setTyping] = useState(false);
@@ -85,8 +95,8 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
   ];
 
   useEffect(() => {
-    trackLandingView(LANDING_KEY);
-  }, []);
+    trackLandingView(landingKey);
+  }, [landingKey]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -172,18 +182,18 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
   useEffect(() => {
     if (control === "welcome") {
       trackMetric({
-        landing: LANDING_KEY,
+        landing: landingKey,
         event: "welcome_shown",
       });
     }
 
     if (control === "final") {
       trackMetric({
-        landing: LANDING_KEY,
+        landing: landingKey,
         event: "prequalified",
       });
     }
-  }, [control]);
+  }, [control, landingKey]);
 
   async function appendAgentBatch(items: string[]) {
     for (const [index, item] of items.entries()) {
@@ -235,9 +245,9 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
 
     busyRef.current = true;
     setControl("none");
-    trackEngagedInteraction(LANDING_KEY, "chat_start");
+    trackEngagedInteraction(landingKey, "chat_start");
     trackMetric({
-      landing: LANDING_KEY,
+      landing: landingKey,
       event: "welcome_started",
       label: "yes",
     });
@@ -262,9 +272,9 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
     busyRef.current = true;
     setControl("none");
     setAgeRange(choice.value);
-    trackEngagedInteraction(LANDING_KEY, "chat_age");
+    trackEngagedInteraction(landingKey, "chat_age");
     trackMetric({
-      landing: LANDING_KEY,
+      landing: landingKey,
       event: "age_selected",
       label: choice.value,
     });
@@ -288,9 +298,9 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
 
     busyRef.current = true;
     setControl("none");
-    trackEngagedInteraction(LANDING_KEY, "chat_insurance");
+    trackEngagedInteraction(landingKey, "chat_insurance");
     trackMetric({
-      landing: LANDING_KEY,
+      landing: landingKey,
       event: "insurance_selected",
       label: choice.value,
     });
@@ -486,17 +496,17 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
             {control === "final" ? (
               <div className={styles.ctaContainer}>
                 <a
-                  href={PHONE_HREF}
+                  href={phoneHref}
                   className={styles.ctaButton}
                   onClick={() => {
                     trackCallCtaClick({
-                      landing: LANDING_KEY,
-                      phone: PHONE_HREF,
+                      landing: landingKey,
+                      phone: phoneHref,
                       placement: "final_cta",
                       label: ageRange,
                     });
                     trackMetric({
-                      landing: LANDING_KEY,
+                      landing: landingKey,
                       event: "call_click",
                       label: ageRange,
                     });
@@ -504,7 +514,7 @@ export default function Fe5Client({ locationLabel }: { locationLabel: string }) 
                 >
                   <span className={styles.phoneDot} />
                   <span className={styles.ctaButtonText}>
-                    <span className={styles.ctaMainText}>{PHONE_NUMBER}</span>
+                    <span className={styles.ctaMainText}>{phoneNumber}</span>
                     <span className={styles.ctaSubText}>
                       Free consultation with a licensed advisor
                     </span>

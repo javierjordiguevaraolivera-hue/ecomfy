@@ -74,8 +74,33 @@ export const FUNNEL_CONFIG = {
       { event: "call_click", label: "Clicked Final Call" },
     ],
   },
+  "fe4-fj-en": {
+    title: "FE4 FJ EN",
+    language: "English",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "insurance_selected", label: "Selected Insurance" },
+      { event: "quiz_submitted", label: "Submitted Quiz" },
+      { event: "qualification_checked", label: "Passed Qualification Check" },
+      { event: "advisor_ready", label: "Reached Advisor Ready" },
+      { event: "call_click", label: "Clicked Final Call" },
+    ],
+  },
   "fe5-an-en": {
     title: "FE5 AN EN",
+    language: "English",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "welcome_started", label: "Started Chat" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "insurance_selected", label: "Selected Insurance" },
+      { event: "prequalified", label: "Reached Call Screen" },
+      { event: "call_click", label: "Clicked Final Call" },
+    ],
+  },
+  "fe5-jf-en": {
+    title: "FE5 JF EN",
     language: "English",
     steps: [
       { event: "landing_view", label: "Landing View" },

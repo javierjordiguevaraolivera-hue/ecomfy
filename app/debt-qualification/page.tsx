@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
 import { useEffect, useRef, useState } from "react";
 import styles from "../page.module.css";
 import {
@@ -343,8 +342,22 @@ export default function DebtQualificationPage() {
 
   return (
     <main className={styles.page}>
-      <LandingGtmScripts />
-      <LandingGtmNoscript />
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-KF64LC38"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        />
+      </noscript>
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-NWSJNQMN"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        />
+      </noscript>
       <section className={styles.chatFullscreen}>
         <div className={styles.mobileHeaderImage}>
           <Image
