@@ -4,7 +4,6 @@ import { LandingGtmScripts } from "../components/antony-gtm";
 
 const HERO_IMAGES = [
   "/hero-seniors-jhoner-ataud.png",
-  "/hero-seniors-jhoner-ataud3.png",
   "/hero-seniors-jhoner.jpg",
 ] as const;
 

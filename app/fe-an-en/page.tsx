@@ -44,10 +44,23 @@ export default async function FinalExpenseAbPage() {
       : cookieVariant === "a" || cookieVariant === "b"
         ? cookieVariant
         : "a";
+  const landingKey = variant === "a" ? "fe3-an-en" : "fe4-an-en";
 
   return (
     <>
       <LandingGtmScripts />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: 'landing_view',
+  landing: '${landingKey}',
+  split_route: 'fe-an-en',
+  variant: '${variant}',
+  path: '/fe-an-en'
+});`,
+        }}
+      />
       <LandingGtmNoscript />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       {variant === "a" ? (
