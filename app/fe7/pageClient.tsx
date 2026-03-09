@@ -12,10 +12,12 @@ import {
 } from "@/lib/metrics-client";
 
 type AgeRange = "50-59" | "60-69" | "70-79" | "80-85";
+type CoverageRange = "$5,000" | "$10,000" | "$15,000" | "$20,000";
 
 const LANDING_KEY = "fe7-an-en";
 const PHONE_HREF = "tel:+18556685535";
 const AGE_OPTIONS: AgeRange[] = ["50-59", "60-69", "70-79", "80-85"];
+const COVERAGE_OPTIONS: CoverageRange[] = ["$5,000", "$10,000", "$15,000", "$20,000"];
 
 const TESTIMONIALS = [
   {
@@ -61,7 +63,7 @@ function PhoneIcon() {
   );
 }
 
-function CheckIcon() {
+function CheckMark() {
   return <span className={styles.checkMark}>✓</span>;
 }
 
@@ -73,6 +75,10 @@ export default function Fe7Client({
   deadlineLabel: string;
 }) {
   const [selectedAge, setSelectedAge] = useState<AgeRange | null>(null);
+  const [selectedCoverage, setSelectedCoverage] = useState<CoverageRange | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [applicationId] = useState(() => `FE-${Math.floor(1000 + Math.random() * 9000)}`);
 
   useEffect(() => {
     trackLandingView(LANDING_KEY);
@@ -88,12 +94,33 @@ export default function Fe7Client({
     });
   }
 
+  function handleCoverageClick(option: CoverageRange) {
+    setSelectedCoverage(option);
+    setIsChecking(true);
+    trackEngagedInteraction(LANDING_KEY, "quiz_coverage");
+    trackMetric({
+      landing: LANDING_KEY,
+      event: "coverage_selected",
+      label: option,
+    });
+
+    window.setTimeout(() => {
+      setIsChecking(false);
+      setShowPopup(true);
+      trackMetric({
+        landing: LANDING_KEY,
+        event: "qualified_popup",
+        label: option,
+      });
+    }, 1600);
+  }
+
   function handleCallClick(placement: string) {
     trackCallCtaClick({
       landing: LANDING_KEY,
       phone: PHONE_HREF,
       placement,
-      label: selectedAge ?? undefined,
+      label: selectedCoverage ?? selectedAge ?? undefined,
     });
     trackMetric({
       landing: LANDING_KEY,
@@ -190,31 +217,64 @@ export default function Fe7Client({
           </section>
 
           <section className={styles.formCard}>
-            <div className={styles.stepBox}>
-              <div className={styles.stepTop}>
-                <span className={styles.stepIndex}>1</span>
-                <span className={styles.stepLabel}>Step 1 of 2</span>
-              </div>
-              <p className={styles.questionTitle}>What is your age range?</p>
-              <div className={styles.stepProgress}>
-                <div className={styles.stepProgressFill} />
-              </div>
-            </div>
-
-            <div className={styles.optionGrid}>
-              {AGE_OPTIONS.map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  className={`${styles.optionButton} ${
-                    selectedAge === option ? styles.optionButtonActive : ""
-                  }`}
-                  onClick={() => handleAgeClick(option)}
+            {selectedCoverage && !isChecking ? (
+              <div className={styles.formResult}>
+                <a
+                  href={PHONE_HREF}
+                  className={styles.formResultButton}
+                  onClick={() => handleCallClick("form_result_cta")}
                 >
-                  <span>{option.replace("-", "–")}</span>
-                </button>
-              ))}
-            </div>
+                  <span>Call now and secure your benefit</span>
+                  <strong>(855) 668-5535</strong>
+                </a>
+              </div>
+            ) : isChecking ? (
+              <div className={styles.loadingState}>
+                <div className={styles.loadingSpinner} />
+                <div className={styles.loadingText}>Checking your eligibility...</div>
+              </div>
+            ) : (
+              <>
+                <div className={styles.stepBox}>
+                  <div className={styles.stepTop}>
+                    <span className={styles.stepIndex}>{selectedAge ? "2" : "1"}</span>
+                    <span className={styles.stepLabel}>
+                      {selectedAge ? "Step 2 of 2" : "Step 1 of 2"}
+                    </span>
+                  </div>
+                  <p className={styles.questionTitle}>
+                    {selectedAge
+                      ? "How much coverage do you need?"
+                      : "What is your age range?"}
+                  </p>
+                  <div className={styles.stepProgress}>
+                    <div
+                      className={styles.stepProgressFill}
+                      style={{ width: selectedAge ? "100%" : "50%" }}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.optionGrid}>
+                  {(selectedAge ? COVERAGE_OPTIONS : AGE_OPTIONS).map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className={styles.optionButton}
+                      onClick={() => {
+                        if (selectedAge) {
+                          handleCoverageClick(option as CoverageRange);
+                        } else {
+                          handleAgeClick(option as AgeRange);
+                        }
+                      }}
+                    >
+                      <span>{option.replace("-", "–")}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </section>
 
           <a
@@ -242,7 +302,7 @@ export default function Fe7Client({
                 "Trusted by 50,000+",
               ].map((item, index) => (
                 <div key={`${item}-${index}`} className={styles.badgeItem}>
-                  <CheckIcon />
+                  <CheckMark />
                   <span>{item}</span>
                 </div>
               ))}
@@ -276,6 +336,38 @@ export default function Fe7Client({
           </section>
         </div>
       </main>
+
+      {showPopup ? (
+        <div className={styles.popupBackdrop}>
+          <div className={styles.popupCard}>
+            <button
+              type="button"
+              className={styles.popupClose}
+              onClick={() => setShowPopup(false)}
+              aria-label="Close application popup"
+            >
+              ×
+            </button>
+            <div className={styles.popupEmoji}>🎉</div>
+            <div className={styles.popupTitle}>Great News! You Pre-Qualify!</div>
+            <div className={styles.popupLead}>You may be eligible for:</div>
+            <div className={styles.popupBody}>
+              $5,000 - $50,000 in Final Expense Coverage with{" "}
+              <strong>NO medical exam required</strong>
+            </div>
+            <div className={styles.popupApplication}>Application #{applicationId}</div>
+            <div className={styles.popupTimer}>⏰ Spot reserved for 14:42 minutes</div>
+            <a
+              href={PHONE_HREF}
+              className={styles.popupButton}
+              onClick={() => handleCallClick("popup_cta")}
+            >
+              <span className={styles.popupButtonDot} />
+              <span>Call Now - It's Free</span>
+            </a>
+          </div>
+        </div>
+      ) : null}
 
       <footer className={styles.footer}>
         <div className={styles.footerInner}>

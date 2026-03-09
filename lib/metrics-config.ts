@@ -103,6 +103,8 @@ export const FUNNEL_CONFIG = {
     steps: [
       { event: "landing_view", label: "Landing View" },
       { event: "age_selected", label: "Selected Age" },
+      { event: "coverage_selected", label: "Selected Coverage" },
+      { event: "qualified_popup", label: "Opened Qualification Popup" },
       { event: "call_click", label: "Clicked Call CTA" },
     ],
   },
