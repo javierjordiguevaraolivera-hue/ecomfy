@@ -1,6 +1,7 @@
 import { cookies, headers } from "next/headers";
 import Fe3Client from "../fe3/pageClient";
 import Fe4Client from "../fe4/pageClient";
+import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
 
 function decodeGeoValue(value?: string | null) {
   if (!value) {
@@ -47,6 +48,7 @@ export default async function FinalExpenseAbPage() {
 
   return (
     <>
+      <LandingGtmScripts />
       <script
         dangerouslySetInnerHTML={{
           __html: `window.dataLayer = window.dataLayer || [];
@@ -59,22 +61,7 @@ window.dataLayer.push({
 });`,
         }}
       />
-      <noscript>
-        <iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-KF64LC38"
-          height="0"
-          width="0"
-          style={{ display: "none", visibility: "hidden" }}
-        />
-      </noscript>
-      <noscript>
-        <iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-NWSJNQMN"
-          height="0"
-          width="0"
-          style={{ display: "none", visibility: "hidden" }}
-        />
-      </noscript>
+      <LandingGtmNoscript />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       {variant === "a" ? (
         <Fe3Client locationLabel={locationLabel} landingKey="fe3-an-en" />
