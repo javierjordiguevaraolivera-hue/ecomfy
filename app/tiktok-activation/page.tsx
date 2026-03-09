@@ -11,7 +11,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
   ttq.load('D6N1LSRC77UE81ODK470');
   ttq.page();
-  ttq.track('CompleteRegistration');
+          ttq.track('Contact');
 }(window, document, 'ttq');`}
       </Script>
       <main />
