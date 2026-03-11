@@ -10,20 +10,17 @@ import {
   trackMetric,
 } from "@/lib/metrics-client";
 
-type AgeRange = "50-59" | "60-69" | "70-79" | "80-85";
 type CoverageRange = "$200,000" | "$350,000" | "$500,000" | "$950,000";
 type YesNoAnswer = "Si" | "No";
 
 const LANDING_KEY = "iul-es";
-const PHONE_HREF = "tel:+18556685535";
 const CLAIM_URL = "https://seguro.generaldeals.info/";
 const IUL_HEADLINE = "Personas en EE. UU. estan recibiendo hasta $950,000 con su Seguro IUL";
-const AGE_OPTIONS: AgeRange[] = ["50-59", "60-69", "70-79", "80-85"];
 const COVERAGE_OPTIONS: CoverageRange[] = ["$200,000", "$350,000", "$500,000", "$950,000"];
 const LOADING_STEPS = [
   "Revisando opciones en tu ubicacion",
   "Verificando fondos disponibles",
-  "Validando edad y monto solicitado",
+  "Validando monto solicitado",
   "Buscando un asesor disponible",
   "Asignando tu caso",
 ] as const;
@@ -217,8 +214,6 @@ export default function IulEsClient({
   const [selectedLocation, setSelectedLocation] = useState<YesNoAnswer | null>(null);
   const [selectedBenefit, setSelectedBenefit] = useState<YesNoAnswer | null>(null);
   const [selectedCoverage, setSelectedCoverage] = useState<CoverageRange | null>(null);
-  const [selectedAge, setSelectedAge] = useState<AgeRange | null>(null);
-  const [fullName, setFullName] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [showApprovedPopup, setShowApprovedPopup] = useState(false);
   const [applicationId] = useState(
@@ -234,7 +229,7 @@ export default function IulEsClient({
   const detectedLocation = city && state ? `${city}, ${state}` : "";
   const shouldAskLocation = false;
   const qualifyingLocation = detectedLocation || "tu area";
-  const totalSteps = 4;
+  const totalSteps = 2;
 
   let currentStep = 1;
   let currentQuestion = shouldAskLocation
@@ -242,7 +237,6 @@ export default function IulEsClient({
     : "Ya reclamaste tu beneficio IUL?";
   let optionValues: string[] = shouldAskLocation ? ["Si", "No"] : ["Si", "No"];
   let optionHandler: ((value: string) => void) | null = null;
-  let showTextInput = false;
 
   if (shouldAskLocation && selectedLocation === null) {
     currentStep = 1;
@@ -259,15 +253,9 @@ export default function IulEsClient({
     currentQuestion = "Cuanto quieres recibir?";
     optionValues = COVERAGE_OPTIONS;
     optionHandler = (value) => handleCoverageClick(value as CoverageRange);
-  } else if (selectedAge === null) {
-    currentStep = shouldAskLocation ? 4 : 3;
-    currentQuestion = "Selecciona tu rango de edad.";
-    optionValues = AGE_OPTIONS;
-    optionHandler = (value) => handleAgeClick(value as AgeRange);
   } else {
-    currentStep = shouldAskLocation ? 5 : 4;
-    currentQuestion = "Ingresa tu nombre.";
-    showTextInput = true;
+    currentStep = totalSteps;
+    currentQuestion = "Calificando...";
   }
 
   useEffect(() => {
@@ -348,24 +336,7 @@ export default function IulEsClient({
     setSelectedCoverage(option);
     trackEngagedInteraction(LANDING_KEY, "quiz_amount");
     trackMetric({ landing: LANDING_KEY, event: "coverage_selected", label: option });
-  }
-
-  function handleAgeClick(option: AgeRange) {
-    setSelectedAge(option);
-    trackEngagedInteraction(LANDING_KEY, "quiz_age");
-    trackMetric({ landing: LANDING_KEY, event: "age_selected", label: option });
-  }
-
-  function handleNameSubmit() {
-    const trimmedName = fullName.trim();
-    if (!trimmedName) {
-      return;
-    }
-
-    setFullName(trimmedName);
     setIsChecking(true);
-    trackEngagedInteraction(LANDING_KEY, "quiz_name");
-    trackMetric({ landing: LANDING_KEY, event: "name_submitted", label: trimmedName });
     trackMetric({
       landing: LANDING_KEY,
       event: "qualifying_started",
@@ -381,16 +352,6 @@ export default function IulEsClient({
         label: qualifyingLocation,
       });
     }, 6800);
-  }
-
-  function handleCallClick(placement: string) {
-    trackCallCtaClick({
-      landing: LANDING_KEY,
-      phone: PHONE_HREF,
-      placement,
-      label: (selectedCoverage ?? selectedAge ?? fullName.trim()) || undefined,
-    });
-    trackMetric({ landing: LANDING_KEY, event: "call_click", label: placement });
   }
 
   function handleClaimClick() {
@@ -510,28 +471,7 @@ export default function IulEsClient({
               </div>
             </div>
 
-            {showTextInput ? (
-              <div className={styles.nameForm}>
-                <label htmlFor="iul-name" className={styles.nameLabel}>
-                  Tu nombre
-                </label>
-                <input
-                  id="iul-name"
-                  type="text"
-                  value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
-                  className={styles.nameInput}
-                  placeholder="Escribe tu nombre"
-                />
-                <button
-                  type="button"
-                  className={styles.nameSubmit}
-                  onClick={handleNameSubmit}
-                >
-                  Continuar
-                </button>
-              </div>
-            ) : (
+            {!isChecking && !showApprovedPopup ? (
               <div className={styles.optionGrid}>
                 {optionValues.map((option) => (
                   <button
@@ -544,7 +484,7 @@ export default function IulEsClient({
                   </button>
                 ))}
               </div>
-            )}
+            ) : null}
           </section>
 
           <section className={styles.badgesCard}>
@@ -642,7 +582,7 @@ export default function IulEsClient({
             <div className={styles.popupSuccessBadge}>
               <SuccessBadgeIcon />
             </div>
-            <div className={styles.popupTitle}>Felicitaciones {fullName.trim()}</div>
+            <div className={styles.popupTitle}>Felicitaciones</div>
             <div className={styles.popupLead}>Numero de calificacion #{applicationId}</div>
             <div className={styles.popupBody}>
               Haz sido aprobado. Registrate para reclamar tu beneficio en{" "}
