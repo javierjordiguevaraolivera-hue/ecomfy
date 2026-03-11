@@ -102,4 +102,11 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     language: "en",
     metricsKey: "fe7-an-en",
   },
+  {
+    href: "/iul-es",
+    title: "IUL ES",
+    description: "Independent duplicate of FE7 for future IUL changes.",
+    language: "es",
+    metricsKey: "iul-es",
+  },
 ];
