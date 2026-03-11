@@ -440,6 +440,23 @@
     transform 0.2s ease,
     box-shadow 0.2s ease,
     background 0.2s ease;
+  overflow: hidden;
+}
+
+.ctaButtonLoading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.08) 35%,
+    rgb(255 255 255 / 0.2) 50%,
+    rgb(255 255 255 / 0.08) 65%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+  animation: portalSweep 1.8s linear infinite;
 }
 
 .ctaButtonText {
@@ -448,23 +465,33 @@
   align-items: center;
   gap: 0.2rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-.phoneDot {
+.portalSpinnerWrap {
   position: absolute;
   left: 1rem;
   top: 50%;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 0.6);
   transform: translateY(-50%);
-  animation: dotPulse 1.5s infinite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: rgb(255 255 255 / 0.9);
+  z-index: 1;
+}
+
+.portalSpinner {
+  width: 20px;
+  height: 20px;
+  animation: portalSpin 0.9s linear infinite;
 }
 
 .ctaMainText {
   font-family: var(--font-poppins), sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.04rem;
   font-weight: 700;
 }
 
@@ -595,6 +622,7 @@
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 1;
 }
 
 .claimIcon {
@@ -693,16 +721,23 @@
   }
 }
 
-@keyframes dotPulse {
-  0%,
-  100% {
-    transform: translateY(-50%) scale(1);
-    opacity: 0.6;
+@keyframes portalSpin {
+  from {
+    transform: rotate(0deg);
   }
 
-  50% {
-    transform: translateY(-50%) scale(1.3);
-    opacity: 1;
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes portalSweep {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(120%);
   }
 }
 

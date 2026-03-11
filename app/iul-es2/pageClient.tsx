@@ -81,6 +81,32 @@ function ClaimIcon() {
   );
 }
 
+function PortalSpinner() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className={styles.portalSpinner}
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="8.5"
+        stroke="currentColor"
+        strokeOpacity="0.22"
+        strokeWidth="3"
+      />
+      <path
+        d="M12 3.5a8.5 8.5 0 0 1 7.2 4"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function IulEs2Client({ locationLabel }: { locationLabel: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [control, setControl] = useState<ControlState>("none");
@@ -423,10 +449,16 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
 
             {control === "final" ? (
               <div className={styles.ctaContainer}>
-                <button type="button" className={styles.ctaButton} onClick={handleClaimClick}>
-                  <span className={styles.phoneDot} />
+                <button
+                  type="button"
+                  className={`${styles.ctaButton} ${styles.ctaButtonLoading}`}
+                  onClick={handleClaimClick}
+                >
+                  <span className={styles.portalSpinnerWrap} aria-hidden="true">
+                    <PortalSpinner />
+                  </span>
                   <span className={styles.ctaButtonText}>
-                    <span className={styles.ctaMainText}>Reclama tu beneficio</span>
+                    <span className={styles.ctaMainText}>Estamos abriendo el portal</span>
                     <span className={styles.ctaSubText}>
                       Abre tu portal de aplicacion
                     </span>
