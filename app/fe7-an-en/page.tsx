@@ -18,6 +18,18 @@ function formatDeadline() {
   }).format(tomorrow);
 }
 
+function decodeHeaderValue(value: string | null) {
+  if (!value) {
+    return "";
+  }
+
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 export default async function FinalExpenseOfferPage() {
   const requestHeaders = await headers();
   const heroVariant = Number.parseInt(
@@ -25,13 +37,20 @@ export default async function FinalExpenseOfferPage() {
     10,
   );
   const heroImage = HERO_IMAGES[heroVariant] ?? HERO_IMAGES[0];
+  const city = decodeHeaderValue(requestHeaders.get("x-vercel-ip-city"));
+  const state = decodeHeaderValue(requestHeaders.get("x-vercel-ip-country-region"));
 
   return (
     <>
       <LandingGtmScripts />
       <LandingGtmNoscript />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
-      <Fe7Client heroImage={heroImage} deadlineLabel={formatDeadline()} />
+      <Fe7Client
+        heroImage={heroImage}
+        deadlineLabel={formatDeadline()}
+        city={city}
+        state={state}
+      />
     </>
   );
 }

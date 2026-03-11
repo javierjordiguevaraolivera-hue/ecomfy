@@ -165,65 +165,52 @@
 .content {
   width: min(100%, 768px);
   margin: 0 auto;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 0.08);
 }
 
 .alertCard {
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  margin-bottom: 8px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #fff;
+  padding: 14px 16px 10px;
+  background: transparent;
 }
 
-.alertLabel {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex: 0 0 auto;
-  padding: 0 12px;
-  background: #ef2222;
-  color: #fff;
-  font-size: 12px;
+.alertHeadlineFixed {
+  color: #213184;
+  font-family: var(--font-lato), Arial, sans-serif;
+  font-size: 22px;
   font-weight: 700;
-  text-transform: uppercase;
-  white-space: nowrap;
+  line-height: 1.05;
+  text-align: center;
 }
 
-.alertDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #fff;
-  animation: dotPulse 1.5s infinite;
+.alertHeadline {
+  font-size: 0;
+  line-height: 0;
 }
 
-.alertText {
-  padding: 10px 12px;
-  color: #111827;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
-.alertText b {
-  color: #ef2222;
+.alertAmount {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
 }
 
 .heroCard,
 .formCard,
 .badgesCard,
 .testimonialsSection {
-  margin-bottom: 8px;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 10px 24px rgb(15 23 42 / 0.08);
+  margin-bottom: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border-top: 1px solid #edf0f5;
 }
 
 .heroCard {
   overflow: hidden;
   padding: 16px;
+  border-top: none;
 }
 
 .heroImageWrap {
@@ -241,12 +228,7 @@
 }
 
 .heroTitle {
-  margin: 0;
-  color: #213184;
-  font-family: var(--font-poppins), Arial, sans-serif;
-  font-size: 25px;
-  line-height: 1.06;
-  text-align: center;
+  display: none;
 }
 
 .heroDeadline {
@@ -262,8 +244,135 @@
   font-weight: 700;
 }
 
+.urgencyCard {
+  margin-top: 4px;
+  padding: 12px 14px;
+  border: 1px solid #ebeef4;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.urgencyTicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.urgencyTickerIn {
+  animation: urgencyIn 0.42s ease-out both;
+}
+
+.urgencyTickerOut {
+  animation: urgencyOut 0.34s ease-in both;
+}
+
+.urgencyMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.urgencyCopy {
+  min-width: 0;
+}
+
+.urgencyHeadline {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.urgencySubline {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.urgencyAmountApproved {
+  color: #16a34a;
+}
+
+.urgencyAmountRejected {
+  color: #ef2222;
+}
+
+.urgencyMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.urgencyStatusText {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.feedStatusApproved,
+.feedStatusRejected {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+}
+
+.feedStatusApproved {
+  color: #16a34a;
+}
+
+.feedStatusRejected {
+  color: #ef4444;
+}
+
+@keyframes urgencyIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes urgencyOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+.feedTimeIcon {
+  width: 14px;
+  height: 14px;
+}
+
 .formCard {
   padding: 16px;
+  margin: 8px 12px 12px;
+  border: 2px solid #efe3ff;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+  box-shadow:
+    0 24px 50px rgb(124 53 227 / 0.14),
+    0 10px 22px rgb(15 23 42 / 0.08),
+    0 0 0 1px rgb(255 255 255 / 0.9) inset;
 }
 
 .stepBox {
@@ -376,6 +485,61 @@
   transform: translateX(0);
 }
 
+.nameForm {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #ece7f8;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #faf7ff 0%, #ffffff 100%);
+}
+
+.nameLabel {
+  color: #4b5563;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.nameInput {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+
+.nameInput:focus {
+  border-color: #8c2cd8;
+  box-shadow: 0 0 0 4px rgb(140 44 216 / 0.12);
+}
+
+.nameInput::placeholder {
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.nameSubmit {
+  min-height: 50px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ef2222 0%, #8c2cd8 100%);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgb(140 44 216 / 0.18);
+}
+
 .loadingState {
   display: grid;
   place-items: center;
@@ -425,55 +589,10 @@
   font-weight: 800;
 }
 
-.cta {
-  position: relative;
-  display: block;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px 20px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ef2222 0%, #8c2cd8 100%);
-  color: #fff;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 12px 24px rgb(15 23 42 / 0.14);
-  overflow: hidden;
-}
-
-.ctaPulse {
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.4);
-  transform: translateY(-50%);
-  animation: pulse 1.8s infinite;
-}
-
-.ctaCopy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ctaTitle {
-  font-family: var(--font-poppins), Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.ctaSubtitle {
-  margin-top: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  opacity: 0.9;
-}
-
 .badgesCard {
   overflow: hidden;
   padding: 12px 0;
+  border-top: none;
 }
 
 .badgesTrack {
@@ -595,6 +714,14 @@
   text-align: center;
 }
 
+.qualifyingPopup {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+
 .popupClose {
   position: absolute;
   top: 12px;
@@ -611,6 +738,17 @@
 
 .popupEmoji {
   font-size: 34px;
+}
+
+.popupSuccessBadge {
+  display: grid;
+  place-items: center;
+}
+
+.successBadgeIcon {
+  width: 52px;
+  height: 52px;
+  color: #16a34a;
 }
 
 .popupTitle {
@@ -670,6 +808,17 @@
   font-size: 16px;
   font-weight: 800;
   overflow: hidden;
+}
+
+.popupButtonLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popupButtonLabel .phoneIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .popupButtonDot {

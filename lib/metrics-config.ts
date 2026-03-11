@@ -127,8 +127,12 @@ export const FUNNEL_CONFIG = {
     language: "English",
     steps: [
       { event: "landing_view", label: "Landing View" },
+      { event: "location_selected", label: "Confirmed Location" },
+      { event: "benefit_selected", label: "Selected Benefit Status" },
+      { event: "coverage_selected", label: "Selected Amount" },
       { event: "age_selected", label: "Selected Age" },
-      { event: "coverage_selected", label: "Selected Coverage" },
+      { event: "name_submitted", label: "Submitted Name" },
+      { event: "qualifying_started", label: "Started Qualifying" },
       { event: "qualified_popup", label: "Opened Qualification Popup" },
       { event: "call_click", label: "Clicked Call CTA" },
     ],

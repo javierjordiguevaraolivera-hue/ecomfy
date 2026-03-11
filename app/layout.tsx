@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Poppins } from "next/font/google";
+import { DM_Sans, Lato, Poppins } from "next/font/google";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -11,6 +11,12 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "700"],
+});
+
+const lato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: ["700"],
 });
 
 export const metadata: Metadata = {
@@ -30,7 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${dmSans.variable} ${poppins.variable}`}>{children}</body>
+      <body className={`${dmSans.variable} ${poppins.variable} ${lato.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
