@@ -668,7 +668,7 @@ export default function IulEsClient({
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <Image
-            src="/iul-life-logo.png"
+            src="/logo-iul-negativo.png"
             alt="IUL Life"
             width={180}
             height={54}
