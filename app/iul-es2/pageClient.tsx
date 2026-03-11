@@ -28,7 +28,7 @@ type Choice<T extends string = string> = {
 };
 
 const LANDING_KEY = "iul-es2";
-const CLAIM_URL = "https://www.quotify.us/";
+const CLAIM_URL = "https://seguro.generaldeals.info/";
 const MESSAGE_DELAY_MS = 1100;
 const BETWEEN_MESSAGES_MS = 500;
 
@@ -95,7 +95,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
   const busyRef = useRef(false);
 
   const introMessages = [
-    "Hola, soy <span class='msg-bold'>Megan</span> del equipo de <span class='msg-highlight'>IUL Life</span>.",
+    "Hola, soy <span class='msg-bold'>Sofia</span> del equipo de <span class='msg-highlight'>IUL Life</span>.",
     `Encontramos opciones de <span class='msg-highlight'>Seguro IUL</span> disponibles en <span class='msg-bold'>${locationLabel}</span>.`,
   ];
 
@@ -304,7 +304,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
           <div className={styles.headerAvatarWrapper}>
             <Image
               src="/asesora-ventas-5.png"
-              alt="Megan"
+              alt="Sofia"
               width={38}
               height={38}
               className={styles.headerAvatar}
@@ -313,7 +313,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
           </div>
 
           <div className={styles.headerInfo}>
-            <div className={styles.headerName}>Megan</div>
+            <div className={styles.headerName}>Sofia</div>
             <div className={styles.headerStatus}>
               {!typing ? (
                 <span className={styles.statusText}>
@@ -356,7 +356,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
                   message.showAvatar ? (
                     <Image
                       src="/asesora-ventas-5.png"
-                      alt="Megan"
+                      alt="Sofia"
                       width={36}
                       height={36}
                       className={styles.avatar}
@@ -380,7 +380,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
               <article className={`${styles.chatMessage} ${styles.agent}`}>
                 <Image
                   src="/asesora-ventas-5.png"
-                  alt="Megan"
+                  alt="Sofia"
                   width={36}
                   height={36}
                   className={styles.avatar}
@@ -438,7 +438,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
                   <span className={styles.ctaButtonText}>
                     <span className={styles.ctaMainText}>Reclama tu beneficio</span>
                     <span className={styles.ctaSubText}>
-                      Completa tu solicitud en Quotify
+                      Abre tu portal de aplicacion
                     </span>
                   </span>
                   <span className={styles.claimIconWrap} aria-hidden="true">

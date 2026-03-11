@@ -16,7 +16,7 @@ type YesNoAnswer = "Si" | "No";
 
 const LANDING_KEY = "iul-es";
 const PHONE_HREF = "tel:+18556685535";
-const CLAIM_URL = "https://www.quotify.us/";
+const CLAIM_URL = "https://seguro.generaldeals.info/";
 const IUL_HEADLINE = "Personas en EE. UU. estan recibiendo hasta $950,000 con su Seguro IUL";
 const AGE_OPTIONS: AgeRange[] = ["50-59", "60-69", "70-79", "80-85"];
 const COVERAGE_OPTIONS: CoverageRange[] = ["$200,000", "$350,000", "$500,000", "$950,000"];
