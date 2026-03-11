@@ -149,7 +149,7 @@ export const FUNNEL_CONFIG = {
       { event: "name_submitted", label: "Submitted Name" },
       { event: "qualifying_started", label: "Started Qualifying" },
       { event: "qualified_popup", label: "Opened Qualification Popup" },
-      { event: "call_click", label: "Clicked Call CTA" },
+      { event: "claim_click", label: "Clicked Claim CTA" },
     ],
   },
 } as const;

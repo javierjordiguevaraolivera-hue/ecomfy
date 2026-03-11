@@ -1,8 +1,5 @@
-import { headers } from "next/headers";
 import IulEsClient from "./pageClient";
 import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
-
-const HERO_IMAGES = ["/hero-seniors-jhoner-ataud.png", "/hero-seniors-jhoner.jpg"] as const;
 
 function formatDeadline() {
   const tomorrow = new Date();
@@ -28,9 +25,7 @@ function decodeHeaderValue(value: string | null) {
 }
 
 export default async function IulEsPage() {
-  const requestHeaders = await headers();
-  const heroVariant = Number.parseInt(requestHeaders.get("x-iul-hero-variant") ?? "0", 10);
-  const heroImage = HERO_IMAGES[heroVariant] ?? HERO_IMAGES[0];
+  const requestHeaders = await import("next/headers").then((mod) => mod.headers());
   const city = decodeHeaderValue(requestHeaders.get("x-vercel-ip-city"));
   const state = decodeHeaderValue(requestHeaders.get("x-vercel-ip-country-region"));
 
@@ -40,7 +35,7 @@ export default async function IulEsPage() {
       <LandingGtmNoscript />
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <IulEsClient
-        heroImage={heroImage}
+        heroImage="/marta-cheque.png"
         deadlineLabel={formatDeadline()}
         city={city}
         state={state}

@@ -19,7 +19,7 @@
 .headerInner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
   width: min(100%, 768px);
   margin: 0 auto;
@@ -720,6 +720,50 @@
   gap: 12px;
   padding-top: 26px;
   padding-bottom: 26px;
+}
+
+.loadingSteps {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+  text-align: left;
+}
+
+.loadingStep {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.72;
+  transition: all 0.2s ease;
+}
+
+.loadingStepActive {
+  background: #f2eafe;
+  color: #7c35e3;
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.loadingStepDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: 0 0 8px;
+}
+
+.loadingStepCheckIcon {
+  width: 14px;
+  height: 14px;
+  color: #16a34a;
+  flex: 0 0 14px;
 }
 
 .popupClose {
