@@ -854,10 +854,28 @@
   overflow: hidden;
 }
 
+.popupButtonLoading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.08) 35%,
+    rgb(255 255 255 / 0.2) 50%,
+    rgb(255 255 255 / 0.08) 65%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+  animation: portalSweep 1.8s linear infinite;
+}
+
 .popupButtonLabel {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  position: relative;
+  z-index: 1;
 }
 
 .popupButtonLabel .phoneIcon {
@@ -865,14 +883,22 @@
   height: 16px;
 }
 
-.popupButtonDot {
+.portalSpinnerWrap {
   position: absolute;
   left: 14px;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.35);
-  animation: popupPulse 1.8s infinite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: rgb(255 255 255 / 0.92);
+  z-index: 1;
+}
+
+.portalSpinner {
+  width: 18px;
+  height: 18px;
+  animation: loadingSpin 0.9s linear infinite;
 }
 
 .footer {
@@ -979,16 +1005,13 @@
   }
 }
 
-@keyframes popupPulse {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgb(255 255 255 / 0.35);
+@keyframes portalSweep {
+  from {
+    transform: translateX(-120%);
   }
 
-  50% {
-    transform: scale(1.2);
-    box-shadow: 0 0 0 10px rgb(255 255 255 / 0);
+  to {
+    transform: translateX(120%);
   }
 }
 

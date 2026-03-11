@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import {
-  trackCallCtaClick,
   trackEngagedInteraction,
   trackLandingView,
   trackMetric,
@@ -101,6 +100,32 @@ function ClaimIcon() {
       <path d="M14 3v5h5" />
       <path d="M9 13h6" />
       <path d="M9 17h4" />
+    </svg>
+  );
+}
+
+function PortalSpinner() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className={styles.portalSpinner}
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="8.5"
+        stroke="currentColor"
+        strokeOpacity="0.22"
+        strokeWidth="3"
+      />
+      <path
+        d="M12 3.5a8.5 8.5 0 0 1 7.2 4"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -591,13 +616,15 @@ export default function IulEsClient({
             <div className={styles.popupTimer}>Tu lugar esta reservado por {countdownLabel}</div>
             <a
               href={CLAIM_URL}
-              className={styles.popupButton}
+              className={`${styles.popupButton} ${styles.popupButtonLoading}`}
               onClick={handleClaimClick}
             >
-              <span className={styles.popupButtonDot} />
+              <span className={styles.portalSpinnerWrap} aria-hidden="true">
+                <PortalSpinner />
+              </span>
               <span className={styles.popupButtonLabel}>
                 <ClaimIcon />
-                <span>Reclamar Beneficio</span>
+                <span>Estamos abriendo el portal</span>
               </span>
             </a>
           </div>
