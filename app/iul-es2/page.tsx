@@ -39,9 +39,17 @@ export default async function IulEs2Page() {
     <>
       <LandingGtmScripts />
       <LandingGtmNoscript />
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src="https://www.facebook.com/tr?id=980723860687387&ev=PageView&noscript=1"
+          alt=""
+        />
+      </noscript>
       <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
       <IulEs2Client locationLabel={locationLabel} />
     </>
   );
 }
-
