@@ -290,16 +290,6 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
   return (
     <main className={styles.page}>
       <section className={styles.chatFullscreen}>
-        <div className={styles.mobileHeaderImage}>
-          <Image
-            src="/marta-cheque.png"
-            alt="Beneficio IUL"
-            width={1400}
-            height={900}
-            priority
-          />
-        </div>
-
         <header className={styles.chatHeader}>
           <div className={styles.headerAvatarWrapper}>
             <Image
