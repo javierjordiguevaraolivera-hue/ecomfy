@@ -152,4 +152,16 @@ export const FUNNEL_CONFIG = {
       { event: "claim_click", label: "Clicked Claim CTA" },
     ],
   },
+  "iul-es2": {
+    title: "IUL ES2",
+    language: "Espanol",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "benefit_selected", label: "Selected Benefit Status" },
+      { event: "coverage_selected", label: "Selected Amount" },
+      { event: "age_selected", label: "Selected Age" },
+      { event: "name_submitted", label: "Submitted Name" },
+      { event: "claim_click", label: "Clicked Claim CTA" },
+    ],
+  },
 } as const;

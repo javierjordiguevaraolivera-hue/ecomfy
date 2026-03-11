@@ -109,4 +109,11 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     language: "es",
     metricsKey: "iul-es",
   },
+  {
+    href: "/iul-es2",
+    title: "IUL ES2",
+    description: "Chat IUL en espanol con flujo corto y CTA de reclamo.",
+    language: "es",
+    metricsKey: "iul-es2",
+  },
 ];
