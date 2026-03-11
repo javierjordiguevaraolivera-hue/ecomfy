@@ -10,8 +10,7 @@ import {
 } from "@/lib/metrics-client";
 
 type Sender = "agent" | "user";
-type ControlState = "none" | "benefit" | "coverage" | "age" | "name" | "final";
-type AgeRange = "50-59" | "60-69" | "70-79" | "80-85";
+type ControlState = "none" | "benefit" | "coverage" | "final";
 type BenefitValue = "si" | "no";
 type CoverageValue = "$200,000" | "$350,000" | "$500,000" | "$950,000";
 
@@ -44,13 +43,6 @@ const COVERAGE_CHOICES = [
   { label: "$500,000", value: "$500,000" },
   { label: "$950,000", value: "$950,000" },
 ] satisfies Choice<CoverageValue>[];
-
-const AGE_CHOICES = [
-  { label: "50-59", value: "50-59" },
-  { label: "60-69", value: "60-69" },
-  { label: "70-79", value: "70-79" },
-  { label: "80-85", value: "80-85" },
-] satisfies Choice<AgeRange>[];
 
 function getTimeString() {
   const now = new Date();
@@ -94,10 +86,8 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
   const [control, setControl] = useState<ControlState>("none");
   const [typing, setTyping] = useState(false);
   const [deadlineDate, setDeadlineDate] = useState("");
-  const [redirectCountdown, setRedirectCountdown] = useState(4);
+  const [redirectCountdown, setRedirectCountdown] = useState(2);
   const [footerVisible, setFooterVisible] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [ageRange, setAgeRange] = useState<AgeRange>("60-69");
   const [coverageValue, setCoverageValue] = useState<CoverageValue>("$350,000");
   const chatBodyRef = useRef<HTMLDivElement | null>(null);
   const isMountedRef = useRef(false);
@@ -187,14 +177,14 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
       return;
     }
 
-    setRedirectCountdown(4);
+    setRedirectCountdown(2);
     const countdownTimer = window.setInterval(() => {
       setRedirectCountdown((current) => (current <= 1 ? 0 : current - 1));
     }, 1000);
 
     const redirectTimer = window.setTimeout(() => {
       window.location.href = CLAIM_URL;
-    }, 4000);
+    }, 2000);
 
     return () => {
       window.clearInterval(countdownTimer);
@@ -275,52 +265,9 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
     trackEngagedInteraction(LANDING_KEY, "chat_amount");
     trackMetric({ landing: LANDING_KEY, event: "coverage_selected", label: choice.value });
     await appendUserMessage(choice.label);
-    await appendAgentBatch(["Ahora una mas.", "Selecciona tu rango de edad."]);
-
-    if (isMountedRef.current) {
-      setControl("age");
-    }
-
-    busyRef.current = false;
-  }
-
-  async function handleAgeChoice(choice: Choice<AgeRange>) {
-    if (busyRef.current) {
-      return;
-    }
-
-    busyRef.current = true;
-    setControl("none");
-    setAgeRange(choice.value);
-    trackEngagedInteraction(LANDING_KEY, "chat_age");
-    trackMetric({ landing: LANDING_KEY, event: "age_selected", label: choice.value });
-    await appendUserMessage(choice.label);
-    await appendAgentBatch(["Ultimo paso.", "Ingresa tu nombre."]);
-
-    if (isMountedRef.current) {
-      setControl("name");
-    }
-
-    busyRef.current = false;
-  }
-
-  async function handleNameSubmit() {
-    const trimmedName = fullName.trim();
-    if (!trimmedName || busyRef.current) {
-      return;
-    }
-
-    busyRef.current = true;
-    setControl("none");
-    trackEngagedInteraction(LANDING_KEY, "chat_name");
-    trackMetric({ landing: LANDING_KEY, event: "name_submitted", label: trimmedName });
-    await appendUserMessage(trimmedName);
     await appendAgentBatch([
-      "Perfecto.",
-      `Estamos calificando tu caso para opciones IUL en <span class='msg-bold'>${locationLabel}</span>.`,
-      `Felicitaciones <span class='msg-highlight'>${trimmedName}</span>. Tu solicitud fue aprobada.`,
-      "Tu numero de calificacion es <span class='msg-bold'>#IUL09028Y3</span>.",
-      "Pulsa el boton para reclamar tu beneficio ahora.",
+      "Ultimo paso: <span class='msg-highlight'>reclama tu beneficio</span>.",
+      "Abriendo portal de aplicacion.",
     ]);
 
     if (isMountedRef.current) {
@@ -335,7 +282,7 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
     trackMetric({
       landing: LANDING_KEY,
       event: "claim_click",
-      label: `${coverageValue}-${ageRange}`,
+      label: coverageValue,
     });
     window.location.href = CLAIM_URL;
   }
@@ -484,54 +431,12 @@ export default function IulEs2Client({ locationLabel }: { locationLabel: string 
               </div>
             ) : null}
 
-            {control === "age" ? (
-              <div className={styles.responseButtons}>
-                {AGE_CHOICES.map((choice) => (
-                  <button
-                    key={choice.value}
-                    type="button"
-                    className={styles.responseButton}
-                    onClick={() => {
-                      void handleAgeChoice(choice);
-                    }}
-                  >
-                    {choice.label}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
-            {control === "name" ? (
-              <div className={styles.nameFormCard}>
-                <label htmlFor="iul-es2-name" className={styles.nameLabel}>
-                  Tu nombre
-                </label>
-                <input
-                  id="iul-es2-name"
-                  type="text"
-                  value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
-                  className={styles.nameInput}
-                  placeholder="Escribe tu nombre"
-                />
-                <button
-                  type="button"
-                  className={`${styles.baseButton} ${styles.nameSubmitButton}`}
-                  onClick={() => {
-                    void handleNameSubmit();
-                  }}
-                >
-                  Continuar
-                </button>
-              </div>
-            ) : null}
-
             {control === "final" ? (
               <div className={styles.ctaContainer}>
                 <button type="button" className={styles.ctaButton} onClick={handleClaimClick}>
                   <span className={styles.phoneDot} />
                   <span className={styles.ctaButtonText}>
-                    <span className={styles.ctaMainText}>Reclamar Beneficio</span>
+                    <span className={styles.ctaMainText}>Reclama tu beneficio</span>
                     <span className={styles.ctaSubText}>
                       Completa tu solicitud en Quotify
                     </span>
