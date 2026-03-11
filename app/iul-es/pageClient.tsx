@@ -232,10 +232,9 @@ export default function IulEsClient({
 
   const urgencyItem = URGENCY_FEED[urgencyIndex] ?? URGENCY_FEED[0];
   const detectedLocation = city && state ? `${city}, ${state}` : "";
-  const shouldAskLocation = Boolean(detectedLocation);
-  const qualifyingLocation =
-    shouldAskLocation && selectedLocation !== "No" ? detectedLocation : "tu area";
-  const totalSteps = shouldAskLocation ? 5 : 4;
+  const shouldAskLocation = false;
+  const qualifyingLocation = detectedLocation || "tu area";
+  const totalSteps = 4;
 
   let currentStep = 1;
   let currentQuestion = shouldAskLocation
