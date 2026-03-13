@@ -417,7 +417,7 @@ export default function IulEs600kClient({
         <div className={styles.content}>
           <div className={styles.alertCard}>
             <div className={styles.alertHeadlineFixed}>
-              Personas en EE. UU. estan recibiendo hasta{" "}
+              Familias en EE. UU. estan recibiendo hasta{" "}
               <span className={styles.alertAmount}>$600,000</span> con su Seguro IUL
             </div>
             <div className={styles.alertHeadline} data-headline={IUL_HEADLINE}>
@@ -659,6 +659,7 @@ export default function IulEs600kClient({
     </main>
   );
 }
+
 
 
 
