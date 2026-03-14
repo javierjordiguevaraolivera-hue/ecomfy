@@ -13,6 +13,8 @@ const IUL_JD_HERO_COOKIE_NAME = "iul_jd_hero_variant";
 const IUL_JD_HERO_HEADER_NAME = "x-iul-jd-hero-variant";
 const IUL_PZ_HERO_COOKIE_NAME = "iul_pz_hero_variant";
 const IUL_PZ_HERO_HEADER_NAME = "x-iul-pz-hero-variant";
+const IUL_PZ2_HERO_COOKIE_NAME = "iul_pz2_hero_variant";
+const IUL_PZ2_HERO_HEADER_NAME = "x-iul-pz2-hero-variant";
 const FE7_HERO_VARIANTS = ["0", "1", "2"] as const;
 
 export function proxy(request: NextRequest) {
@@ -22,7 +24,8 @@ export function proxy(request: NextRequest) {
     request.nextUrl.pathname !== "/iul-es" &&
     request.nextUrl.pathname !== "/iul-es-600k" &&
     request.nextUrl.pathname !== "/iul-es-jd" &&
-    request.nextUrl.pathname !== "/iul-es-pz"
+    request.nextUrl.pathname !== "/iul-es-pz" &&
+    request.nextUrl.pathname !== "/iul-es-pz2"
   ) {
     return NextResponse.next();
   }
@@ -147,6 +150,25 @@ export function proxy(request: NextRequest) {
       });
     }
   }
+
+  if (request.nextUrl.pathname === "/iul-es-pz2") {
+    const existingHeroVariant = request.cookies.get(IUL_PZ2_HERO_COOKIE_NAME)?.value;
+    const heroVariant: string = FE7_HERO_VARIANTS.includes(
+      existingHeroVariant as (typeof FE7_HERO_VARIANTS)[number],
+    )
+      ? (existingHeroVariant as string)
+      : FE7_HERO_VARIANTS[Math.floor(Math.random() * FE7_HERO_VARIANTS.length)] ??
+        FE7_HERO_VARIANTS[0];
+
+    requestHeaders.set(IUL_PZ2_HERO_HEADER_NAME, heroVariant);
+
+    if (existingHeroVariant !== heroVariant) {
+      responseCookies.push({
+        name: IUL_PZ2_HERO_COOKIE_NAME,
+        value: heroVariant,
+      });
+    }
+  }
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,
@@ -167,6 +189,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/fe-an-en", "/fe7-an-en", "/iul-es", "/iul-es-600k", "/iul-es-jd", "/iul-es-pz"],
+  matcher: ["/fe-an-en", "/fe7-an-en", "/iul-es", "/iul-es-600k", "/iul-es-jd", "/iul-es-pz", "/iul-es-pz2"],
 };
+
 

@@ -129,6 +129,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     language: "es",
     metricsKey: "iul-es-pz",
   },  {
+    href: "/iul-es-pz2",
+    title: "IUL ES PZ2",
+    description: "IUL ES 600K style layout with the viral influencer angle from IUL ES PZ.",
+    language: "es",
+    metricsKey: "iul-es-pz2",
+  },  {
     href: "/iul-es2",
     title: "IUL ES2",
     description: "Chat IUL en espanol con flujo corto y CTA de reclamo.",
@@ -136,6 +142,7 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es2",
   },
 ];
+
 
 
 

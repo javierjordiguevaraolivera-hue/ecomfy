@@ -188,6 +188,18 @@ export const FUNNEL_CONFIG = {
       { event: "qualified_popup", label: "Opened Qualification Popup" },
       { event: "claim_click", label: "Clicked Claim CTA" },
     ],
+  },  "iul-es-pz2": {
+    title: "IUL ES PZ2",
+    language: "Espanol",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "location_selected", label: "Confirmed Location" },
+      { event: "benefit_selected", label: "Selected Benefit Status" },
+      { event: "coverage_selected", label: "Selected Amount" },
+      { event: "qualifying_started", label: "Started Qualifying" },
+      { event: "qualified_popup", label: "Opened Qualification Popup" },
+      { event: "claim_click", label: "Clicked Claim CTA" },
+    ],
   },  "iul-es2": {
     title: "IUL ES2",
     language: "Espanol",
@@ -199,6 +211,7 @@ export const FUNNEL_CONFIG = {
     ],
   },
 } as const;
+
 
 
 
