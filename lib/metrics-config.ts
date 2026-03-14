@@ -189,6 +189,19 @@
       { event: "claim_click", label: "Clicked Claim CTA" },
     ],
   },
+  "iul-es-jd-an3": {
+    title: "IUL ES JD AN3",
+    language: "Espanol",
+    steps: [
+      { event: "landing_view", label: "Landing View" },
+      { event: "location_selected", label: "Confirmed Location" },
+      { event: "benefit_selected", label: "Selected Benefit Status" },
+      { event: "coverage_selected", label: "Selected Amount" },
+      { event: "qualifying_started", label: "Started Qualifying" },
+      { event: "qualified_popup", label: "Opened Qualification Popup" },
+      { event: "claim_click", label: "Clicked Claim CTA" },
+    ],
+  },
   "iul-es-pz": {
     title: "IUL ES PZ",
     language: "Espanol",
@@ -224,6 +237,7 @@
     ],
   },
 } as const;
+
 
 
 

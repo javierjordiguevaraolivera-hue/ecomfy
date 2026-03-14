@@ -129,6 +129,13 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     description: "Independent duplicate of IUL ES JD with isolated assets, styles and metrics.",
     language: "es",
     metricsKey: "iul-es-jd-an",
+  },
+  {
+    href: "/iul-es-jd-an3",
+    title: "IUL ES JD AN3",
+    description: "Independent duplicate of IUL ES JD AN with isolated assets, styles and metrics.",
+    language: "es",
+    metricsKey: "iul-es-jd-an3",
   },  {
     href: "/iul-es-pz",
     title: "IUL ES PZ",
@@ -149,6 +156,7 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es2",
   },
 ];
+
 
 
 
