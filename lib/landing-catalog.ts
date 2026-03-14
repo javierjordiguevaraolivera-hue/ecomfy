@@ -117,6 +117,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es-600k",
   },
   {
+    href: "/iul-es-jd",
+    title: "IUL ES JD",
+    description: "Independent copy of IUL ES 600K with isolated assets and metrics.",
+    language: "es",
+    metricsKey: "iul-es-jd",
+  },  {
     href: "/iul-es2",
     title: "IUL ES2",
     description: "Chat IUL en espanol con flujo corto y CTA de reclamo.",
@@ -124,4 +130,6 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es2",
   },
 ];
+
+
 
