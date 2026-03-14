@@ -131,24 +131,55 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es-jd-an",
   },
   {
+    href: "/iul-es-rc-an",
+    title: "IUL ES RC AN",
+    description: "Independent duplicate of IUL ES JD AN with isolated assets, styles and metrics.",
+    language: "es",
+    metricsKey: "iul-es-rc-an",
+  },
+  {
+    href: "/iul-es-rc-an2",
+    title: "IUL ES RC AN2",
+    description: "Independent duplicate of IUL ES RC AN with isolated assets, styles and metrics.",
+    language: "es",
+    metricsKey: "iul-es-rc-an2",
+  },
+  {
+    href: "/iul-es-jd-an2",
+    title: "IUL ES JD AN2",
+    description: "Independent duplicate of IUL ES JD AN with isolated assets, styles and metrics.",
+    language: "es",
+    metricsKey: "iul-es-jd-an2",
+  },
+  {
     href: "/iul-es-jd-an3",
     title: "IUL ES JD AN3",
     description: "Independent duplicate of IUL ES JD AN with isolated assets, styles and metrics.",
     language: "es",
     metricsKey: "iul-es-jd-an3",
-  },  {
+  },
+  {
+    href: "/iul-es-jd-an4",
+    title: "IUL ES JD AN4",
+    description: "Independent duplicate of IUL ES JD AN2 with isolated assets, styles and metrics.",
+    language: "es",
+    metricsKey: "iul-es-jd-an4",
+  },
+  {
     href: "/iul-es-pz",
     title: "IUL ES PZ",
     description: "Independent advertorial inspired by a viral finance influencer explainer.",
     language: "es",
     metricsKey: "iul-es-pz",
-  },  {
+  },
+  {
     href: "/iul-es-pz2",
     title: "IUL ES PZ2",
     description: "IUL ES 600K style layout with the viral influencer angle from IUL ES PZ.",
     language: "es",
     metricsKey: "iul-es-pz2",
-  },  {
+  },
+  {
     href: "/iul-es2",
     title: "IUL ES2",
     description: "Chat IUL en espanol con flujo corto y CTA de reclamo.",
@@ -156,6 +187,10 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es2",
   },
 ];
+
+
+
+
 
 
 

@@ -13,8 +13,16 @@ const IUL_JD_HERO_COOKIE_NAME = "iul_jd_hero_variant";
 const IUL_JD_HERO_HEADER_NAME = "x-iul-jd-hero-variant";
 const IUL_JD_AN_HERO_COOKIE_NAME = "iul_jd_an_hero_variant";
 const IUL_JD_AN_HERO_HEADER_NAME = "x-iul-jd-an-hero-variant";
+const IUL_JD_AN2_HERO_COOKIE_NAME = "iul_jd_an2_hero_variant";
+const IUL_JD_AN2_HERO_HEADER_NAME = "x-iul-jd-an2-hero-variant";
 const IUL_JD_AN3_HERO_COOKIE_NAME = "iul_jd_an3_hero_variant";
 const IUL_JD_AN3_HERO_HEADER_NAME = "x-iul-jd-an3-hero-variant";
+const IUL_JD_AN4_HERO_COOKIE_NAME = "iul_jd_an4_hero_variant";
+const IUL_JD_AN4_HERO_HEADER_NAME = "x-iul-jd-an4-hero-variant";
+const IUL_RC_AN_HERO_COOKIE_NAME = "iul_rc_an_hero_variant";
+const IUL_RC_AN_HERO_HEADER_NAME = "x-iul-rc-an-hero-variant";
+const IUL_RC_AN2_HERO_COOKIE_NAME = "iul_rc_an2_hero_variant";
+const IUL_RC_AN2_HERO_HEADER_NAME = "x-iul-rc-an2-hero-variant";
 const IUL_PZ_HERO_COOKIE_NAME = "iul_pz_hero_variant";
 const IUL_PZ_HERO_HEADER_NAME = "x-iul-pz-hero-variant";
 const IUL_PZ2_HERO_COOKIE_NAME = "iul_pz2_hero_variant";
@@ -29,7 +37,11 @@ export function proxy(request: NextRequest) {
     request.nextUrl.pathname !== "/iul-es-600k" &&
     request.nextUrl.pathname !== "/iul-es-jd" &&
     request.nextUrl.pathname !== "/iul-es-jd-an" &&
+    request.nextUrl.pathname !== "/iul-es-jd-an2" &&
     request.nextUrl.pathname !== "/iul-es-jd-an3" &&
+    request.nextUrl.pathname !== "/iul-es-jd-an4" &&
+    request.nextUrl.pathname !== "/iul-es-rc-an" &&
+    request.nextUrl.pathname !== "/iul-es-rc-an2" &&
     request.nextUrl.pathname !== "/iul-es-pz" &&
     request.nextUrl.pathname !== "/iul-es-pz2"
   ) {
@@ -158,6 +170,26 @@ export function proxy(request: NextRequest) {
   }
 
 
+  if (request.nextUrl.pathname === "/iul-es-jd-an2") {
+    const existingHeroVariant = request.cookies.get(IUL_JD_AN2_HERO_COOKIE_NAME)?.value;
+    const heroVariant: string = FE7_HERO_VARIANTS.includes(
+      existingHeroVariant as (typeof FE7_HERO_VARIANTS)[number],
+    )
+      ? (existingHeroVariant as string)
+      : FE7_HERO_VARIANTS[Math.floor(Math.random() * FE7_HERO_VARIANTS.length)] ??
+        FE7_HERO_VARIANTS[0];
+
+    requestHeaders.set(IUL_JD_AN2_HERO_HEADER_NAME, heroVariant);
+
+    if (existingHeroVariant !== heroVariant) {
+      responseCookies.push({
+        name: IUL_JD_AN2_HERO_COOKIE_NAME,
+        value: heroVariant,
+      });
+    }
+  }
+
+
   if (request.nextUrl.pathname === "/iul-es-jd-an3") {
     const existingHeroVariant = request.cookies.get(IUL_JD_AN3_HERO_COOKIE_NAME)?.value;
     const heroVariant: string = FE7_HERO_VARIANTS.includes(
@@ -177,6 +209,64 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  if (request.nextUrl.pathname === "/iul-es-jd-an4") {
+    const existingHeroVariant = request.cookies.get(IUL_JD_AN4_HERO_COOKIE_NAME)?.value;
+    const heroVariant: string = FE7_HERO_VARIANTS.includes(
+      existingHeroVariant as (typeof FE7_HERO_VARIANTS)[number],
+    )
+      ? (existingHeroVariant as string)
+      : FE7_HERO_VARIANTS[Math.floor(Math.random() * FE7_HERO_VARIANTS.length)] ??
+        FE7_HERO_VARIANTS[0];
+
+    requestHeaders.set(IUL_JD_AN4_HERO_HEADER_NAME, heroVariant);
+
+    if (existingHeroVariant !== heroVariant) {
+      responseCookies.push({
+        name: IUL_JD_AN4_HERO_COOKIE_NAME,
+        value: heroVariant,
+      });
+    }
+  }
+
+
+  if (request.nextUrl.pathname === "/iul-es-rc-an") {
+    const existingHeroVariant = request.cookies.get(IUL_RC_AN_HERO_COOKIE_NAME)?.value;
+    const heroVariant: string = FE7_HERO_VARIANTS.includes(
+      existingHeroVariant as (typeof FE7_HERO_VARIANTS)[number],
+    )
+      ? (existingHeroVariant as string)
+      : FE7_HERO_VARIANTS[Math.floor(Math.random() * FE7_HERO_VARIANTS.length)] ??
+        FE7_HERO_VARIANTS[0];
+
+    requestHeaders.set(IUL_RC_AN_HERO_HEADER_NAME, heroVariant);
+
+    if (existingHeroVariant !== heroVariant) {
+      responseCookies.push({
+        name: IUL_RC_AN_HERO_COOKIE_NAME,
+        value: heroVariant,
+      });
+    }
+  }
+
+
+  if (request.nextUrl.pathname === "/iul-es-rc-an2") {
+    const existingHeroVariant = request.cookies.get(IUL_RC_AN2_HERO_COOKIE_NAME)?.value;
+    const heroVariant: string = FE7_HERO_VARIANTS.includes(
+      existingHeroVariant as (typeof FE7_HERO_VARIANTS)[number],
+    )
+      ? (existingHeroVariant as string)
+      : FE7_HERO_VARIANTS[Math.floor(Math.random() * FE7_HERO_VARIANTS.length)] ??
+        FE7_HERO_VARIANTS[0];
+
+    requestHeaders.set(IUL_RC_AN2_HERO_HEADER_NAME, heroVariant);
+
+    if (existingHeroVariant !== heroVariant) {
+      responseCookies.push({
+        name: IUL_RC_AN2_HERO_COOKIE_NAME,
+        value: heroVariant,
+      });
+    }
+  }
 
   if (request.nextUrl.pathname === "/iul-es-pz") {
     const existingHeroVariant = request.cookies.get(IUL_PZ_HERO_COOKIE_NAME)?.value;
@@ -235,8 +325,11 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/fe-an-en", "/fe7-an-en", "/iul-es", "/iul-es-600k", "/iul-es-jd", "/iul-es-jd-an", "/iul-es-jd-an3", "/iul-es-pz", "/iul-es-pz2"],
+  matcher: ["/fe-an-en", "/fe7-an-en", "/iul-es", "/iul-es-600k", "/iul-es-jd", "/iul-es-jd-an", "/iul-es-jd-an2", "/iul-es-jd-an3", "/iul-es-jd-an4", "/iul-es-rc-an", "/iul-es-rc-an2", "/iul-es-pz", "/iul-es-pz2"],
 };
+
+
+
 
 
 
