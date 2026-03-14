@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const AB_COOKIE_NAME = "fe_an_variant";
@@ -11,6 +11,8 @@ const IUL_600K_HERO_COOKIE_NAME = "iul_600k_hero_variant";
 const IUL_600K_HERO_HEADER_NAME = "x-iul-600k-hero-variant";
 const IUL_JD_HERO_COOKIE_NAME = "iul_jd_hero_variant";
 const IUL_JD_HERO_HEADER_NAME = "x-iul-jd-hero-variant";
+const IUL_PZ_HERO_COOKIE_NAME = "iul_pz_hero_variant";
+const IUL_PZ_HERO_HEADER_NAME = "x-iul-pz-hero-variant";
 const FE7_HERO_VARIANTS = ["0", "1", "2"] as const;
 
 export function proxy(request: NextRequest) {
@@ -19,7 +21,8 @@ export function proxy(request: NextRequest) {
     request.nextUrl.pathname !== "/fe7-an-en" &&
     request.nextUrl.pathname !== "/iul-es" &&
     request.nextUrl.pathname !== "/iul-es-600k" &&
-    request.nextUrl.pathname !== "/iul-es-jd"
+    request.nextUrl.pathname !== "/iul-es-jd" &&
+    request.nextUrl.pathname !== "/iul-es-pz"
   ) {
     return NextResponse.next();
   }
@@ -125,6 +128,25 @@ export function proxy(request: NextRequest) {
     }
   }
 
+
+  if (request.nextUrl.pathname === "/iul-es-pz") {
+    const existingHeroVariant = request.cookies.get(IUL_PZ_HERO_COOKIE_NAME)?.value;
+    const heroVariant: string = FE7_HERO_VARIANTS.includes(
+      existingHeroVariant as (typeof FE7_HERO_VARIANTS)[number],
+    )
+      ? (existingHeroVariant as string)
+      : FE7_HERO_VARIANTS[Math.floor(Math.random() * FE7_HERO_VARIANTS.length)] ??
+        FE7_HERO_VARIANTS[0];
+
+    requestHeaders.set(IUL_PZ_HERO_HEADER_NAME, heroVariant);
+
+    if (existingHeroVariant !== heroVariant) {
+      responseCookies.push({
+        name: IUL_PZ_HERO_COOKIE_NAME,
+        value: heroVariant,
+      });
+    }
+  }
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,
@@ -145,5 +167,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/fe-an-en", "/fe7-an-en", "/iul-es", "/iul-es-600k", "/iul-es-jd"],
+  matcher: ["/fe-an-en", "/fe7-an-en", "/iul-es", "/iul-es-600k", "/iul-es-jd", "/iul-es-pz"],
 };
+

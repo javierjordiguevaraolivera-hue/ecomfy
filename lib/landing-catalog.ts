@@ -1,4 +1,4 @@
-﻿export type LandingCatalogItem = {
+export type LandingCatalogItem = {
   href: string;
   title: string;
   description: string;
@@ -123,6 +123,12 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     language: "es",
     metricsKey: "iul-es-jd",
   },  {
+    href: "/iul-es-pz",
+    title: "IUL ES PZ",
+    description: "Independent advertorial inspired by a viral finance influencer explainer.",
+    language: "es",
+    metricsKey: "iul-es-pz",
+  },  {
     href: "/iul-es2",
     title: "IUL ES2",
     description: "Chat IUL en espanol con flujo corto y CTA de reclamo.",
@@ -130,6 +136,7 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es2",
   },
 ];
+
 
 
 
