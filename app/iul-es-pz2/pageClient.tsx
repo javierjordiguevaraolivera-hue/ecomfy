@@ -15,6 +15,7 @@ type YesNoAnswer = "Si" | "No";
 const LANDING_KEY = "iul-es-pz2";
 const CLAIM_URL = "https://seguro.generaldeals.info/";
 const AGE_WORD = `a${String.fromCharCode(241)}os`;
+const OPEN_QUESTION = String.fromCharCode(191);
 const IUL_HEADLINE = `Influencer viral explica como hispanos menores de 40 ${AGE_WORD} en EE. UU. pueden recibir hasta $250,000 libres de impuestos`;
 const COVERAGE_OPTIONS: CoverageRange[] = ["$100,000", "$150,000", "$200,000", "$250,000"];
 const LOADING_STEPS = [
@@ -220,7 +221,7 @@ export default function IulEsPz2Client({
   const qualifyingLocation = detectedLocation || "tu area";
   const totalSteps = 2;
   const currentStep = selectedBenefit === null ? 1 : selectedCoverage === null ? 2 : 2;
-  const currentQuestion = selectedBenefit === null ? "¿Ya recibiste tu beneficio?" : "Cuanto quieres recibir?";
+  const currentQuestion = selectedBenefit === null ? `${OPEN_QUESTION}Ya recibiste tu beneficio?` : "Cuanto quieres recibir?";
   const optionValues = selectedBenefit === null ? ["Si", "No"] : COVERAGE_OPTIONS;
 
   useEffect(() => {
@@ -420,17 +421,6 @@ export default function IulEsPz2Client({
             <p className={styles.heroDeadline}>
               Actualizado <span>{publishedLabel}</span>
             </p>
-            <div className={styles.trustBlock}>
-              <p className={styles.trustHeadline}>Tu familia merece proteccion hoy</p>
-              <ul className={styles.trustPoints}>
-                {TRUST_POINTS.map((point) => (
-                  <li key={point} className={styles.trustPoint}>
-                    <span className={styles.trustCheck}>{"\u2714"}</span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </section>
 
           <section className={styles.formCard}>
@@ -467,6 +457,18 @@ export default function IulEsPz2Client({
               </div>
             ) : null}
           </section>
+
+            <div className={styles.trustBlock}>
+              <p className={styles.trustHeadline}>Tu familia merece proteccion hoy</p>
+              <ul className={styles.trustPoints}>
+                {TRUST_POINTS.map((point) => (
+                  <li key={point} className={styles.trustPoint}>
+                    <span className={styles.trustCheck}>{"\u2714"}</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
           <section className={styles.badgesCard}>
             <div className={styles.badgesTrack}>
