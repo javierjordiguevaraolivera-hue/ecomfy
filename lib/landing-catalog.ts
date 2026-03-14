@@ -1,4 +1,4 @@
-export type LandingCatalogItem = {
+﻿export type LandingCatalogItem = {
   href: string;
   title: string;
   description: string;
@@ -122,6 +122,13 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     description: "Independent copy of IUL ES 600K with isolated assets and metrics.",
     language: "es",
     metricsKey: "iul-es-jd",
+  },
+  {
+    href: "/iul-es-jd-an",
+    title: "IUL ES JD AN",
+    description: "Independent duplicate of IUL ES JD with isolated assets, styles and metrics.",
+    language: "es",
+    metricsKey: "iul-es-jd-an",
   },  {
     href: "/iul-es-pz",
     title: "IUL ES PZ",
@@ -142,6 +149,8 @@ export const LANDING_CATALOG: LandingCatalogItem[] = [
     metricsKey: "iul-es2",
   },
 ];
+
+
 
 
 
