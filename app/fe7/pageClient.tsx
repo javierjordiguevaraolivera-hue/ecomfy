@@ -6,19 +6,158 @@ import styles from "./page.module.css";
 import {
   trackCallCtaClick,
   trackEngagedInteraction,
-  trackLandingView,
   trackMetric,
 } from "@/lib/metrics-client";
 
 type AgeRange = "50-59" | "60-69" | "70-79" | "80-85";
 type CoverageRange = "$10,000" | "$20,000" | "$30,000" | "$50,000";
 type YesNoAnswer = "Yes" | "No";
+type StepHash = "validacion" | "monto" | "edad" | "calificando" | "aprobado";
+type ProgressCookie = {
+  benefit: YesNoAnswer | null;
+  coverage: CoverageRange | null;
+  age: AgeRange | null;
+  step: StepHash;
+};
+
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
 
 const LANDING_KEY = "fe7-an-en";
 const PHONE_HREF = "tel:+18556685535";
+const PHONE_LABEL = "Call (855) 668-5535";
+const META_PIXEL_ID = "1556647345340828";
+const META_PAGE_VIEW_KEY = "fe7-an-en:meta-page-view";
+const META_PAGE_VIEW_COOKIE_KEY = "fe7_meta_page_view";
+const FE7_PROGRESS_COOKIE_KEY = "fe7_an_en_progress";
+const FE7_PROGRESS_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+
+function syncStepHash(step: StepHash) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const nextUrl = `${window.location.pathname}${window.location.search}#${step}`;
+  window.history.replaceState(window.history.state, "", nextUrl);
+}
 const FE7_HEADLINE = "Seniors: You May Qualify for up to $50,000 in Final Expense Coverage";
 const AGE_OPTIONS: AgeRange[] = ["50-59", "60-69", "70-79", "80-85"];
 const COVERAGE_OPTIONS: CoverageRange[] = ["$10,000", "$20,000", "$30,000", "$50,000"];
+
+function readProgressCookie(): ProgressCookie {
+  const fallback: ProgressCookie = {
+    benefit: null,
+    coverage: null,
+    age: null,
+    step: "validacion",
+  };
+
+  if (typeof document === "undefined") {
+    return fallback;
+  }
+
+  const cookie = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${FE7_PROGRESS_COOKIE_KEY}=`));
+
+  if (!cookie) {
+    return fallback;
+  }
+
+  try {
+    const parsed = JSON.parse(
+      decodeURIComponent(cookie.slice(cookie.indexOf("=") + 1)),
+    ) as Partial<ProgressCookie>;
+    const benefit = parsed.benefit === "Yes" || parsed.benefit === "No" ? parsed.benefit : null;
+    const coverage =
+      typeof parsed.coverage === "string" &&
+      (COVERAGE_OPTIONS as readonly string[]).includes(parsed.coverage)
+        ? (parsed.coverage as CoverageRange)
+        : null;
+    const age =
+      typeof parsed.age === "string" &&
+      (AGE_OPTIONS as readonly string[]).includes(parsed.age)
+        ? (parsed.age as AgeRange)
+        : null;
+    const step =
+      parsed.step === "monto" ||
+      parsed.step === "edad" ||
+      parsed.step === "calificando" ||
+      parsed.step === "aprobado"
+        ? parsed.step
+        : "validacion";
+
+    return {
+      benefit,
+      coverage,
+      age,
+      step,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
+function writeProgressCookie(progress: ProgressCookie) {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  document.cookie = `${FE7_PROGRESS_COOKIE_KEY}=${encodeURIComponent(
+    JSON.stringify(progress),
+  )}; path=/; max-age=${FE7_PROGRESS_COOKIE_MAX_AGE}; SameSite=Lax`;
+}
+
+function hasCookieFlag(name: string) {
+  if (typeof document === "undefined") {
+    return false;
+  }
+
+  return document.cookie.split("; ").some((entry) => entry === `${name}=1`);
+}
+
+function writeCookieFlag(name: string) {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  document.cookie = `${name}=1; path=/; max-age=${FE7_PROGRESS_COOKIE_MAX_AGE}; SameSite=Lax`;
+}
+
+function getCurrentStepHash({
+  selectedBenefit,
+  selectedCoverage,
+  selectedAge,
+  isChecking,
+  showApprovedPopup,
+}: {
+  selectedBenefit: YesNoAnswer | null;
+  selectedCoverage: CoverageRange | null;
+  selectedAge: AgeRange | null;
+  isChecking: boolean;
+  showApprovedPopup: boolean;
+}): StepHash {
+  if (isChecking) {
+    return "calificando";
+  }
+
+  if (showApprovedPopup || selectedAge !== null) {
+    return "aprobado";
+  }
+
+  if (selectedCoverage !== null) {
+    return "edad";
+  }
+
+  if (selectedBenefit !== null) {
+    return "monto";
+  }
+
+  return "validacion";
+}
 
 const TESTIMONIALS = [
   {
@@ -168,13 +307,14 @@ export default function Fe7Client({
   city: string;
   state: string;
 }) {
-  const [selectedLocation, setSelectedLocation] = useState<YesNoAnswer | null>(null);
-  const [selectedBenefit, setSelectedBenefit] = useState<YesNoAnswer | null>(null);
-  const [selectedCoverage, setSelectedCoverage] = useState<CoverageRange | null>(null);
-  const [selectedAge, setSelectedAge] = useState<AgeRange | null>(null);
-  const [fullName, setFullName] = useState("");
+  const [selectedBenefit, setSelectedBenefit] = useState<YesNoAnswer | null>(() => readProgressCookie().benefit);
+  const [selectedCoverage, setSelectedCoverage] = useState<CoverageRange | null>(() => readProgressCookie().coverage);
+  const [selectedAge, setSelectedAge] = useState<AgeRange | null>(() => readProgressCookie().age);
   const [isChecking, setIsChecking] = useState(false);
-  const [showApprovedPopup, setShowApprovedPopup] = useState(false);
+  const [showApprovedPopup, setShowApprovedPopup] = useState(() => {
+    const progress = readProgressCookie();
+    return progress.step === "calificando" || progress.step === "aprobado";
+  });
   const [applicationId] = useState(() => `FE-${Math.floor(1000 + Math.random() * 9000)}`);
   const [countdownSeconds, setCountdownSeconds] = useState(90);
   const [urgencyIndex, setUrgencyIndex] = useState(0);
@@ -182,48 +322,44 @@ export default function Fe7Client({
 
   const urgencyItem = URGENCY_FEED[urgencyIndex] ?? URGENCY_FEED[0];
   const detectedLocation = city && state ? `${city}, ${state}` : "";
-  const shouldAskLocation = Boolean(detectedLocation);
-  const qualifyingLocation =
-    shouldAskLocation && selectedLocation !== "No" ? detectedLocation : "your area";
-  const totalSteps = shouldAskLocation ? 5 : 4;
+  const qualifyingLocation = detectedLocation || "your area";
+  const totalSteps = 3;
+
+  const currentStepHash = getCurrentStepHash({
+    selectedBenefit,
+    selectedCoverage,
+    selectedAge,
+    isChecking,
+    showApprovedPopup,
+  });
 
   let currentStep = 1;
-  let currentQuestion = shouldAskLocation
-    ? `Are you from ${detectedLocation}?`
-    : "Have you already claimed your Final Expense benefit?";
-  let optionValues: string[] = shouldAskLocation ? ["Yes", "No"] : ["Yes", "No"];
+  let currentQuestion = "Have you already claimed your cash benefit?";
+  let optionValues: string[] = ["Yes", "No"];
   let optionHandler: ((value: string) => void) | null = null;
-  let showTextInput = false;
+  let showQualifiedState = false;
 
-  if (shouldAskLocation && selectedLocation === null) {
+  if (selectedBenefit === null) {
     currentStep = 1;
-    currentQuestion = `Are you from ${detectedLocation}?`;
-    optionValues = ["Yes", "No"];
-    optionHandler = (value) => handleLocationClick(value as YesNoAnswer);
-  } else if (selectedBenefit === null) {
-    currentStep = shouldAskLocation ? 2 : 1;
-    currentQuestion = "Have you already claimed your Final Expense benefit?";
+    currentQuestion = "Have you already claimed your cash benefit?";
     optionValues = ["Yes", "No"];
     optionHandler = (value) => handleBenefitClick(value as YesNoAnswer);
   } else if (selectedCoverage === null) {
-    currentStep = shouldAskLocation ? 3 : 2;
+    currentStep = 2;
     currentQuestion = "How much do you want to receive?";
     optionValues = COVERAGE_OPTIONS;
     optionHandler = (value) => handleCoverageClick(value as CoverageRange);
   } else if (selectedAge === null) {
-    currentStep = shouldAskLocation ? 4 : 3;
+    currentStep = 3;
     currentQuestion = "Select your age range.";
     optionValues = AGE_OPTIONS;
     optionHandler = (value) => handleAgeClick(value as AgeRange);
   } else {
-    currentStep = shouldAskLocation ? 5 : 4;
-    currentQuestion = "Enter your name.";
-    showTextInput = true;
+    currentStep = 3;
+    currentQuestion = "You qualify to speak with a licensed agent.";
+    optionValues = [];
+    showQualifiedState = true;
   }
-
-  useEffect(() => {
-    trackLandingView(LANDING_KEY);
-  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -254,40 +390,47 @@ export default function Fe7Client({
     };
   }, [showApprovedPopup]);
 
-  function handleLocationClick(option: YesNoAnswer) {
-    setSelectedLocation(option);
-    trackEngagedInteraction(LANDING_KEY, "quiz_location");
-    trackMetric({ landing: LANDING_KEY, event: "location_selected", label: option });
-  }
+  useEffect(() => {
+    syncStepHash(currentStepHash);
+    writeProgressCookie({
+      benefit: selectedBenefit,
+      coverage: selectedCoverage,
+      age: selectedAge,
+      step: currentStepHash,
+    });
+  }, [currentStepHash, selectedAge, selectedBenefit, selectedCoverage]);
 
-  function handleBenefitClick(option: YesNoAnswer) {
-    setSelectedBenefit(option);
-    trackEngagedInteraction(LANDING_KEY, "quiz_benefit");
-    trackMetric({ landing: LANDING_KEY, event: "benefit_selected", label: option });
-  }
 
-  function handleCoverageClick(option: CoverageRange) {
-    setSelectedCoverage(option);
-    trackEngagedInteraction(LANDING_KEY, "quiz_amount");
-    trackMetric({ landing: LANDING_KEY, event: "coverage_selected", label: option });
-  }
 
-  function handleAgeClick(option: AgeRange) {
-    setSelectedAge(option);
-    trackEngagedInteraction(LANDING_KEY, "quiz_age");
-    trackMetric({ landing: LANDING_KEY, event: "age_selected", label: option });
-  }
-
-  function handleNameSubmit() {
-    const trimmedName = fullName.trim();
-    if (!trimmedName) {
+  function trackMetaPageView(source: string) {
+    if (typeof window === "undefined") {
       return;
     }
 
-    setFullName(trimmedName);
+    if (
+      window.sessionStorage.getItem(META_PAGE_VIEW_KEY) === "1" ||
+      hasCookieFlag(META_PAGE_VIEW_COOKIE_KEY)
+    ) {
+      return;
+    }
+
+    window.sessionStorage.setItem(META_PAGE_VIEW_KEY, "1");
+    writeCookieFlag(META_PAGE_VIEW_COOKIE_KEY);
+    window.fbq?.("trackSingle", META_PIXEL_ID, "PageView");
+    trackMetric({ landing: LANDING_KEY, event: "meta_page_view", label: source });
+  }
+
+  function trackMetaContact(source: string) {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    window.fbq?.("trackSingle", META_PIXEL_ID, "Contact");
+    trackMetric({ landing: LANDING_KEY, event: "meta_contact", label: source });
+  }
+
+  function startQualification() {
     setIsChecking(true);
-    trackEngagedInteraction(LANDING_KEY, "quiz_name");
-    trackMetric({ landing: LANDING_KEY, event: "name_submitted", label: trimmedName });
     trackMetric({
       landing: LANDING_KEY,
       event: "qualifying_started",
@@ -305,16 +448,38 @@ export default function Fe7Client({
     }, 1600);
   }
 
+  function handleBenefitClick(option: YesNoAnswer) {
+    setSelectedBenefit(option);
+    trackEngagedInteraction(LANDING_KEY, "quiz_benefit");
+    trackMetric({ landing: LANDING_KEY, event: "benefit_selected", label: option });
+  }
+
+  function handleCoverageClick(option: CoverageRange) {
+    setSelectedCoverage(option);
+    trackEngagedInteraction(LANDING_KEY, "quiz_amount");
+    trackMetric({ landing: LANDING_KEY, event: "coverage_selected", label: option });
+    trackMetaPageView("step_edad");
+  }
+
+  function handleAgeClick(option: AgeRange) {
+    setSelectedAge(option);
+    trackEngagedInteraction(LANDING_KEY, "quiz_age");
+    trackMetric({ landing: LANDING_KEY, event: "age_selected", label: option });
+    startQualification();
+  }
+
   function handleCallClick(placement: string) {
+    trackMetaContact(placement);
     trackCallCtaClick({
       landing: LANDING_KEY,
       phone: PHONE_HREF,
       placement,
-      label: (selectedCoverage ?? selectedAge ?? fullName.trim()) || undefined,
+      label: selectedCoverage ?? selectedAge ?? undefined,
     });
     trackMetric({ landing: LANDING_KEY, event: "call_click", label: placement });
   }
 
+  const selectedCoverageLabel = selectedCoverage ?? "your selected coverage amount";
   const countdownMinutes = Math.floor(countdownSeconds / 60);
   const countdownRemainder = countdownSeconds % 60;
   const countdownLabel = `${countdownMinutes}:${countdownRemainder.toString().padStart(2, "0")}`;
@@ -453,26 +618,22 @@ export default function Fe7Client({
               </div>
             </div>
 
-            {showTextInput ? (
+            {showQualifiedState ? (
               <div className={styles.nameForm}>
-                <label htmlFor="fe7-name" className={styles.nameLabel}>
-                  Your first name
-                </label>
-                <input
-                  id="fe7-name"
-                  type="text"
-                  value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
-                  className={styles.nameInput}
-                  placeholder="Enter your first name"
-                />
-                <button
-                  type="button"
-                  className={styles.nameSubmit}
-                  onClick={handleNameSubmit}
+                <p className={styles.nameLabel}>
+                  You qualify to review coverage options around {selectedCoverageLabel} right now.
+                </p>
+                <a
+                  href={PHONE_HREF}
+                  className={styles.popupButton}
+                  onClick={() => handleCallClick("qualified_card")}
                 >
-                  Continue
-                </button>
+                  <span className={styles.popupButtonDot} />
+                  <span className={styles.popupButtonLabel}>
+                    <PhoneIcon />
+                    <span>{PHONE_LABEL}</span>
+                  </span>
+                </a>
               </div>
             ) : (
               <div className={styles.optionGrid}>
@@ -564,11 +725,11 @@ export default function Fe7Client({
             <div className={styles.popupSuccessBadge}>
               <SuccessBadgeIcon />
             </div>
-            <div className={styles.popupTitle}>Congratulations {fullName.trim()}</div>
+            <div className={styles.popupTitle}>You Qualify</div>
             <div className={styles.popupLead}>Application #{applicationId}</div>
             <div className={styles.popupBody}>
-              Call an agent to get more information about your Final Expense options in{" "}
-              <strong>{qualifyingLocation}</strong>.
+              Call an agent now to review Final Expense options around{" "}
+              <strong>{selectedCoverageLabel}</strong> in <strong>{qualifyingLocation}</strong>.
             </div>
             <div className={styles.popupTimer}>Spot reserved for {countdownLabel}</div>
             <a
@@ -579,7 +740,7 @@ export default function Fe7Client({
               <span className={styles.popupButtonDot} />
               <span className={styles.popupButtonLabel}>
                 <PhoneIcon />
-                <span>Call (855) 668-5535</span>
+                <span>{PHONE_LABEL}</span>
               </span>
             </a>
           </div>
@@ -616,3 +777,13 @@ export default function Fe7Client({
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
+

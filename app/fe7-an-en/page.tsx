@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import Fe7Client from "../fe7/pageClient";
-import LandingGtmNoscript, { LandingGtmScripts } from "../components/antony-gtm";
 
 const HERO_IMAGES = [
   "/hero-seniors-jhoner-ataud.png",
@@ -42,9 +41,15 @@ export default async function FinalExpenseOfferPage() {
 
   return (
     <>
-      <LandingGtmScripts />
-      <LandingGtmNoscript />
-      <script src="//b-js.ringba.com/CAe815cc18555c45ecb7b27ad7dd859c52" async />
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src="https://www.facebook.com/tr?id=1556647345340828&ev=PageView&noscript=1"
+          alt=""
+        />
+      </noscript>
       <Fe7Client
         heroImage={heroImage}
         deadlineLabel={formatDeadline()}
