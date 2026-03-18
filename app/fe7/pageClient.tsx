@@ -4,8 +4,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import {
+  createClientEventId,
+  sendMetaServerEvent,
   trackCallCtaClick,
   trackEngagedInteraction,
+  trackMetaBrowserEvent,
   trackMetric,
 } from "@/lib/metrics-client";
 
@@ -29,7 +32,6 @@ declare global {
 const LANDING_KEY = "fe7-an-en";
 const PHONE_HREF = "tel:+18556685535";
 const PHONE_LABEL = "Call (855) 668-5535";
-const META_PIXEL_ID = "1556647345340828";
 const META_PAGE_VIEW_KEY = "fe7-an-en:meta-page-view";
 const META_PAGE_VIEW_COOKIE_KEY = "fe7_meta_page_view";
 const FE7_PROGRESS_COOKIE_KEY = "fe7_an_en_progress";
@@ -301,11 +303,13 @@ export default function Fe7Client({
   deadlineLabel,
   city,
   state,
+  metaPixelId,
 }: {
   heroImage: string;
   deadlineLabel: string;
   city: string;
   state: string;
+  metaPixelId: string;
 }) {
   const [selectedBenefit, setSelectedBenefit] = useState<YesNoAnswer | null>(() => readProgressCookie().benefit);
   const [selectedCoverage, setSelectedCoverage] = useState<CoverageRange | null>(() => readProgressCookie().coverage);
@@ -416,7 +420,20 @@ export default function Fe7Client({
 
     window.sessionStorage.setItem(META_PAGE_VIEW_KEY, "1");
     writeCookieFlag(META_PAGE_VIEW_COOKIE_KEY);
-    window.fbq?.("trackSingle", META_PIXEL_ID, "PageView");
+    const eventId = createClientEventId("meta-pageview");
+    trackMetaBrowserEvent({
+      pixelId: metaPixelId,
+      eventName: "PageView",
+      eventId,
+    });
+    sendMetaServerEvent({
+      landing: LANDING_KEY,
+      eventName: "PageView",
+      eventId,
+      step: currentStepHash,
+      label: source,
+      placement: source,
+    });
     trackMetric({ landing: LANDING_KEY, event: "meta_page_view", label: source });
   }
 
@@ -425,7 +442,21 @@ export default function Fe7Client({
       return;
     }
 
-    window.fbq?.("trackSingle", META_PIXEL_ID, "Contact");
+    const eventId = createClientEventId("meta-contact");
+    trackMetaBrowserEvent({
+      pixelId: metaPixelId,
+      eventName: "Contact",
+      eventId,
+    });
+    sendMetaServerEvent({
+      landing: LANDING_KEY,
+      eventName: "Contact",
+      eventId,
+      step: currentStepHash,
+      label: source,
+      placement: source,
+      phone: PHONE_HREF,
+    });
     trackMetric({ landing: LANDING_KEY, event: "meta_contact", label: source });
   }
 
@@ -777,6 +808,7 @@ export default function Fe7Client({
     </main>
   );
 }
+
 
 
 

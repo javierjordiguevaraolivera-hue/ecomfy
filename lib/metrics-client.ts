@@ -12,9 +12,26 @@ type CallCtaInput = {
   label?: string;
 };
 
+type MetaBrowserEventInput = {
+  pixelId: string;
+  eventName: "PageView" | "Contact";
+  eventId: string;
+};
+
+type MetaServerEventInput = {
+  landing: string;
+  eventName: "PageView" | "Contact";
+  eventId: string;
+  step?: string;
+  label?: string;
+  phone?: string;
+  placement?: string;
+};
+
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -40,6 +57,30 @@ function getVisitorId() {
   return nextId;
 }
 
+function getCookieValue(name: string) {
+  if (typeof document === "undefined") {
+    return "";
+  }
+
+  const match = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${name}=`));
+
+  return match ? decodeURIComponent(match.slice(name.length + 1)) : "";
+}
+
+export function createClientEventId(prefix: string) {
+  if (typeof window === "undefined") {
+    return `${prefix}-server`;
+  }
+
+  const suffix =
+    window.crypto?.randomUUID?.() ??
+    `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  return `${prefix}-${suffix}`;
+}
+
 export function trackMetric({ landing, event, step, label }: TrackMetricInput) {
   if (typeof window === "undefined") {
     return;
@@ -63,6 +104,65 @@ export function trackMetric({ landing, event, step, label }: TrackMetricInput) {
   } catch {}
 
   void fetch("/api/metrics/events", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: payload,
+    keepalive: true,
+  }).catch(() => {});
+}
+
+export function trackMetaBrowserEvent({
+  pixelId,
+  eventName,
+  eventId,
+}: MetaBrowserEventInput) {
+  if (typeof window === "undefined" || !pixelId) {
+    return;
+  }
+
+  window.fbq?.("trackSingle", pixelId, eventName, {}, { eventID: eventId });
+}
+
+export function sendMetaServerEvent({
+  landing,
+  eventName,
+  eventId,
+  step,
+  label,
+  phone,
+  placement,
+}: MetaServerEventInput) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const payload = JSON.stringify({
+    landing,
+    eventName,
+    eventId,
+    step,
+    label,
+    phone,
+    placement,
+    path: window.location.pathname,
+    url: window.location.href,
+    visitorId: getVisitorId(),
+    fbp: getCookieValue("_fbp"),
+    fbc: getCookieValue("_fbc"),
+    sourceWebsite: window.location.origin,
+  });
+
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payload], { type: "application/json" });
+      navigator.sendBeacon("/api/meta/events", blob);
+      return;
+    }
+  } catch {}
+
+  void fetch("/api/meta/events", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

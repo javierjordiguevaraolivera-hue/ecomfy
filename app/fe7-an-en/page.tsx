@@ -31,6 +31,7 @@ function decodeHeaderValue(value: string | null) {
 
 export default async function FinalExpenseOfferPage() {
   const requestHeaders = await headers();
+  const metaPixelId = process.env.META_PIXEL_ID ?? "";
   const heroVariant = Number.parseInt(
     requestHeaders.get("x-fe7-hero-variant") ?? "0",
     10,
@@ -41,20 +42,23 @@ export default async function FinalExpenseOfferPage() {
 
   return (
     <>
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1556647345340828&ev=PageView&noscript=1"
-          alt=""
-        />
-      </noscript>
+      {metaPixelId ? (
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
+      ) : null}
       <Fe7Client
         heroImage={heroImage}
         deadlineLabel={formatDeadline()}
         city={city}
         state={state}
+        metaPixelId={metaPixelId}
       />
     </>
   );
