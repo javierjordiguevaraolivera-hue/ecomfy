@@ -1,10 +1,7 @@
 import { headers } from "next/headers";
 import Fe7Client from "../fe7/pageClient";
 
-const HERO_IMAGES = [
-  "/hero-seniors-jhoner-ataud.png",
-  "/hero-seniors-jhoner.jpg",
-] as const;
+const HERO_IMAGE = "/hero-seniors-jhoner-ataud.png";
 
 function formatDeadline() {
   const tomorrow = new Date();
@@ -32,11 +29,7 @@ function decodeHeaderValue(value: string | null) {
 export default async function FinalExpenseOfferPage() {
   const requestHeaders = await headers();
   const metaPixelId = process.env.META_PIXEL_ID ?? "";
-  const heroVariant = Number.parseInt(
-    requestHeaders.get("x-fe7-hero-variant") ?? "0",
-    10,
-  );
-  const heroImage = HERO_IMAGES[heroVariant] ?? HERO_IMAGES[0];
+  const heroImage = HERO_IMAGE;
   const city = decodeHeaderValue(requestHeaders.get("x-vercel-ip-city"));
   const state = decodeHeaderValue(requestHeaders.get("x-vercel-ip-country-region"));
 
