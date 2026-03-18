@@ -690,12 +690,8 @@ export default function Fe7Client({
                 "Licensed Agents",
                 "HIPAA Compliant",
                 "Trusted by 50,000+",
-                "A+ BBB Rating",
-                "Licensed Agents",
-                "HIPAA Compliant",
-                "Trusted by 50,000+",
-              ].map((item, index) => (
-                <div key={`${item}-${index}`} className={styles.badgeItem}>
+              ].map((item) => (
+                <div key={item} className={styles.badgeItem}>
                   <CheckMark />
                   <span>{item}</span>
                 </div>
@@ -809,6 +805,7 @@ export default function Fe7Client({
     </main>
   );
 }
+
 
 
 
