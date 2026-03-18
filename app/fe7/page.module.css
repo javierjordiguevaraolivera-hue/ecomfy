@@ -52,37 +52,20 @@
 }
 
 .headerCallCopy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .headerCallStatus {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  opacity: 0.92;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.96;
 }
 
-.liveDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #ffffff;
-  animation: dotPulse 1.5s infinite;
-}
 
-.headerCallAction {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 3px;
-  font-family: var(--font-poppins), Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-}
+
 
 .phoneIcon {
   width: 12px;
@@ -177,12 +160,13 @@
 }
 
 .alertHeadlineFixed {
-  color: #213184;
+  color: #4a628f;
   font-family: var(--font-lato), Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.05;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.04;
   text-align: center;
+  text-wrap: balance;
 }
 
 .alertHeadline {
@@ -217,9 +201,10 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   margin-bottom: 10px;
-  border-radius: 12px;
+  border: 2px solid rgb(23 50 107 / 0.08);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgb(15 23 42 / 0.12);
+  box-shadow: 0 12px 26px rgb(15 23 42 / 0.14);
 }
 
 .heroImage {
@@ -248,10 +233,11 @@
 
 .urgencyCard {
   margin-top: 2px;
-  padding: 10px 12px;
-  border: 1px solid #ebeef4;
+  padding: 9px 12px;
+  border: 1px solid #e6ecf7;
   border-radius: 14px;
-  background: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9);
   overflow: hidden;
 }
 
@@ -263,11 +249,11 @@
 }
 
 .urgencyTickerIn {
-  animation: urgencyIn 0.42s ease-out both;
+  animation: urgencyIn 0.84s ease-out both;
 }
 
 .urgencyTickerOut {
-  animation: urgencyOut 0.34s ease-in both;
+  animation: urgencyOut 0.68s ease-in both;
 }
 
 .urgencyMain {
@@ -370,13 +356,13 @@
   isolation: isolate;
   overflow: hidden;
   padding: 14px;
-  margin: 6px 12px 12px;
-  border: 2px solid #e7d4ff;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #ffffff 0%, #faf7ff 100%);
+  margin: 8px 12px 14px;
+  border: 2px solid #c9dcff;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%);
   box-shadow:
-    0 28px 55px rgb(124 53 227 / 0.16),
-    0 12px 26px rgb(15 23 42 / 0.08),
+    0 28px 55px rgb(22 59 122 / 0.14),
+    0 14px 28px rgb(15 23 42 / 0.08),
     0 0 0 1px rgb(255 255 255 / 0.9) inset;
 }
 
@@ -385,7 +371,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  border: 1px solid rgb(124 53 227 / 0.16);
+  border: 1px solid rgb(23 50 107 / 0.12);
   pointer-events: none;
   z-index: 0;
 }
@@ -393,15 +379,9 @@
 .formCard::after {
   content: "";
   position: absolute;
-  top: -48px;
-  right: -34px;
-  width: 148px;
-  height: 148px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgb(181 49 215 / 0.22) 0%, rgb(181 49 215 / 0) 72%);
-  filter: blur(4px);
-  opacity: 0.85;
-  animation: formAura 4.8s ease-in-out infinite;
+  inset: auto 0 0 0;
+  height: 5px;
+  background: linear-gradient(90deg, #17326b 0%, #2176ae 45%, #16a34a 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -416,68 +396,53 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  padding: 7px 12px;
-  border: 1px solid rgb(239 34 34 / 0.14);
+  padding: 8px 12px;
+  border: 1px solid rgb(22 59 122 / 0.12);
   border-radius: 999px;
-  background: linear-gradient(90deg, rgb(255 244 246) 0%, rgb(250 245 255) 100%);
-  color: #7a2436;
+  background: linear-gradient(90deg, #eef4ff 0%, #f4fbf4 100%);
+  color: #17326b;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  box-shadow: 0 8px 18px rgb(239 34 34 / 0.08);
+  box-shadow: 0 8px 18px rgb(23 50 107 / 0.08);
 }
 
 .formIntroDot {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #ef2222 0%, #b531d7 100%);
-  box-shadow: 0 0 0 0 rgb(239 34 34 / 0.28);
+  background: linear-gradient(180deg, #1d4ed8 0%, #16a34a 100%);
+  box-shadow: 0 0 0 0 rgb(29 78 216 / 0.24);
   animation: formDotPulse 2.2s ease-in-out infinite;
+}
+
+.formHint {
+  margin: 0 0 12px;
+  color: #21517f;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
 }
 .stepBox {
   position: relative;
-  margin-bottom: 16px;
-  padding: 16px;
-  border: 1px solid rgb(124 53 227 / 0.12);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgb(124 53 227 / 0.09), rgb(124 53 227 / 0.03));
-  box-shadow: 0 14px 30px rgb(124 53 227 / 0.08);
+  margin-bottom: 14px;
+  padding: 18px 16px 18px;
+  border: 1px solid rgb(23 50 107 / 0.14);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #17326b 0%, #1f4f8a 62%, #176b65 100%);
+  box-shadow: 0 18px 34px rgb(23 50 107 / 0.18);
   overflow: hidden;
 }
 
-.stepTop {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #7c35e3;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.stepIndex {
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  background: #7c35e3;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-}
-
 .questionTitle {
-  margin: 12px 0 0;
-  color: #111827;
-  font-size: 18px;
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.18;
   text-align: center;
+  text-wrap: balance;
 }
 
 .stepProgress {
@@ -485,35 +450,63 @@
   right: 0;
   bottom: 0;
   left: 0;
-  height: 4px;
-  background: #e5e7eb;
+  height: 5px;
+  background: rgb(255 255 255 / 0.14);
+  overflow: hidden;
 }
 
+
+.stepProgress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.18) 18%, transparent 36%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.02) 0 18px, rgb(255 255 255 / 0.12) 18px 36px);
+  background-size: 140px 100%, 72px 100%;
+  animation: progressTrackSweep 2.8s linear infinite;
+  opacity: 0.9;
+}
 .stepProgressFill {
+  position: relative;
   width: 50%;
   height: 100%;
-  background: #7c35e3;
+  background: linear-gradient(90deg, #7dd3fc 0%, #22c55e 100%);
+  box-shadow: 0 0 12px rgb(34 197 94 / 0.28);
+  overflow: hidden;
 }
 
+
+.stepProgressFill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.16) 30%, rgb(255 255 255 / 0.48) 50%, rgb(255 255 255 / 0.16) 70%, transparent 100%);
+  transform: translateX(-100%);
+  animation: progressShimmer 1.8s ease-in-out infinite;
+}
 .optionGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 13px;
 }
 
 .optionButton {
   position: relative;
   overflow: hidden;
-  min-height: 52px;
-  border: 2px solid #ddd6fe;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #ffffff 0%, #fcfbff 100%);
-  color: #111827;
+  min-height: 58px;
+  padding: 0 36px 0 12px;
+  border: 2px solid #b8cff8;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  color: #17326b;
   font: inherit;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 10px 18px rgb(15 23 42 / 0.04);
+  box-shadow:
+    0 12px 20px rgb(23 50 107 / 0.06),
+    inset 0 1px 0 rgb(255 255 255 / 0.9);
   transition:
     color 0.2s ease,
     border-color 0.2s ease,
@@ -525,7 +518,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #7c35e3, #b531d7);
+  background: linear-gradient(90deg, #17326b 0%, #2176ae 58%, #16a34a 100%);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -541,7 +534,7 @@
   border-color: transparent;
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgb(124 53 227 / 0.18);
+  box-shadow: 0 14px 24px rgb(23 50 107 / 0.18);
 }
 
 .optionButton:hover::before,
@@ -553,9 +546,10 @@
   display: grid;
   gap: 12px;
   padding: 14px;
-  border: 1px solid #ece7f8;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #faf7ff 0%, #ffffff 100%);
+  border: 1px solid #cfe0ff;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f6faff 0%, #ffffff 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9);
 }
 
 .nameLabel {
@@ -1025,6 +1019,26 @@
   }
 }
 
+@keyframes progressShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes progressTrackSweep {
+  0% {
+    background-position: -140px 0, 0 0;
+  }
+
+  100% {
+    background-position: 220px 0, 72px 0;
+  }
+}
+
 @keyframes popupPulse {
   0%,
   100% {
@@ -1052,10 +1066,15 @@
   }
 
   .questionTitle {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .testimonialsGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+
+
+

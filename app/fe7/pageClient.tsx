@@ -375,8 +375,8 @@ export default function Fe7Client({
       window.setTimeout(() => {
         setUrgencyIndex((current) => (current + 1) % URGENCY_FEED.length);
         setUrgencyPhase("in");
-      }, 320);
-    }, 3600);
+      }, 640);
+    }, 10000);
 
     return () => {
       window.clearInterval(timer);
@@ -545,14 +545,7 @@ export default function Fe7Client({
               className={styles.headerAvatar}
             />
             <div className={styles.headerCallCopy}>
-              <span className={styles.headerCallStatus}>
-                <span className={styles.liveDot} />
-                Agent Available
-              </span>
-              <span className={styles.headerCallAction}>
-                <PhoneIcon />
-                Speak Now
-              </span>
+              <span className={styles.headerCallStatus}>Agent Available</span>
             </div>
           </a>
         </div>
@@ -644,10 +637,6 @@ export default function Fe7Client({
               Answer 3 quick questions to see if you qualify
             </div>
             <div className={styles.stepBox}>
-              <div className={styles.stepTop}>
-                <span className={styles.stepIndex}>{currentStep}</span>
-                <span className={styles.stepLabel}>Step {currentStep} of {totalSteps}</span>
-              </div>
               <p className={styles.questionTitle}>{currentQuestion}</p>
               <div className={styles.stepProgress}>
                 <div
@@ -656,6 +645,10 @@ export default function Fe7Client({
                 />
               </div>
             </div>
+
+            {!showQualifiedState ? (
+              <p className={styles.formHint}>Tap one answer below to continue instantly</p>
+            ) : null}
 
             {showQualifiedState ? (
               <div className={styles.nameForm}>
@@ -816,6 +809,15 @@ export default function Fe7Client({
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
 
 
 
