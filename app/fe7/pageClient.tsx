@@ -304,12 +304,16 @@ export default function Fe7Client({
   city,
   state,
   metaPixelId,
+  heroImageWidth,
+  heroImageHeight,
 }: {
   heroImage: string;
   deadlineLabel: string;
   city: string;
   state: string;
   metaPixelId: string;
+  heroImageWidth: number;
+  heroImageHeight: number;
 }) {
   const [selectedBenefit, setSelectedBenefit] = useState<YesNoAnswer | null>(() => readProgressCookie().benefit);
   const [selectedCoverage, setSelectedCoverage] = useState<CoverageRange | null>(() => readProgressCookie().coverage);
@@ -585,8 +589,8 @@ export default function Fe7Client({
               <Image
                 src={heroImage}
                 alt="Family visiting a loved one at a peaceful cemetery"
-                width={900}
-                height={900}
+                width={heroImageWidth}
+                height={heroImageHeight}
                 className={styles.heroImage}
                 priority
               />
@@ -635,6 +639,10 @@ export default function Fe7Client({
           </section>
 
           <section className={styles.formCard}>
+            <div className={styles.formIntro}>
+              <span className={styles.formIntroDot} />
+              Answer 3 quick questions to see if you qualify
+            </div>
             <div className={styles.stepBox}>
               <div className={styles.stepTop}>
                 <span className={styles.stepIndex}>{currentStep}</span>
@@ -808,6 +816,8 @@ export default function Fe7Client({
     </main>
   );
 }
+
+
 
 
 

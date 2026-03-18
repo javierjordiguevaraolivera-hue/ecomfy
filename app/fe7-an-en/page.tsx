@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import Fe7Client from "../fe7/pageClient";
 
-const HERO_IMAGE = "/hero-seniors-jhoner-ataud.png";
+const HERO_IMAGE = "/horizontal-new-funeral-hero.png";
 
 function formatDeadline() {
   const tomorrow = new Date();
@@ -52,7 +52,10 @@ export default async function FinalExpenseOfferPage() {
         city={city}
         state={state}
         metaPixelId={metaPixelId}
+        heroImageWidth={1600}
+        heroImageHeight={900}
       />
     </>
   );
 }
+
