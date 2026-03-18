@@ -520,7 +520,7 @@ export default function Fe7Client({
   const countdownLabel = `${countdownMinutes}:${countdownRemainder.toString().padStart(2, "0")}`;
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${isChecking || showApprovedPopup ? styles.pageBlurred : ""}`.trim()}>
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <Image
@@ -805,6 +805,7 @@ export default function Fe7Client({
     </main>
   );
 }
+
 
 
 
