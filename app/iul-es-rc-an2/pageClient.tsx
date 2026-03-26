@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ import {
 } from "@/lib/metrics-client";
 
 const LANDING_KEY = "iul-es-rc-an2";
-const CLAIM_URL = "https://www.jk8gcxs.com/7659ZZ3/79JQ12F/";
+const CLAIM_URL = "https://ntdr.quotify.us/?oid=3765&affid=3814";
 const ARTICLE_HEADLINE = "Cuentas de Ahorro Indexadas para jubilarte con hasta $450,000";
 const ARTICLE_HEADLINE_ACCENT = "si empiezas antes de los 40";
 const AGE_WORD = `a${String.fromCharCode(241)}os`;
@@ -67,21 +67,21 @@ const FAQS = [
 
 const TESTIMONIALS = [
   {
-    image: "/Dorothy W-testimonial1-rc-an2.jpg",
+    image: "/Dorothy W-testimonial1-rc-an.jpg",
     name: "Martha C.",
     city: "Orlando, FL",
     quote:
       `Vi la historia de Richard y me pego fuerte. Tengo 33 ${AGE_WORD} y entendi que esperar demasiado puede salir carisimo para mi futuro y para mis hijos.`,
   },
   {
-    image: "/robert h-testimonial2-rc-an2.jpg",
+    image: "/robert h-testimonial2-rc-an.jpg",
     name: "Luis P.",
     city: "Houston, TX",
     quote:
       `Yo tengo 29 ${AGE_WORD}. Lo que me convencio fue saber que no todo depende de morir para que sirva. Tambien se puede pensar en retiro y respaldo para mas adelante.`,
   },
   {
-    image: "/Maria & Carlos L-testimonial3-rc-an2.jpg",
+    image: "/Maria & Carlos L-testimonial3-rc-an.jpg",
     name: "Carla y Rene S.",
     city: "Phoenix, AZ",
     quote:
@@ -127,7 +127,7 @@ function ArrowIcon() {
   );
 }
 
-export default function IulEsRcAn2Client({
+export default function IulEsRcAnClient({
   heroImage,
   publishedLabel,
   city,
@@ -152,17 +152,36 @@ export default function IulEsRcAn2Client({
 
     const target = new URL(CLAIM_URL);
     const currentParams = new URLSearchParams(window.location.search);
+    const protectedParams = new Set(["oid", "affid"]);
+
     currentParams.forEach((value, key) => {
+      if (protectedParams.has(key)) {
+        return;
+      }
+
       target.searchParams.append(key, value);
     });
 
     return target.toString();
   }
 
+  function firePageViewPixels() {
+    const trackingWindow = window as typeof window & {
+      fbq?: (...args: unknown[]) => void;
+      ttq?: { page?: () => void };
+    };
+
+    trackingWindow.fbq?.("track", "PageView");
+    trackingWindow.ttq?.page?.();
+  }
+
   function handleDirectApply(label: string) {
     trackEngagedInteraction(LANDING_KEY, label);
     trackMetric({ landing: LANDING_KEY, event: "claim_click", label });
-    window.location.href = buildClaimUrl();
+    firePageViewPixels();
+    window.setTimeout(() => {
+      window.location.assign(buildClaimUrl());
+    }, 150);
   }
 
   return (
@@ -375,7 +394,7 @@ export default function IulEsRcAn2Client({
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <Image
-            src="/logo-iul-negativo-rc-an2.png"
+            src="/logo-iul-negativo-rc-an.png"
             alt="IUL Life"
             width={170}
             height={52}
